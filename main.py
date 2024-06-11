@@ -1,12 +1,18 @@
+import sys
+sys.path.append('..')
+
 import pygame
 from window import Window
 from color import Color
+from effects import vignette
+from input import Input
+from player import Player
 
 
 class Game:
     RES = WIDTH, HEIGHT = 500, 500
 
-    LAYER_COUNT = 5
+    LAYER_COUNT = 2
     FPS = 60
 
     BG_COLOR = Color('black', a=0).color
@@ -18,6 +24,9 @@ class Game:
         self.delta_time = 1
 
         self.window = Window(self)
+        self.input = Input()
+
+        self.player = Player(self)
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)
@@ -26,16 +35,20 @@ class Game:
         frame_rate = 1 / self.delta_time
         pygame.display.set_caption(str(frame_rate))
 
+        self.input.update()
+
+        self.player.update()
+
     def draw(self):
         [layer.fill(self.BG_COLOR) for layer in self.layers]
 
-        pygame.draw.rect(self.layers[0], Color('white', a=100).color, (0, 0, 100, 100))
-        pygame.draw.rect(self.layers[1], Color('white', a=150).color, (50, 50, 100, 100))
+        self.player.draw(self.layers[0])
 
     def run(self):
         while self.running:
             self.update()
             self.draw()
+
             self.window.update()
             self.window.render(self.layers)
 
