@@ -1,5 +1,4 @@
 import pygame.display
-from color import Color
 
 
 class Window:
@@ -16,6 +15,6 @@ class Window:
                 self.game.running = False
 
     def render(self, layers):
-        self.window.fill(Color('black').color)
+        self.window.fill(self.game.BG_COLOR)
         [self.window.blit(pygame.transform.scale(layer, self.res), (0, 0)) for layer in layers]
         pygame.display.flip()

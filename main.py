@@ -4,7 +4,6 @@ sys.path.append('..')
 import pygame
 from window import Window
 from color import Color
-from effects import vignette
 from input import Input
 from player import Player
 
@@ -15,7 +14,8 @@ class Game:
     LAYER_COUNT = 2
     FPS = 60
 
-    BG_COLOR = Color('black', a=0).color
+    FILL_COLOR = Color('black', a=0).color
+    BG_COLOR = Color('green', a=255).color
 
     def __init__(self):
         self.running = True
@@ -27,6 +27,10 @@ class Game:
         self.input = Input()
 
         self.player = Player(self)
+
+    @staticmethod
+    def get_centered_position(pos, size):
+        return pos[0] - size[0] // 2, pos[1] - size[1] // 2
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)
@@ -40,7 +44,7 @@ class Game:
         self.player.update()
 
     def draw(self):
-        [layer.fill(self.BG_COLOR) for layer in self.layers]
+        [layer.fill(self.FILL_COLOR) for layer in self.layers]
 
         self.player.draw(self.layers[0])
 
