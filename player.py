@@ -75,6 +75,6 @@ class Player:
         self.rect.update(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
     def draw(self, surface):
-        surface.blit(self.frame, self.rect)
-        pygame.draw.circle(surface, 'red', self.rect.center, 5)
-        pygame.draw.rect(surface, 'red', self.rect, 5)
+        surface.blit(self.frame, self.rect.topleft - self.game.camera.offset)
+        pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
+        pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)

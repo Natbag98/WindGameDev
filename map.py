@@ -75,6 +75,5 @@ class Map:
     def draw(self, surface):
         for row in self.chunks:
             for chunk in row:
-                surface.blit(chunk.terrain_surface, chunk.pos)
-                #if self.game.get_camera_rect().colliderect(chunk.rect):
-                    #surface.blit(chunk.terrain_surface, chunk.pos)
+                if self.game.camera.rect.colliderect(chunk.rect):
+                    surface.blit(chunk.terrain_surface, chunk.pos - self.game.camera.offset)

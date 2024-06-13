@@ -14,7 +14,7 @@ class Game:
     CHUNK_COUNT = 2
 
     FILL_COLOR = Color('black', a=0).color
-    BG_COLOR = Color('green', a=255).color
+    BG_COLOR = Color('deep_ocean', random_=True).color
 
     def __init__(self):
         self.running = True
@@ -27,9 +27,11 @@ class Game:
 
         from window import Window
         from input import Input
+        from camera import Camera
 
         self.window = Window(self)
         self.input = Input()
+        self.camera = Camera(self)
 
         from player import Player
         from map import Map
@@ -51,6 +53,8 @@ class Game:
         self.input.update()
 
         self.player.update()
+
+        self.camera.update()
 
     def draw(self):
         [layer.fill(self.FILL_COLOR) for layer in self.layers]
