@@ -2,10 +2,7 @@ import sys
 sys.path.append('..')
 
 import pygame
-from window import Window
 from color import Color
-from input import Input
-from player import Player
 
 
 class Game:
@@ -13,6 +10,8 @@ class Game:
 
     LAYER_COUNT = 2
     FPS = 60
+    CHUNK_SIZE = 400
+    CHUNK_COUNT = 2
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('green', a=255).color
@@ -23,10 +22,20 @@ class Game:
         self.layers = [pygame.Surface(self.RES, pygame.SRCALPHA) for _ in range(self.LAYER_COUNT)]
         self.delta_time = 1
 
+        self.total_chunks = self.CHUNK_COUNT * self.CHUNK_COUNT
+        self.chunk_progress = 0
+
+        from window import Window
+        from input import Input
+
         self.window = Window(self)
         self.input = Input()
 
+        from player import Player
+        from map import Map
+
         self.player = Player(self)
+        self.map = Map(self)
 
     @staticmethod
     def get_centered_position(pos, size):
@@ -46,7 +55,8 @@ class Game:
     def draw(self):
         [layer.fill(self.FILL_COLOR) for layer in self.layers]
 
-        self.player.draw(self.layers[0])
+        self.player.draw(self.layers[1])
+        self.map.draw(self.layers[0])
 
     def run(self):
         while self.running:
