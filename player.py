@@ -4,7 +4,7 @@ from load import load_sprite_sheet_single
 
 
 class Player:
-    MOVE_SPEED = 100
+    MOVE_SPEED = 500
 
     def __init__(self, game):
         self.game = game

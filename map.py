@@ -6,11 +6,11 @@ import random
 class Map:
     BIOME_HEIGHTS = [
         {
-            0.1: 'deep_ocean',
-            0.2: 'ocean',
-            0.25: 'sand',
-            0.45: '',
-            0.58: 'swamp',
+            0.01: 'deep_ocean',
+            0.02: 'ocean',
+            0.06: 'sand',
+            0.28: '',
+            0.44: 'swamp',
             1: 'mountain'
         },
         {
@@ -20,8 +20,8 @@ class Map:
     ]
 
     ISLAND_EDGE = 350
-    CELL_SIZE = 3
-    SCALE = 3500
+    CELL_SIZE = 4
+    SCALE = 4000
     DIMENSIONS = (Game.CHUNK_SIZE * Game.CHUNK_COUNT, Game.CHUNK_SIZE * Game.CHUNK_COUNT)
     MIN_VAL = -0.8
     MAX_VAL = 0.8

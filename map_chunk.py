@@ -44,10 +44,15 @@ class Chunk:
                     value = (value - Map.MIN_VAL) / (Map.MAX_VAL - Map.MIN_VAL)
 
                     if i == 0:
-                        if (x + self.pos.x) < Map.DIMENSIONS[0] / 2:
+                        if x + self.pos.x < Map.DIMENSIONS[0] / 2:
                             value *= (x + self.pos.x) / (Map.DIMENSIONS[0] / 2)
                         elif x + self.pos.x > Map.DIMENSIONS[0] / 2:
-                            value *= ((x + self.pos.x) - Map.DIMENSIONS[0]) / (Map.DIMENSIONS[0] / 2)
+                            value *= (Map.DIMENSIONS[0] - (x + self.pos.x)) / (Map.DIMENSIONS[0] / 2)
+
+                        if y + self.pos.y < Map.DIMENSIONS[1] / 2:
+                            value *= (y + self.pos.y) / (Map.DIMENSIONS[1] / 2)
+                        elif y + self.pos.y > Map.DIMENSIONS[1] / 2:
+                            value *= (Map.DIMENSIONS[0] - (y + self.pos.y)) / (Map.DIMENSIONS[1] / 2)
 
                     in_layer = False
 

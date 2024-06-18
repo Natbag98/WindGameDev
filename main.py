@@ -6,12 +6,12 @@ from color import Color
 
 
 class Game:
-    RES = WIDTH, HEIGHT = 500, 500
+    RES = WIDTH, HEIGHT = 1600, 900
 
     LAYER_COUNT = 2
     FPS = 60
-    CHUNK_SIZE = 500
-    CHUNK_COUNT = 3
+    CHUNK_SIZE = 1500
+    CHUNK_COUNT = 10
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
