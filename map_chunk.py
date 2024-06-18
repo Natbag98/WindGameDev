@@ -2,6 +2,7 @@ import pygame
 import noise
 from main import Game
 from map import Map
+from pygame import Vector2
 
 
 class Chunk:
@@ -10,7 +11,7 @@ class Chunk:
     def __init__(self, game, map_, pos, edges, base, colors):
         self.game = game
         self.map = map_
-        self.pos = pos
+        self.pos = Vector2(pos)
         self.rect = pygame.Rect(self.pos, self.CHUNK_DIMENSIONS)
         self.edges = edges
         self.base = base
@@ -43,15 +44,10 @@ class Chunk:
                     value = (value - Map.MIN_VAL) / (Map.MAX_VAL - Map.MIN_VAL)
 
                     if i == 0:
-                        if 'top' in self.edges and y < Map.ISLAND_EDGE:
-                            value *= y / Map.ISLAND_EDGE
-                        elif 'bottom' in self.edges and y > self.CHUNK_DIMENSIONS[0] - Map.ISLAND_EDGE:
-                            value *= (self.CHUNK_DIMENSIONS[0] - y) / Map.ISLAND_EDGE
-
-                        if 'left' in self.edges and x < Map.ISLAND_EDGE:
-                            value *= x / Map.ISLAND_EDGE
-                        elif 'right' in self.edges and x > self.CHUNK_DIMENSIONS[0] - Map.ISLAND_EDGE:
-                            value *= (self.CHUNK_DIMENSIONS[0] - x) / Map.ISLAND_EDGE
+                        if (x + self.pos.x) < Map.DIMENSIONS[0] / 2:
+                            value *= (x + self.pos.x) / (Map.DIMENSIONS[0] / 2)
+                        elif x + self.pos.x > Map.DIMENSIONS[0] / 2:
+                            value *= ((x + self.pos.x) - Map.DIMENSIONS[0]) / (Map.DIMENSIONS[0] / 2)
 
                     in_layer = False
 

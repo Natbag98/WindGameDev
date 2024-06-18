@@ -20,8 +20,8 @@ class Map:
     ]
 
     ISLAND_EDGE = 350
-    CELL_SIZE = 1
-    SCALE = 500
+    CELL_SIZE = 3
+    SCALE = 3500
     DIMENSIONS = (Game.CHUNK_SIZE * Game.CHUNK_COUNT, Game.CHUNK_SIZE * Game.CHUNK_COUNT)
     MIN_VAL = -0.8
     MAX_VAL = 0.8

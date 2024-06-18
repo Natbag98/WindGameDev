@@ -10,11 +10,11 @@ class Game:
 
     LAYER_COUNT = 2
     FPS = 60
-    CHUNK_SIZE = 400
-    CHUNK_COUNT = 2
+    CHUNK_SIZE = 500
+    CHUNK_COUNT = 3
 
     FILL_COLOR = Color('black', a=0).color
-    BG_COLOR = Color('deep_ocean', random_=True).color
+    BG_COLOR = Color('black', random_=False).color
 
     def __init__(self):
         self.running = True
@@ -42,6 +42,15 @@ class Game:
     @staticmethod
     def get_centered_position(pos, size):
         return pos[0] - size[0] // 2, pos[1] - size[1] // 2
+
+    @staticmethod
+    def div(a, b, default=None):
+        if not b:
+            if not default:
+                return a
+            else:
+                return default
+        return a / b
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)
