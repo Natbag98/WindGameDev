@@ -10,7 +10,7 @@ class Player:
         self.game = game
 
         path = f'assets\\main_character'
-        size = 1.5
+        size = 2
         self.sprites = {
             'idle': {
                 'up': load_sprite_sheet_single(path, '_up idle.png', 4, 2, size),
@@ -37,7 +37,7 @@ class Player:
         self.facing = 'down'
         self.frame = self.sprites[self.state][self.facing][0]
 
-        self.rect = pygame.Rect(self.pos, self.frame.get_size())
+        self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
     def update(self):
         velocity = Vector2(0, 0)

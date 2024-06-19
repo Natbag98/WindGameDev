@@ -5,7 +5,7 @@ class Window:
 
     def __init__(self, game):
         self.game = game
-        self.res = game.RES
+        self.res = (960, 540)
 
         self.window = pygame.display.set_mode(self.res, pygame.SRCALPHA)
 

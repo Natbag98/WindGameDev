@@ -3,6 +3,8 @@ import noise
 from main import Game
 from map import Map
 from pygame import Vector2
+from shrubs import BushSimple
+import random
 
 
 class Chunk:
@@ -16,7 +18,9 @@ class Chunk:
         self.edges = edges
         self.base = base
 
-        self.terrain = self.generate()
+        self.active = False
+
+        self.terrain, self.biome_cells = self.generate()
         self.terrain_surface = pygame.Surface(self.CHUNK_DIMENSIONS)
 
         self.game.chunk_progress += 1
@@ -24,8 +28,30 @@ class Chunk:
 
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
 
+        self.shrubs = self.generate_shrubs()
+
+    def generate_shrubs(self):
+        shrubs = []
+        for biome in Map.BIOMES:
+            shrubs.append(*self.place_shrubs(biome))
+        return shrubs
+
+    def place_shrubs(self, biome):
+        if self.biome_cells[biome] and biome in Map.SHRUB_COUNT_PER_CELL:
+            count = round(Map.SHRUB_COUNT_PER_CELL[biome] * len(self.biome_cells[biome]))
+
+            return [
+                BushSimple(
+                    self.game,
+                    self,
+                    random.choice(self.biome_cells[biome])
+                )
+                for _ in range(count)
+            ]
+
     def generate(self):
         terrain = []
+        biome_cells = {biome: [] for biome in Map.BIOMES}
 
         for y in range(0, Game.CHUNK_SIZE, Map.CELL_SIZE):
             row = []
@@ -64,6 +90,7 @@ class Chunk:
                             break
                         elif value < biome:
                             row.append(Map.BIOME_HEIGHTS[i][biome])
+                            biome_cells[Map.BIOME_HEIGHTS[i][biome]].append((x, y))
                             in_layer = True
                             break
 
@@ -72,7 +99,8 @@ class Chunk:
 
             terrain.append(row)
 
-        return terrain
+
+        return terrain, biome_cells
 
     def terrain_onto_surface(self, surface, colors, pos=None):
         if not pos:
@@ -87,3 +115,14 @@ class Chunk:
                     (j * Map.CELL_SIZE, i * Map.CELL_SIZE, Map.CELL_SIZE, Map.CELL_SIZE)
                 )
         surface.blit(chunk_surface, pos)
+
+    def update(self):
+        if self.game.camera.rect.colliderect(self.rect):
+            self.active = True
+
+        if self.shrubs:
+            [shrub.update() for shrub in self.shrubs]
+
+    def draw(self, surface):
+        if self.shrubs:
+            [shrub.draw(surface) for shrub in self.shrubs]

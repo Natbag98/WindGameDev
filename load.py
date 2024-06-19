@@ -1,4 +1,5 @@
 import pygame
+import os
 
 
 def load_sprite_sheet_single(
@@ -16,7 +17,8 @@ def load_sprite_sheet_single(
     sprite_width = sheet.get_size()[0] // count_x
     sprite_height = sheet.get_size()[1] // count_y
 
-    size = (sprite_width * size, sprite_height * size)
+    if type(size) in [float, int]:
+        size = (sprite_width * size, sprite_height * size)
 
     sprites = []
     for i in range(count_x):
@@ -34,3 +36,15 @@ def load_sprite_sheet_single(
         for sprite in sprites
         if sprite.get_bounding_rect()
     ]
+
+
+def load_sprites_from_dir(path, size=1, flip_x=False, flip_y=False, prefix=''):
+    sprites = []
+    for file in os.listdir(path):
+        if file.startswith(prefix):
+            sprite = pygame.image.load(f'{path}\\{file}').convert_alpha()
+            if type(size) in [float, int]:
+                size = (sprite.get_size()[0] * size, sprite.get_size()[1] * size)
+            sprites.append(pygame.transform.scale(sprite, size))
+
+    return [pygame.transform.flip(sprite, flip_x, flip_y) for sprite in sprites]

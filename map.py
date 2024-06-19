@@ -1,3 +1,4 @@
+import profilehooks
 from main import Game
 from color import Color
 import random
@@ -14,22 +15,38 @@ class Map:
             1: 'mountain'
         },
         {
-            0.5: 'grass',
+            0.5: 'plains',
             1: 'forest'
         }
     ]
 
+    BIOMES = [
+        'deep_ocean',
+        'ocean',
+        'sand',
+        'swamp',
+        'mountain',
+        'plains',
+        'forest'
+    ]
+
     ISLAND_EDGE = 350
-    CELL_SIZE = 4
+    CELL_SIZE = 3
     SCALE = 4000
     DIMENSIONS = (Game.CHUNK_SIZE * Game.CHUNK_COUNT, Game.CHUNK_SIZE * Game.CHUNK_COUNT)
     MIN_VAL = -0.8
     MAX_VAL = 0.8
 
+    SHRUB_COUNT_PER_CELL = {
+        'plains': 0.00025,
+        'forest': 0.00015
+    }
+
     def __init__(self, game):
         self.game = game
         self.chunks = self.generate()
 
+    @profilehooks.profile
     def generate(self):
         from map_chunk import Chunk
         chunks = []
@@ -72,8 +89,16 @@ class Map:
 
         return chunks
 
-    def draw(self, surface):
+    def update(self):
+        [
+            [chunk.update() for chunk in row]
+            for row in self.chunks
+        ]
+
+    def draw(self, ground_surface, shrub_surface):
         for row in self.chunks:
             for chunk in row:
-                if self.game.camera.rect.colliderect(chunk.rect):
-                    surface.blit(chunk.terrain_surface, chunk.pos - self.game.camera.offset)
+                if chunk.active:
+                    ground_surface.blit(chunk.terrain_surface, chunk.pos - self.game.camera.offset)
+                    chunk.draw(shrub_surface)
+

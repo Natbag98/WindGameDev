@@ -10,7 +10,7 @@ class Game:
 
     LAYER_COUNT = 2
     FPS = 60
-    CHUNK_SIZE = 1500
+    CHUNK_SIZE = 1100
     CHUNK_COUNT = 10
 
     FILL_COLOR = Color('black', a=0).color
@@ -62,6 +62,7 @@ class Game:
         self.input.update()
 
         self.player.update()
+        self.map.update()
 
         self.camera.update()
 
@@ -69,7 +70,7 @@ class Game:
         [layer.fill(self.FILL_COLOR) for layer in self.layers]
 
         self.player.draw(self.layers[1])
-        self.map.draw(self.layers[0])
+        self.map.draw(self.layers[0], self.layers[1])
 
     def run(self):
         while self.running:
