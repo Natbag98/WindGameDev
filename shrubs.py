@@ -4,7 +4,8 @@ import random
 
 _shrub_path = 'assets\\environment\\shrubs'
 _shrub_assets = {
-    'bush_simple': load_sprites_from_dir(f'{_shrub_path}\\bush_simple')
+    'bush_simple': load_sprites_from_dir(f'{_shrub_path}\\bush_simple'),
+    'tree_simple': load_sprites_from_dir(f'{_shrub_path}\\tree_simple')
 }
 
 
@@ -16,4 +17,15 @@ class BushSimple(Shrub):
             chunk,
             pos,
             [random.choice(_shrub_assets['bush_simple'])]
+        )
+
+
+class TreeSimple(Shrub):
+
+    def __init__(self, game, chunk, pos):
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [random.choice(_shrub_assets['tree_simple'])]
         )

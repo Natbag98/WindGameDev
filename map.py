@@ -2,6 +2,10 @@ import profilehooks
 from main import Game
 from color import Color
 import random
+from shrubs import (
+    TreeSimple,
+    BushSimple
+)
 
 
 class Map:
@@ -29,6 +33,16 @@ class Map:
         'plains',
         'forest'
     ]
+
+    BIOME_SHRUBS = {
+        'deep_ocean': [],
+        'ocean': [],
+        'sand': [],
+        'swamp': [],
+        'mountain': [],
+        'plains': [BushSimple, BushSimple, BushSimple, TreeSimple],
+        'forest': [TreeSimple, BushSimple, TreeSimple]
+    }
 
     ISLAND_EDGE = 350
     CELL_SIZE = 3

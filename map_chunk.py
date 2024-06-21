@@ -3,7 +3,6 @@ import noise
 from main import Game
 from map import Map
 from pygame import Vector2
-from shrubs import BushSimple
 import random
 
 
@@ -33,21 +32,18 @@ class Chunk:
     def generate_shrubs(self):
         shrubs = []
         for biome in Map.BIOMES:
-            shrubs.append(*self.place_shrubs(biome))
-        return shrubs
-
-    def place_shrubs(self, biome):
-        if self.biome_cells[biome] and biome in Map.SHRUB_COUNT_PER_CELL:
-            count = round(Map.SHRUB_COUNT_PER_CELL[biome] * len(self.biome_cells[biome]))
-
-            return [
-                BushSimple(
-                    self.game,
-                    self,
-                    random.choice(self.biome_cells[biome])
+            if self.biome_cells[biome] and biome in Map.SHRUB_COUNT_PER_CELL:
+                shrubs.extend(
+                    [
+                        random.choice(Map.BIOME_SHRUBS[biome])(
+                            self.game,
+                            self,
+                            random.choice(self.biome_cells[biome])
+                        )
+                        for _ in range(round(Map.SHRUB_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
+                    ]
                 )
-                for _ in range(count)
-            ]
+        return shrubs
 
     def generate(self):
         terrain = []
