@@ -13,11 +13,18 @@ class Shrub:
         self.frame = self.sprites[self.active_sprite]
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
+    def interact(self):
+        pass
+
     def update(self):
         self.frame = self.sprites[self.active_sprite]
         self.rect.update(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
+    def active_update(self):
+        if self.rect.colliderect(self.game.player.rect) and self.game.input.keys[pygame.K_SPACE].pressed:
+            self.interact()
+
     def draw(self, surface):
         surface.blit(self.frame, self.rect.topleft - self.game.camera.offset)
-        #pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
-        #pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)
+        pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
+        pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)

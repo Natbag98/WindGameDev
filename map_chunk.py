@@ -95,7 +95,6 @@ class Chunk:
 
             terrain.append(row)
 
-
         return terrain, biome_cells
 
     def terrain_onto_surface(self, surface, colors, pos=None):
@@ -113,11 +112,15 @@ class Chunk:
         surface.blit(chunk_surface, pos)
 
     def update(self):
+        self.active = False
         if self.game.camera.rect.colliderect(self.rect):
             self.active = True
 
         if self.shrubs:
             [shrub.update() for shrub in self.shrubs]
+
+            if self.active:
+                [shrub.active_update() for shrub in self.shrubs]
 
     def draw(self, surface):
         if self.shrubs:

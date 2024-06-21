@@ -115,4 +115,3 @@ class Map:
                 if chunk.active:
                     ground_surface.blit(chunk.terrain_surface, chunk.pos - self.game.camera.offset)
                     chunk.draw(shrub_surface)
-

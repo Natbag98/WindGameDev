@@ -19,6 +19,9 @@ class BushSimple(Shrub):
             [random.choice(_shrub_assets['bush_simple'])]
         )
 
+    def interact(self):
+        print('interact bush_simple')
+
 
 class TreeSimple(Shrub):
 
@@ -29,3 +32,6 @@ class TreeSimple(Shrub):
             pos,
             [random.choice(_shrub_assets['tree_simple'])]
         )
+
+    def interact(self):
+        print('interact tree_simple')
