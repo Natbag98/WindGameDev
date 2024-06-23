@@ -3,12 +3,13 @@ sys.path.append('..')
 
 import pygame
 from color import Color
+import profilehooks
 
 
 class Game:
     RES = WIDTH, HEIGHT = 1600, 900
 
-    LAYER_COUNT = 2
+    LAYER_COUNT = 3
     FPS = 60
     CHUNK_SIZE = 1100
     CHUNK_COUNT = 6
@@ -16,11 +17,13 @@ class Game:
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
 
+    @profilehooks.profile
     def __init__(self):
         self.running = True
         self.clock = pygame.time.Clock()
         self.layers = [pygame.Surface(self.RES, pygame.SRCALPHA) for _ in range(self.LAYER_COUNT)]
         self.delta_time = 1
+        self.screen = 'main_menu'
 
         self.total_chunks = self.CHUNK_COUNT * self.CHUNK_COUNT
         self.chunk_progress = 0
@@ -28,10 +31,12 @@ class Game:
         from window import Window
         from input import Input
         from camera import Camera
+        from UI.ui import UI
 
         self.window = Window(self)
         self.input = Input()
         self.camera = Camera(self)
+        self.ui = UI(self)
 
         from player import Player
         from map import Map
@@ -61,17 +66,29 @@ class Game:
 
         self.input.update()
 
-        self.player.update()
-        self.map.update()
+        if self.screen == 'game':
+            self.game_update()
 
         self.camera.update()
+        self.ui.update()
+
+    def game_update(self):
+        self.player.update()
+        self.map.update()
 
     def draw(self):
         [layer.fill(self.FILL_COLOR) for layer in self.layers]
 
+        if self.screen == 'game':
+            self.game_draw()
+
+        self.ui.draw(self.layers[2])
+
+    def game_draw(self):
         self.player.draw(self.layers[1])
         self.map.draw(self.layers[0], self.layers[1])
 
+    @profilehooks.profile
     def run(self):
         while self.running:
             self.update()

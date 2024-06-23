@@ -60,7 +60,6 @@ class Map:
         self.game = game
         self.chunks = self.generate()
 
-    @profilehooks.profile
     def generate(self):
         from map_chunk import Chunk
         chunks = []

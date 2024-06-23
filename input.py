@@ -37,8 +37,10 @@ class MouseButton:
         self.held = False
         self.released = False
 
-    def interact(self, rect, click_type):
-        return rect.collide_point(self.input.mouse_pos) and self.__dict__[click_type]
+    def interact(self, rect, click_type=None):
+        if not click_type:
+            return rect.collidepoint(self.input.mouse_pos)
+        return rect.collidepoint(self.input.mouse_pos) and self.__dict__[click_type]
 
     def update(self):
         if pygame.mouse.get_pressed()[self.button]:
