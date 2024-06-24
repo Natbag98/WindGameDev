@@ -26,6 +26,10 @@ class Input:
         [key.update(keys) for key in self.keys.values()]
 
         self.mouse_pos = pygame.mouse.get_pos()
+        [mouse_button.update() for mouse_button in self.mouse.values()]
+
+    def draw(self, surface):
+        pygame.draw.circle(surface, 'red', self.mouse_pos, 10)
 
 
 class MouseButton:

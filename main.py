@@ -83,6 +83,7 @@ class Game:
             self.game_draw()
 
         self.ui.draw(self.layers[2])
+        self.input.draw(self.layers[2])
 
     def game_draw(self):
         self.player.draw(self.layers[1])

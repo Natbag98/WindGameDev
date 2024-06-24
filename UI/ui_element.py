@@ -56,7 +56,6 @@ class Element:
             self.bg_color = self.default_bg_color
 
         if self.game.input.mouse['left'].interact(self.rect, 'clicked') and self.clicked_func:
-            print('hello')
             self.clicked_func(self.game)
 
     def draw(self, surface):
