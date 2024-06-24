@@ -58,7 +58,7 @@ class Map:
 
     def __init__(self, game):
         self.game = game
-        self.chunks = self.generate()
+        self.chunks = None
 
     def generate(self):
         from map_chunk import Chunk
@@ -100,7 +100,7 @@ class Map:
 
             chunks.append(row)
 
-        return chunks
+        self.chunks = chunks
 
     def update(self):
         [

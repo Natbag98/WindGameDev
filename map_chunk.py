@@ -1,5 +1,4 @@
 import pygame
-import noise
 from main import Game
 from map import Map
 from pygame import Vector2
@@ -23,6 +22,7 @@ class Chunk:
         self.terrain = None
         self.biome_cells = None
         self.terrain_surface = None
+        self.shrubs = None
 
     def initialize(self):
         self.terrain, self.biome_cells = self.generate()

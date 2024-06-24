@@ -1,4 +1,5 @@
 import pygame.display
+import math
 
 
 class Window:
@@ -6,6 +7,7 @@ class Window:
     def __init__(self, game):
         self.game = game
         self.res = (960, 540)
+        self.res_scale = (self.res[0] / self.game.RES[0], self.res[1] / self.game.RES[1])
 
         self.window = pygame.display.set_mode(self.res, pygame.SRCALPHA)
 

@@ -2,6 +2,7 @@ import sys
 sys.path.append('..')
 
 import pygame
+pygame.init()
 from color import Color
 import profilehooks
 
@@ -34,7 +35,7 @@ class Game:
         from UI.ui import UI
 
         self.window = Window(self)
-        self.input = Input()
+        self.input = Input(self)
         self.camera = Camera(self)
         self.ui = UI(self)
 
@@ -56,6 +57,9 @@ class Game:
             else:
                 return default
         return a / b
+
+    def setup(self):
+        self.map.generate()
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)

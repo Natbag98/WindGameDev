@@ -8,7 +8,9 @@ class Input:
         'right': 2
     }
 
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
+
         self.keys = {
             pygame.__dict__[attr]: Key(pygame.__dict__[attr])
             for attr in dir(pygame)
@@ -16,6 +18,10 @@ class Input:
         }
 
         self.mouse_pos = pygame.mouse.get_pos()
+        self.mouse_pos = (
+            self.mouse_pos[0] * self.game.window.res_scale,
+            self.mouse_pos[1] * self.game.window.res_scale
+        )
         self.mouse = {
             key: MouseButton(self.MOUSE_BUTTONS[key], self)
             for key in self.MOUSE_BUTTONS
@@ -26,6 +32,10 @@ class Input:
         [key.update(keys) for key in self.keys.values()]
 
         self.mouse_pos = pygame.mouse.get_pos()
+        self.mouse_pos = (
+            self.mouse_pos[0] / self.game.window.res_scale[0],
+            self.mouse_pos[1] / self.game.window.res_scale[1]
+        )
         [mouse_button.update() for mouse_button in self.mouse.values()]
 
     def draw(self, surface):

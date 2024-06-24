@@ -7,7 +7,8 @@ def _exit_button_clicked(game: Game):
     game.running = False
 
 def _start_button_clicked(game: Game):
-    print('start')
+    game.setup()
+    game.screen = 'game'
 
 
 SCREENS = {
