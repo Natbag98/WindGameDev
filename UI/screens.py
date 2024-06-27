@@ -17,7 +17,7 @@ _inventory_items = {
 
 
 def _home_button_pressed(game: Game):
-    game.screen = 'main_menu'
+    game.paused = not game.paused
 
 
 def _exit_button_clicked(game: Game):

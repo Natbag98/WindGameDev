@@ -28,6 +28,7 @@ class Game:
         self.layers = [pygame.Surface(self.RES, pygame.SRCALPHA) for _ in range(self.LAYER_COUNT)]
         self.delta_time = 1
         self.screen = 'main_menu'
+        self.paused = False
 
         self.total_chunks = self.CHUNK_COUNT * self.CHUNK_COUNT
         self.chunk_progress = 0
@@ -79,7 +80,7 @@ class Game:
 
         self.input.update()
 
-        if self.screen == 'game':
+        if self.screen == 'game' and not self.paused:
             self.game_update()
 
         self.camera.update()
