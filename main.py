@@ -12,11 +12,14 @@ class Game:
 
     LAYER_COUNT = 3
     FPS = 60
-    CHUNK_SIZE = 1100
-    CHUNK_COUNT = 6
+    CHUNK_SIZE = 400
+    CHUNK_COUNT = 4
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
+
+    PLAYER_INVENTORY_SIZE = 12
+    INVENTORY_ITEM_SIZE = (64, 64)
 
     @profilehooks.profile
     def __init__(self):
@@ -32,16 +35,16 @@ class Game:
         from window import Window
         from input import Input
         from camera import Camera
-        from UI.ui import UI
 
         self.window = Window(self)
         self.input = Input(self)
         self.camera = Camera(self)
-        self.ui = UI(self)
 
+        from UI.ui import UI
         from player import Player
         from map import Map
 
+        self.ui = UI(self)
         self.player = Player(self)
         self.map = Map(self)
 
@@ -57,6 +60,12 @@ class Game:
             else:
                 return default
         return a / b
+
+    @staticmethod
+    def draw_transparent_rect(surface, size, pos, color):
+        temp_surf = pygame.Surface(size, pygame.SRCALPHA)
+        temp_surf.fill(color)
+        surface.blit(temp_surf, pos)
 
     def setup(self):
         self.map.generate()

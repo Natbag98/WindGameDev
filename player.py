@@ -1,6 +1,7 @@
 import pygame
 from pygame import Vector2
 from load import load_sprite_sheet_single
+from Inventory.inventory import Inventory
 
 
 class Player:
@@ -30,6 +31,8 @@ class Player:
             'idle': 40,
             'moving': 15
         }
+
+        self.inventory = Inventory(self.game, self)
 
         self.pos = Vector2(0, 0)
         self.state = 'idle'

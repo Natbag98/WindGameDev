@@ -4,7 +4,8 @@ from color import Color
 import random
 from shrubs import (
     TreeSimple,
-    BushSimple
+    BushSimple,
+    BushFlowers
 )
 
 
@@ -40,7 +41,7 @@ class Map:
         'sand': [],
         'swamp': [],
         'mountain': [],
-        'plains': [BushSimple, BushSimple, BushSimple, TreeSimple],
+        'plains': [BushSimple, BushSimple, BushSimple, TreeSimple, BushFlowers],
         'forest': [TreeSimple, BushSimple, TreeSimple]
     }
 
