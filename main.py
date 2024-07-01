@@ -5,7 +5,7 @@ import pygame
 pygame.init()
 from color import Color
 import profilehooks
-
+import threading
 
 class Game:
     RES = WIDTH, HEIGHT = 1600, 900
@@ -69,7 +69,9 @@ class Game:
         surface.blit(temp_surf, pos)
 
     def setup(self):
-        self.map.generate()
+        self.screen = 'loading'
+        self.chunk_progress = 0
+        threading.Thread(target=self.map.generate).start()
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)

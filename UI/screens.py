@@ -26,7 +26,6 @@ def _exit_button_clicked(game: Game):
 
 def _start_button_clicked(game: Game):
     game.setup()
-    game.screen = 'game'
 
 
 def _inventory_item_update(game: Game, element: Element, index):
@@ -35,6 +34,10 @@ def _inventory_item_update(game: Game, element: Element, index):
         element.sprites[1] = _inventory_items[item.__name__]
     else:
         element.sprites[1] = None
+
+def _loading_text_update(game: Game, element: Element):
+    element.text = f'{game.chunk_progress} \ {game.total_chunks}'
+    element.render_text()
 
 
 INVENTORY_ITEMS = [
@@ -87,5 +90,20 @@ SCREENS = {
             size=(150, 40),
             clicked_func=_exit_button_clicked
         )
+    ],
+    'loading': [
+        Element(
+            (0, 0),
+            bg_color=Color('black').color,
+            size=Game.RES,
+            pos_position='top_left'
+        ),
+        Element(
+            (0, 0),
+            pos_position='top_left',
+            text='None',
+            text_size=80,
+            update_func=_loading_text_update
+        ),
     ]
 }

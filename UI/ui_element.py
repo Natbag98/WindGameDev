@@ -45,9 +45,7 @@ class Element:
         self.game = game
 
         if self.text:
-            self.font = pygame.font.SysFont(self.font, self.text_size)
-            self.text = self.font.render(self.text, True, self.text_color)
-            self.size = self.text.get_size()
+            self.render_text()
         elif self.sprites:
             self.size = self.sprites[0].get_size()
             self.bounding_rect = self.sprites[0].get_bounding_rect()
@@ -58,6 +56,11 @@ class Element:
             self.pos = (self.pos[0], self.pos[1] - self.size[1] // 2)
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.size), self.size)
+
+    def render_text(self):
+        self.sys_font = pygame.font.SysFont(self.font, self.text_size)
+        self.text = self.sys_font.render(self.text, True, self.text_color)
+        self.size = self.text.get_size()
 
     def update(self):
         if self.game.input.mouse['left'].interact(self.rect):

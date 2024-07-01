@@ -102,6 +102,7 @@ class Map:
             chunks.append(row)
 
         self.chunks = chunks
+        self.game.screen = 'game'
 
     def update(self):
         [

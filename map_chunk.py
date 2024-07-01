@@ -22,9 +22,6 @@ class Chunk:
         self.terrain, self.biome_cells = self.generate()
         self.terrain_surface = pygame.Surface(self.CHUNK_DIMENSIONS)
 
-        self.game.chunk_progress += 1
-        print(f'{self.game.chunk_progress} / {self.game.total_chunks}')
-
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
 
         self.shrubs = self.generate_shrubs()
