@@ -24,7 +24,7 @@ def load_sprite_sheet_single(
     for i in range(count_x):
         for j in range(count_y):
             surface = pygame.Surface((sprite_width, sprite_height), pygame.SRCALPHA, 32)
-            if read_axis == 'y':
+            if read_axis == 'x':
                 rect = pygame.Rect(i * sprite_width, j * sprite_height, sprite_width, sprite_height)
             else:
                 rect = pygame.Rect(j * sprite_width, i * sprite_height, sprite_width, sprite_height)

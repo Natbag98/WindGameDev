@@ -12,8 +12,8 @@ class Game:
 
     LAYER_COUNT = 3
     FPS = 60
-    CHUNK_SIZE = 400
-    CHUNK_COUNT = 4
+    CHUNK_SIZE = 1000
+    CHUNK_COUNT = 5
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
@@ -36,10 +36,12 @@ class Game:
         from window import Window
         from input import Input
         from camera import Camera
+        from timers import Timers
 
         self.window = Window(self)
         self.input = Input(self)
         self.camera = Camera(self)
+        self.timers = Timers(self)
 
         from UI.ui import UI
         from player import Player
@@ -89,6 +91,7 @@ class Game:
         self.ui.update()
 
     def game_update(self):
+        self.timers.update()
         self.player.update()
         self.map.update()
 
@@ -119,6 +122,13 @@ class Game:
     def quit(self):
         pygame.quit()
         quit()
+
+
+class CollideCircle:
+
+    def __init__(self, rect, radius):
+        self.rect = rect
+        self.radius = radius
 
 
 if __name__ == '__main__':

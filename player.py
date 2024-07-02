@@ -28,7 +28,7 @@ class Player:
         }
 
         self.animation_factors = {
-            'idle': 40,
+            'idle': 15,
             'moving': 15
         }
 

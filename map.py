@@ -99,6 +99,8 @@ class Map:
                     )
                 )
 
+                self.game.chunk_progress += 1
+
             chunks.append(row)
 
         self.chunks = chunks

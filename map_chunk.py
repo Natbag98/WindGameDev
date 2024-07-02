@@ -4,6 +4,7 @@ from map import Map
 from pygame import Vector2
 import random
 import noise
+from Enemy.enemies import *
 
 
 class Chunk:
@@ -25,6 +26,10 @@ class Chunk:
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
 
         self.shrubs = self.generate_shrubs()
+        self.enemies = self.generate_enemies()
+
+    def generate_enemies(self):
+        return [Squirrel(self.game, self, Vector2(self.rect.center))]
 
     def generate_shrubs(self):
         shrubs = []
@@ -113,6 +118,9 @@ class Chunk:
         if self.game.camera.rect.colliderect(self.rect):
             self.active = True
 
+        if self.enemies:
+            [enemy.update() for enemy in self.enemies]
+
         if self.shrubs:
             [shrub.update() for shrub in self.shrubs]
 
@@ -122,3 +130,5 @@ class Chunk:
     def draw(self, surface):
         if self.shrubs:
             [shrub.draw(surface) for shrub in self.shrubs]
+        if self.enemies:
+            [enemy.draw(surface) for enemy in self.enemies]
