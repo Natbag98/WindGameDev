@@ -2,6 +2,8 @@ import profilehooks
 from main import Game
 from color import Color
 import random
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from shrubs import (
     TreeSimple,
     BushSimple,
@@ -63,48 +65,55 @@ class Map:
 
     def generate(self):
         from map_chunk import Chunk
-        chunks = []
+        chunks = [
+            [None for _ in range(Game.CHUNK_COUNT)]
+            for _ in range(Game.CHUNK_COUNT)
+        ]
 
         base = [random.randrange(min(Chunk.CHUNK_DIMENSIONS)) for _ in range(len(Map.BIOME_HEIGHTS))]
 
         colors = {
             biome: Color(biome, random_=True).color
-            for dict in Map.BIOME_HEIGHTS
-            for biome in dict.values()
+            for height in Map.BIOME_HEIGHTS
+            for biome in height.values()
             if biome
         }
 
-        for i, y in enumerate(range(Game.CHUNK_COUNT)):
-            row = []
-            for j, x in enumerate(range(Game.CHUNK_COUNT)):
-                edges = []
-                if i == 0:
-                    edges.append('top')
-                elif i == Game.CHUNK_COUNT - 1:
-                    edges.append('bottom')
+        with ThreadPoolExecutor() as executor:
+            chunk_results = []
+            for i, y in enumerate(range(Game.CHUNK_COUNT)):
+                for j, x in enumerate(range(Game.CHUNK_COUNT)):
+                    chunk_results.append(executor.submit(self.create_chunk, i, j, y, x, base, colors))
 
-                if j == 0:
-                    edges.append('left')
-                elif j == Game.CHUNK_COUNT - 1:
-                    edges.append('right')
-
-                row.append(
-                    Chunk(
-                        self.game,
-                        self,
-                        (Game.CHUNK_SIZE * x, Game.CHUNK_SIZE * y),
-                        edges,
-                        base,
-                        colors
-                    )
-                )
-
+            for result in chunk_results:
+                chunk, y, x = result.result()
+                chunks[y][x] = chunk
                 self.game.chunk_progress += 1
-
-            chunks.append(row)
 
         self.chunks = chunks
         self.game.screen = 'game'
+
+    def create_chunk(self, i, j, x, y, base, colors):
+        from map_chunk import Chunk
+        edges = []
+        if i == 0:
+            edges.append('top')
+        elif i == Game.CHUNK_COUNT - 1:
+            edges.append('bottom')
+
+        if j == 0:
+            edges.append('left')
+        elif j == Game.CHUNK_COUNT - 1:
+            edges.append('right')
+
+        return Chunk(
+            self.game,
+            self,
+            (Game.CHUNK_SIZE * x, Game.CHUNK_SIZE * y),
+            edges,
+            base,
+            colors
+        ), y, x
 
     def update(self):
         [
