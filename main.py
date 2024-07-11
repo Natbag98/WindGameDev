@@ -11,9 +11,9 @@ class Game:
     RES = WIDTH, HEIGHT = 1600, 900
 
     LAYER_COUNT = 3
-    FPS = 60
+    FPS = 30
     CHUNK_SIZE = 1000
-    CHUNK_COUNT = 5
+    CHUNK_COUNT = 3
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
@@ -69,6 +69,10 @@ class Game:
         temp_surf = pygame.Surface(size, pygame.SRCALPHA)
         temp_surf.fill(color)
         surface.blit(temp_surf, pos)
+
+    @staticmethod
+    def round_base(x, base):
+        return base * round(x / base)
 
     def setup(self):
         self.screen = 'loading'
@@ -127,7 +131,7 @@ class Game:
 class CollideCircle:
 
     def __init__(self, rect, radius):
-        self.rect = rect
+        self.rect = pygame.Rect(rect)
         self.radius = radius
 
 

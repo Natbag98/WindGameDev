@@ -1,5 +1,6 @@
 import pygame.display
 import math
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 class Window:
@@ -16,7 +17,21 @@ class Window:
             if event.type == pygame.QUIT:
                 self.game.running = False
 
+    def scale_surf(self, layer, surface, size):
+        return pygame.transform.scale(surface, size), layer
+
     def render(self, layers):
         self.window.fill(self.game.BG_COLOR)
-        [self.window.blit(pygame.transform.scale(layer, self.res), (0, 0)) for layer in layers]
+
+        layers_to_draw = [pygame.Surface((0, 0)) for _ in range(len(layers))]
+        with ThreadPoolExecutor() as executor:
+            results = []
+            for i, layer in enumerate(layers):
+                results.append(executor.submit(self.scale_surf, i, layer, self.res))
+
+            for result in as_completed(results):
+                surface, layer = result.result()
+                layers_to_draw[layer] = surface
+
+        [self.window.blit(layer, (0, 0)) for layer in layers_to_draw]
         pygame.display.flip()

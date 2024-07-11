@@ -32,7 +32,7 @@ _SPRITES = {
 
 class Squirrel(Enemy):
 
-    def __init__(self, game, chunk, start_pos, ):
+    def __init__(self, game, chunk, start_pos, *args, **kwargs):
         super().__init__(
             game,
             chunk,
@@ -41,5 +41,6 @@ class Squirrel(Enemy):
             start_pos=start_pos,
             move_speed=150,
             patrol_radius=_Game.CHUNK_SIZE // 2,
-            stop_max=200
+            stop_max=200,
+            denied_biomes=('sand', 'ocean', 'deep_ocean', 'mountain', 'swamp')
         )

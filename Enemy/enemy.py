@@ -1,9 +1,7 @@
 from pygame import Vector2
 from main import CollideCircle
-from main import Game
 import pygame
 import random
-import math
 
 
 class Enemy:
@@ -22,10 +20,14 @@ class Enemy:
         path=None,
         aggressive=False,
         aggressive_range=50,
-        attacks=None
+        attacks=None,
+        denied_biomes=(),
+        bound_to_chunk=True
     ):
         self.game = game
         self.chunk = chunk
+        self.bound_to_chunk = bound_to_chunk
+        start_pos += self.chunk.pos
 
         self.sprites = sprites
         self.animation_factors = animation_factors
@@ -56,6 +58,45 @@ class Enemy:
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
         self.target_pos = start_pos
+        self.denied_biomes = denied_biomes
+        self.valid_targets = self.get_valid_target_positions()
+
+    def get_valid_target_positions(self):
+        valid_targets = []
+
+        if self.behaviour == 'patrol_radius':
+            for biome in self.chunk.biome_cells:
+                if biome not in self.denied_biomes:
+                    for cell in self.chunk.biome_cells[biome]:
+                        if pygame.sprite.collide_circle(
+                            CollideCircle(self.rect, self.patrol_radius),
+                            CollideCircle(
+                                (
+                                        cell[0] + self.chunk.pos[0], cell[1] + self.chunk.pos[1],
+                                        self.game.map.CELL_SIZE, self.game.map.CELL_SIZE
+                                ),
+                                self.game.map.CELL_SIZE // 2
+                            )
+                        ):
+                            valid_targets.append(
+                                (round(cell[0] + self.chunk.pos[0]), round(cell[1] + self.chunk.pos[1]))
+                            )
+
+        return valid_targets
+
+    def get_target_pos(self):
+        target_pos = Vector2(0, 0)
+        if self.behaviour == 'patrol_radius':
+            target_pos = Vector2(random.choice(self.valid_targets))
+
+        if self.behaviour == 'patrol':
+            if self.rect.collidepoint(self.path[self.active_point][0], self.path[self.active_point][1]):
+                self.active_point += 1
+                if self.active_point >= len(self.path):
+                    self.active_point = 0
+                    target_pos.update(round(self.path[self.active_point]))
+
+        return target_pos
 
     def update(self):
         if self.rect.collidepoint(self.target_pos):
@@ -65,18 +106,8 @@ class Enemy:
             self.collided_with_target_last_frame = True
 
             if self.game.timers.check_max(self.timer_name):
-                if self.behaviour == 'patrol_radius':
-                    radius = self.patrol_radius * math.sqrt(random.random())
-                    theta = 2 * math.pi * random.random()
-                    self.target_pos = Vector2(
-                        (self.patrol_center[0] + radius * math.cos(theta), self.patrol_center[1] + radius * math.sin(theta))
-                    )
-                if self.behaviour == 'patrol':
-                    if self.rect.collidepoint(self.path[self.active_point][0], self.path[self.active_point][1]):
-                        self.active_point += 1
-                        if self.active_point >= len(self.path):
-                            self.active_point = 0
-                        self.target_pos.update(self.path[self.active_point])
+                self.target_pos = self.get_target_pos()
+
         else:
             self.collided_with_target_last_frame = False
 

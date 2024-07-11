@@ -3,6 +3,7 @@ from main import Game
 from color import Color
 import random
 import time
+from Enemy.enemies import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from shrubs import (
     TreeSimple,
@@ -47,6 +48,20 @@ class Map:
         'forest': [TreeSimple, BushSimple, TreeSimple]
     }
 
+    BIOME_ENEMIES_PEACEFUL = {
+        'deep_ocean': [],
+        'ocean': [],
+        'sand': [],
+        'swamp': [],
+        'mountain': [],
+        'plains': [Squirrel],
+        'forest': []
+    }
+
+    ENEMY_PEACEFUL_COUNT_PER_CELL = {
+        'plains': 0.0001
+    }
+
     ISLAND_EDGE = 350
     CELL_SIZE = 3
     SCALE = 4000
@@ -63,6 +78,7 @@ class Map:
         self.game = game
         self.chunks = None
 
+    # noinspection PyUnresolvedReferences
     def generate(self):
         from map_chunk import Chunk
         chunks = [
@@ -83,7 +99,7 @@ class Map:
             chunk_results = []
             for i, y in enumerate(range(Game.CHUNK_COUNT)):
                 for j, x in enumerate(range(Game.CHUNK_COUNT)):
-                    chunk_results.append(executor.submit(self.create_chunk, i, j, y, x, base, colors))
+                    chunk_results.append(executor.submit(self.create_chunk, y, x, base, colors))
 
             for result in chunk_results:
                 chunk, y, x = result.result()
@@ -93,24 +109,12 @@ class Map:
         self.chunks = chunks
         self.game.screen = 'game'
 
-    def create_chunk(self, i, j, x, y, base, colors):
+    def create_chunk(self, x, y, base, colors):
         from map_chunk import Chunk
-        edges = []
-        if i == 0:
-            edges.append('top')
-        elif i == Game.CHUNK_COUNT - 1:
-            edges.append('bottom')
-
-        if j == 0:
-            edges.append('left')
-        elif j == Game.CHUNK_COUNT - 1:
-            edges.append('right')
-
         return Chunk(
             self.game,
             self,
             (Game.CHUNK_SIZE * x, Game.CHUNK_SIZE * y),
-            edges,
             base,
             colors
         ), y, x

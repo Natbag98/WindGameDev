@@ -10,12 +10,11 @@ from Enemy.enemies import *
 class Chunk:
     CHUNK_DIMENSIONS = (Game.CHUNK_SIZE, Game.CHUNK_SIZE)
 
-    def __init__(self, game, map_, pos, edges, base, colors):
+    def __init__(self, game, map_, pos, base, colors):
         self.game = game
         self.map = map_
         self.pos = Vector2(pos)
         self.rect = pygame.Rect(self.pos, self.CHUNK_DIMENSIONS)
-        self.edges = edges
         self.base = base
 
         self.active = False
@@ -29,7 +28,20 @@ class Chunk:
         self.enemies = self.generate_enemies()
 
     def generate_enemies(self):
-        return [Squirrel(self.game, self, Vector2(self.rect.center))]
+        enemies = []
+        for biome in Map.BIOMES:
+            if self.biome_cells[biome] and biome in Map.ENEMY_PEACEFUL_COUNT_PER_CELL:
+                enemies.extend(
+                    [
+                        random.choice(Map.BIOME_ENEMIES_PEACEFUL[biome])(
+                            self.game,
+                            self,
+                            Vector2(random.choice(self.biome_cells[biome]))
+                        )
+                        for _ in range(round(Map.ENEMY_PEACEFUL_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
+                    ]
+                )
+        return enemies
 
     def generate_shrubs(self):
         shrubs = []
@@ -70,7 +82,7 @@ class Chunk:
                     if i == 0:
                         if x + self.pos.x < Map.DIMENSIONS[0] / 2:
                             value *= (x + self.pos.x) / (Map.DIMENSIONS[0] / 2)
-                        elif x + self.pos.x > Map.DIMENSIONS[0] / 2:
+                        elif x + self.pos.x > Map.DIMENSIONS[0] /  2:
                             value *= (Map.DIMENSIONS[0] - (x + self.pos.x)) / (Map.DIMENSIONS[0] / 2)
 
                         if y + self.pos.y < Map.DIMENSIONS[1] / 2:
@@ -89,6 +101,7 @@ class Chunk:
                         elif value < biome:
                             row.append(Map.BIOME_HEIGHTS[i][biome])
                             biome_cells[Map.BIOME_HEIGHTS[i][biome]].append((x, y))
+
                             in_layer = True
                             break
 
