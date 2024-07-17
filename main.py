@@ -21,6 +21,19 @@ class Game:
     PLAYER_INVENTORY_SIZE = 12
     INVENTORY_ITEM_SIZE = (64, 64)
 
+    CRAFTING_ITEM_SIZE = (64, 64)
+    CRAFTING_MENU = {
+        'placeholder_image_1': [
+            'placeholder_1',
+            'placeholder_2'
+        ],
+        'placeholder_image_2': [
+            'placeholder_3',
+            'placeholder_4'
+        ]
+    }
+    CRAFTING_MENUS = len(CRAFTING_MENU)
+
     @profilehooks.profile
     def __init__(self):
         self.running = True

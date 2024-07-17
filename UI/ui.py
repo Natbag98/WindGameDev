@@ -1,4 +1,4 @@
-from UI.screens import SCREENS, INVENTORY_ITEMS
+from UI.screens import SCREENS
 
 
 class UI:
@@ -6,9 +6,8 @@ class UI:
     def __init__(self, game):
         self.game = game
 
+        self.crafting_menu_open = None
         self.screens = SCREENS
-        for element in INVENTORY_ITEMS:
-            self.screens['game'].append(element)
         [element.initialize(self.game) for screen in self.screens for element in self.screens[screen]]
 
     def update(self):
