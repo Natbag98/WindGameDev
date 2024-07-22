@@ -69,12 +69,51 @@ for i in range(Game.CRAFTING_MENUS):
         Element(
             (
                 0,
-                (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[0] * Game.CRAFTING_MENUS) // 2) + i * CRAFTING_BACK_SIZE[0],
+                (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[1] * Game.CRAFTING_MENUS) // 2) + i * CRAFTING_BACK_SIZE[1],
             ),
             pos_position='top_left',
             sprites=[_ui_assets['inventory_back'][back]]
         )
     )
+
+CRAFTING_ITEM_MENUS_BG = []
+for i in range(Game.CRAFTING_MENUS):
+    for j in range(len(list(Game.CRAFTING_MENU.values())[i])):
+        back = 4
+        if j == 0:
+            back = 3
+        elif j == Game.CRAFTING_MENUS - 1:
+            back = 2
+        CRAFTING_ITEM_MENUS_BG.append(
+            Element(
+                (
+                    CRAFTING_BACK_SIZE[0],
+                    (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[1] * Game.CRAFTING_MENUS) // 2) + j * CRAFTING_BACK_SIZE[1],
+                ),
+                pos_position='top_left',
+                sprites=[_ui_assets['inventory_back'][back]],
+                update_func=crafting_menu_bg_update,
+                update_func_args=(i,),
+                hidden=True
+            )
+        )
+
+CRAFTING_ITEMS = []
+for i in range(Game.CRAFTING_MENUS):
+    for j, crafting_item in enumerate(list(Game.CRAFTING_MENU.values())[i]):
+        CRAFTING_ITEMS.append(
+            Element(
+                (
+                    Game.CRAFTING_ITEM_SIZE[0],
+                    (Game.HEIGHT // 2 - (Game.CRAFTING_ITEM_SIZE[0] * Game.CRAFTING_MENUS) // 2) + j * Game.CRAFTING_ITEM_SIZE[0],
+                ),
+                pos_position='top_left',
+                sprites=[_ui_assets['inventory_frame_1']],
+                update_func=crafting_menu_bg_update,
+                update_func_args=(i,),
+                hidden=True
+            )
+        )
 
 
 SCREENS = {
@@ -106,6 +145,7 @@ SCREENS = {
             for i in range(Game.PLAYER_INVENTORY_SIZE)
         ],
         *CRAFTING_MENU_BG,
+        *CRAFTING_ITEM_MENUS_BG,
         *[
             Element(
                 (
@@ -119,22 +159,7 @@ SCREENS = {
             )
             for i in range(Game.CRAFTING_MENUS)
         ],
-        *[
-            Element(
-                (
-                    (Game.INVENTORY_ITEM_SIZE[1] * 2),
-                    (Game.HEIGHT // 2 - (Game.CRAFTING_ITEM_SIZE[0] * Game.CRAFTING_MENUS) // 2) + i * Game.CRAFTING_ITEM_SIZE[0],
-                ),
-                pos_position='top_left',
-                bg_color=Color('black').color,
-                hover_color=Color('black').color,
-                size=(Game.CRAFTING_ITEM_SIZE[0] * 1.2, Game.CRAFTING_ITEM_SIZE[1] * Game.CRAFTING_MENUS),
-                update_func=crafting_menu_bg_update,
-                update_func_args=(i,),
-                hidden=True
-            )
-            for i in range(Game.CRAFTING_MENUS)
-        ]
+        *CRAFTING_ITEMS
     ],
     'main_menu': [
         Element(
