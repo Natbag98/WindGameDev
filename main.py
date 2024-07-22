@@ -3,9 +3,11 @@ sys.path.append('..')
 
 import pygame
 pygame.init()
+
 from color import Color
 import profilehooks
 import threading
+
 
 class Game:
     RES = WIDTH, HEIGHT = 1600, 900
@@ -22,17 +24,6 @@ class Game:
     INVENTORY_ITEM_SIZE = (64, 64)
 
     CRAFTING_ITEM_SIZE = (64, 64)
-    CRAFTING_MENU = {
-        'placeholder_image_1': [
-            'placeholder_1',
-            'placeholder_2'
-        ],
-        'placeholder_image_2': [
-            'placeholder_3',
-            'placeholder_4'
-        ]
-    }
-    CRAFTING_MENUS = len(CRAFTING_MENU)
 
     @profilehooks.profile
     def __init__(self):
@@ -55,6 +46,11 @@ class Game:
         self.input = Input(self)
         self.camera = Camera(self)
         self.timers = Timers(self)
+
+        from crafting import CRAFTING_MENU
+        for menu in CRAFTING_MENU.values():
+            for item in menu:
+                item.initialize(self)
 
         from UI.ui import UI
         from player import Player
