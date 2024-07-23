@@ -61,9 +61,13 @@ class Element:
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.size), self.size)
 
-    def render_text(self):
-        self.sys_font = pygame.font.SysFont(self.font, self.text_size)
-        self.text = self.sys_font.render(self.text, True, self.text_color)
+    def render_text(self, pre_rendered=None):
+        if pre_rendered:
+            self.text = pre_rendered
+            self.size = self.text.get_size
+
+        sys_font = pygame.font.SysFont(self.font, self.text_size)
+        self.text = sys_font.render(self.text, True, self.text_color)
         self.size = self.text.get_size()
 
     def update(self):
@@ -83,7 +87,7 @@ class Element:
     def draw(self, surface):
         if not self.hidden:
             if not self.sprites:
-                pygame.draw.rect(surface, self.bg_color, self.rect)
+                Game.draw_transparent_rect(surface, self.rect.size, self.rect.topleft, self.bg_color)
             else:
                 [surface.blit(sprite, self.rect.topleft) for sprite in self.sprites if sprite]
                 if self.hovering:
