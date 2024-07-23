@@ -19,16 +19,21 @@ _ui_assets = {
 }
 
 
-def _home_button_pressed(game: Game):
+def _home_button_pressed(game: Game, element: Element):
     game.paused = not game.paused
 
 
-def _exit_button_clicked(game: Game):
+def _exit_button_clicked(game: Game, element: Element):
     game.running = False
 
 
-def _start_button_clicked(game: Game):
+def _start_button_clicked(game: Game, element: Element):
     game.setup()
+
+
+def _crafting_button_clicked(game: Game, element: Element):
+    if game.ui.active_crafting_recipe:
+        game.ui.active_crafting_recipe.craft()
 
 
 def _inventory_item_update(game: Game, element: Element, index):
@@ -58,12 +63,26 @@ def _crafting_menu_bg_update(game: Game, element: Element, index):
         element.hidden = False
 
 
-def _crafting_item_update(game: Game, element: Element, index):
+def _crafting_item_update(game: Game, element: Element, index, crafting_item):
     _crafting_menu_bg_update(game, element, index)
+    if game.input.mouse['left'].interact(element.rect, 'clicked'):
+        if game.ui.active_crafting_recipe == crafting_item:
+            game.ui.active_crafting_recipe = None
+        else:
+            game.ui.active_crafting_recipe = crafting_item
 
 
-def _crafting_info_input_update(game: Game, element: Element):
-    pass
+def _crafting_info_input_update(game: Game, element: Element, index):
+    element.sprites[1] = None
+    if game.ui.active_crafting_recipe:
+        if len(game.ui.active_crafting_recipe.input_items) >= index + 1:
+            element.sprites[1] = game.ui.active_crafting_recipe.input_items[index].sprite
+
+
+def _crafting_info_output_update(game: Game, element: Element):
+    element.sprites[1] = None
+    if game.ui.active_crafting_recipe:
+        element.sprites[1] = game.ui.active_crafting_recipe.output_item.sprite
 
 
 CRAFTING_MENU_BG = []
@@ -117,8 +136,8 @@ for i in range(CRAFTING_MENUS):
                 ),
                 pos_position='top_left',
                 sprites=[_ui_assets['inventory_frame_1'], crafting_item.output_item.sprite],
-                update_func=_crafting_menu_bg_update,
-                update_func_args=(i,),
+                update_func=_crafting_item_update,
+                update_func_args=(i, crafting_item),
                 hidden=True
             )
         )
@@ -195,48 +214,60 @@ SCREENS = {
                 (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 3
             ),
             pos_position='top_left',
-            text='Input',
+            text='Inputs',
             text_color=Color('black').color,
             text_size=35,
         ),
         Element(
             (
-                INFO_HORIZONTAL_PADDING * 2 + UI.create_rendered_text('Input', 35).get_size()[0] + 20,
+                INFO_HORIZONTAL_PADDING * 2 + _ui_assets['inventory_frame_1'].get_size()[0] * 3,
                 (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 3
             ),
             pos_position='top_left',
-            text='Outputs',
+            text='Output',
             text_color=Color('black').color,
             text_size=35,
-        ),
-        Element(
-            (
-                INFO_HORIZONTAL_PADDING,
-                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING \
-                    + UI.create_rendered_text('Input', 35).get_size()[1] + 20
-            ),
-            pos_position='top_left',
-            sprites=[_ui_assets['inventory_frame_1']],
-            update_func=_crafting_info_input_update,
         ),
         *[
             Element(
                 (
-                    INFO_HORIZONTAL_PADDING * 2 + UI.create_rendered_text('Input', 35).get_size()[0] + 20 \
-                        + _ui_assets['inventory_frame_1'].get_size()[0] * i,
+                    INFO_HORIZONTAL_PADDING + _ui_assets['inventory_frame_1'].get_size()[0] * i,
                     (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING \
-                        + UI.create_rendered_text('Input', 35).get_size()[1] + 20
+                    + UI.create_rendered_text('Input', 35).get_size()[1] + 20
                 ),
-            pos_position='top_left',
-                sprites=[_ui_assets['inventory_frame_1']],
+                pos_position='top_left',
+                sprites=[_ui_assets['inventory_frame_1'], None],
                 update_func=_crafting_info_input_update,
+                update_func_args=(i,)
             )
             for i in range(3)
         ],
         Element(
             (
+                INFO_HORIZONTAL_PADDING * 2 + _ui_assets['inventory_frame_1'].get_size()[0] * 3,
+                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING \
+                + UI.create_rendered_text('Input', 35).get_size()[1] + 20
+            ),
+            pos_position='top_left',
+            sprites=[_ui_assets['inventory_frame_1'], None],
+            update_func=_crafting_info_output_update
+        ),
+        Element(
+            (
                 INFO_HORIZONTAL_PADDING,
-                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 9
+                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 2 \
+                + UI.create_rendered_text('Input', 35).get_size()[1] + _ui_assets['inventory_frame_1'].get_size()[1] + 10
+            ),
+            pos_position='top_left',
+            text='CRAFT',
+            text_size=35,
+            text_color=Color('black').color,
+            clicked_func=_crafting_button_clicked
+        ),
+        Element(
+            (
+                INFO_HORIZONTAL_PADDING,
+                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 11
             ),
             pos_position='top_left',
             text='Item Name',
@@ -246,7 +277,7 @@ SCREENS = {
         Element(
             (
                 INFO_HORIZONTAL_PADDING,
-                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 11
+                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 13
             ),
             pos_position='top_left',
             text='Description',

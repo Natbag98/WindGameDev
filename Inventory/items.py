@@ -14,13 +14,13 @@ _inventory_items = {
 class OrangeBerries(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['BlueBerries'])
+        super().__init__(game, _inventory_items['OrangeBerries'])
 
 
 class BlueBerries(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['OrangeBerries'])
+        super().__init__(game, _inventory_items['BlueBerries'])
 
 
 class OrangePotion(Item):
@@ -33,4 +33,3 @@ class BluePotion(Item):
 
     def __init__(self, game):
         super().__init__(game, _inventory_items['BluePotion'])
-

@@ -15,6 +15,7 @@ class Element:
         sprites=None,
         text_color=Color('white').color,
         clicked_func=None,
+        clicked_func_args=(),
         bg_color=Color('black', a=0).color,
         hover_color=Color('black', a=0).color,
         size=None,
@@ -33,6 +34,7 @@ class Element:
         self.font = font
         self.text_color = text_color
         self.clicked_func = clicked_func
+        self.clicked_func_args = clicked_func_args
         self.bg_color = bg_color
         self.default_bg_color = bg_color
         self.hover_color = hover_color
@@ -79,7 +81,7 @@ class Element:
             self.hovering = False
 
         if self.game.input.mouse['left'].interact(self.rect, 'clicked') and self.clicked_func and not self.hidden:
-            self.clicked_func(self.game)
+            self.clicked_func(self.game, self, *self.clicked_func_args)
 
         if self.update_func:
             self.update_func(self.game, self, *self.update_func_args)

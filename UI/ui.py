@@ -10,6 +10,7 @@ class UI:
         from UI.screens import SCREENS
 
         self.crafting_menu_open = None
+        self.active_crafting_recipe = None
         self.screens = SCREENS
         [element.initialize(self.game) for screen in self.screens for element in self.screens[screen]]
 

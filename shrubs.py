@@ -42,7 +42,7 @@ class BushFlowers(Shrub):
 
     def interact(self):
         if not self.collected:
-            self.game.player.inventory.add_item(self.FLOWER_COLORS[self.color])
+            self.game.player.inventory.add_item(self.FLOWER_COLORS[self.color](self.game))
             self.collected = True
 
 
