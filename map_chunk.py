@@ -26,6 +26,7 @@ class Chunk:
 
         self.shrubs = self.generate_shrubs()
         self.enemies = self.generate_enemies()
+        self.floor_items = []
 
     def generate_enemies(self):
         enemies = []
@@ -148,8 +149,13 @@ class Chunk:
             if self.active:
                 [shrub.active_update() for shrub in self.shrubs]
 
+        if self.floor_items and self.active:
+            [floor_item.active_update() for floor_item in self.floor_items]
+
     def draw(self, surface):
         if self.shrubs:
             [shrub.draw(surface) for shrub in self.shrubs]
         if self.enemies:
             [enemy.draw(surface) for enemy in self.enemies]
+        if self.floor_items:
+            [floor_item.draw(surface) for floor_item in self.floor_items]

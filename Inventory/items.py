@@ -7,7 +7,8 @@ _inventory_items = {
     'BlueBerries': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='purple_berries')[0],
     'OrangeBerries': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='red_berries')[0],
     'OrangePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='orange_potion')[0],
-    'BluePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='blue_potion')[0]
+    'BluePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='blue_potion')[0],
+    'MeatSmallUncooked': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='meat_small_uncooked')[0]
 }
 
 
@@ -21,6 +22,12 @@ class BlueBerries(Item):
 
     def __init__(self, game):
         super().__init__(game, _inventory_items['BlueBerries'])
+
+
+class MeatSmallUncooked(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['MeatSmallUncooked'])
 
 
 class OrangePotion(Item):

@@ -1,6 +1,8 @@
 from Enemy.enemy import Enemy
 from load import load_sprite_sheet_single
 from main import Game as _Game
+from Inventory.items import MeatSmallUncooked
+from floor_item import FloorItem
 
 _squirrel_path = 'assets\\enemies\\peaceful\\squirrel'
 _squirrel_size = 2
@@ -45,3 +47,9 @@ class Squirrel(Enemy):
             stop_max=200,
             denied_biomes=('sand', 'ocean', 'deep_ocean', 'mountain', 'swamp')
         )
+
+    def death(self):
+        self.chunk.floor_items.append(
+            FloorItem(self.game, self.chunk, self.pos, MeatSmallUncooked(self.game))
+        )
+        super().death()

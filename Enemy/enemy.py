@@ -145,6 +145,7 @@ class Enemy:
 
         if self.health <= 0:
             self.death()
+            return
 
         self.state = 'idle'
         velocity = self.pos.move_towards(self.target_pos, self.move_speed * self.game.delta_time) - self.pos
