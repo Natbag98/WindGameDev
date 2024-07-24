@@ -92,8 +92,8 @@ class Game:
         self.delta_time = self.clock.tick(self.FPS)
         self.delta_time /= 1000
 
-        frame_rate = 1 / self.delta_time
-        pygame.display.set_caption(str(frame_rate))
+        # = 1 / self.delta_time
+        #pygame.display.set_caption(str(frame_rate))
 
         self.input.update()
 

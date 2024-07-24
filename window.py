@@ -11,6 +11,7 @@ class Window:
         self.res_scale = (self.res[0] / self.game.RES[0], self.res[1] / self.game.RES[1])
 
         self.window = pygame.display.set_mode(self.res, pygame.SRCALPHA)
+        pygame.display.set_caption('Wind')
 
     def update(self):
         for event in pygame.event.get():

@@ -39,7 +39,8 @@ class Input:
         [mouse_button.update() for mouse_button in self.mouse.values()]
 
     def draw(self, surface):
-        pygame.draw.circle(surface, 'red', self.mouse_pos, 10)
+        #pygame.draw.circle(surface, 'red', self.mouse_pos, 10)
+        pass
 
 
 class MouseButton:

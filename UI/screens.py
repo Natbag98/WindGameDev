@@ -45,7 +45,7 @@ def _inventory_item_update(game: Game, element: Element, index):
 
 
 def _loading_text_update(game: Game, element: Element):
-    element.text = f'{game.chunk_progress} \\ {game.total_chunks}'
+    element.text = f'Loading: {game.chunk_progress} \\ {game.total_chunks}'
     element.render_text()
 
 
@@ -84,6 +84,24 @@ def _crafting_info_output_update(game: Game, element: Element):
     if game.ui.active_crafting_recipe:
         element.sprites[1] = game.ui.active_crafting_recipe.output_item.sprite
 
+
+INV_BAR_BG = []
+for i in range(Game.PLAYER_INVENTORY_SIZE):
+    back = 1
+    if i == 0:
+        back = 2
+    elif i == Game.PLAYER_INVENTORY_SIZE - 1:
+        back = 4
+    INV_BAR_BG.append(
+        Element(
+            (
+                (Game.WIDTH // 2 - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
+                (Game.HEIGHT - Game.INVENTORY_ITEM_SIZE[1])
+            ),
+            pos_position='top_left',
+            sprites=[_ui_assets['inventory_back'][back]]
+        )
+    )
 
 CRAFTING_MENU_BG = []
 for i in range(CRAFTING_MENUS):
@@ -171,18 +189,12 @@ SCREENS = {
             sprites=[_ui_assets['home_button']],
             clicked_func=_home_button_pressed
         ),
-        Element(
-            (Game.WIDTH // 2, Game.HEIGHT),
-            pos_position='bottom_center',
-            bg_color=Color('black').color,
-            hover_color=Color('black').color,
-            size=(Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE, Game.INVENTORY_ITEM_SIZE[1] * 1.2)
-        ),
+        *INV_BAR_BG,
         *[
             Element(
                 (
-                    (Game.WIDTH // 2 - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
-                    (Game.HEIGHT - Game.INVENTORY_ITEM_SIZE[1])
+                    3 + (Game.WIDTH // 2 - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
+                    5 + (Game.HEIGHT - Game.INVENTORY_ITEM_SIZE[1])
                 ),
                 pos_position='top_left',
                 sprites=[_ui_assets['inventory_frame_1'], None],
@@ -300,8 +312,8 @@ SCREENS = {
         ),
         Element(
             (Game.WIDTH // 2, Game.HEIGHT // 2 + 50),
-            bg_color=Color('green').color,
-            size=(150, 40),
+            text='Exit',
+            text_size=80,
             clicked_func=_exit_button_clicked
         )
     ],
