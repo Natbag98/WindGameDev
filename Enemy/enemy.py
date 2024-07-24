@@ -13,6 +13,7 @@ class Enemy:
         sprites,
         animation_factors,
         move_speed,
+        health,
         start_pos: Vector2,
         behaviour='patrol_radius',
         patrol_radius=100,
@@ -28,6 +29,7 @@ class Enemy:
         self.chunk = chunk
         self.bound_to_chunk = bound_to_chunk
         start_pos += self.chunk.pos
+        self.health = health
 
         self.sprites = sprites
         self.animation_factors = animation_factors
@@ -98,6 +100,29 @@ class Enemy:
 
         return target_pos
 
+    def get_run_pos(self):
+        return self.pos.move_towards(-self.game.player.pos, self.move_speed * self.game.delta_time) - self.pos
+
+    def get_bounding_rect(self):
+        bounding_rect = self.sprites[self.state][self.facing_y][self.facing_x][0].get_bounding_rect()
+        if type(bounding_rect) is list:
+            bounding_rect = bounding_rect[0]
+        return pygame.Rect(
+            bounding_rect.x + self.rect.topleft[0],
+            bounding_rect.y + self.rect.topleft[1],
+            bounding_rect.size[0],
+            bounding_rect.size[1]
+        )
+
+    def damage(self, damage):
+        self.health -= damage
+
+    def death(self):
+        self.chunk.enemies.remove(self)
+
+        if not self.game.timers.check_max(self.timer_name):
+            self.game.timers.set_max(self.timer_name, 0)
+
     def update(self):
         if self.rect.collidepoint(self.target_pos):
             if not self.collided_with_target_last_frame and self.stop_max:
@@ -117,6 +142,9 @@ class Enemy:
                     CollideCircle(self.rect, self.aggressive_range)
             ):
                 self.target_pos.update(self.game.player.rect.center)
+
+        if self.health <= 0:
+            self.death()
 
         self.state = 'idle'
         velocity = self.pos.move_towards(self.target_pos, self.move_speed * self.game.delta_time) - self.pos
@@ -152,3 +180,4 @@ class Enemy:
         surface.blit(self.frame, self.rect.topleft - self.game.camera.offset)
         pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
         pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)
+        pygame.draw.rect(surface, 'red', (self.get_bounding_rect().topleft - self.game.camera.offset, self.get_bounding_rect().size), 5)

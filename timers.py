@@ -12,9 +12,15 @@ class Timers:
         self.timer_max[name] = timer_max
 
     def check_max(self, name):
+        """
+        Returns true if the timer is past the max
+        """
         if self.timers[name] > self.timer_max[name]:
             return True
         return False
+
+    def set_max(self, name, max):
+        self.timer_max[name] = max
 
     def delete_timer(self, name):
         self.timers.pop(name)

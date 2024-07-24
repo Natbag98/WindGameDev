@@ -137,6 +137,12 @@ class Game:
         quit()
 
 
+class CollideRect:
+
+    def __init__(self, rect):
+        self.rect = pygame.Rect(rect)
+
+
 class CollideCircle:
 
     def __init__(self, rect, radius):

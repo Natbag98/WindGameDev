@@ -119,6 +119,12 @@ class Map:
             colors
         ), y, x
 
+    def basic_damage(self, rect, damage):
+        for row in self.chunks:
+            for chunk in row:
+                if chunk.active:
+                    chunk.basic_damage(rect, damage)
+
     def update(self):
         [
             [chunk.update() for chunk in row]

@@ -21,7 +21,7 @@ class Shrub:
         self.rect.update(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
     def active_update(self):
-        if self.rect.colliderect(self.game.player.rect) and self.game.input.keys[pygame.K_SPACE].pressed:
+        if self.rect.colliderect(self.game.player.rect) and self.game.input.keys[pygame.K_e].pressed:
             self.interact()
 
     def draw(self, surface):

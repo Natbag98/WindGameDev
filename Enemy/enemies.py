@@ -38,6 +38,7 @@ class Squirrel(Enemy):
             chunk,
             _SPRITES['squirrel'],
             {'idle': 10, 'moving': 10},
+            health=4,
             start_pos=start_pos,
             move_speed=150,
             patrol_radius=_Game.CHUNK_SIZE // 2,

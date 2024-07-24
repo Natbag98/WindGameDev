@@ -1,5 +1,5 @@
 import pygame
-from main import Game
+from main import Game, CollideRect
 from map import Map
 from pygame import Vector2
 import random
@@ -125,6 +125,14 @@ class Chunk:
                     (j * Map.CELL_SIZE, i * Map.CELL_SIZE, Map.CELL_SIZE, Map.CELL_SIZE)
                 )
         surface.blit(chunk_surface, pos)
+
+    def basic_damage(self, rect, damage):
+        for enemy in self.enemies:
+            if pygame.sprite.collide_rect(
+                CollideRect(enemy.get_bounding_rect()),
+                CollideRect(rect)
+            ):
+                enemy.damage(damage)
 
     def update(self):
         self.active = False
