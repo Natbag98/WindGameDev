@@ -1,7 +1,7 @@
 from Enemy.enemy import Enemy
 from load import load_sprite_sheet_single
 from main import Game as _Game
-from Inventory.items import MeatSmallUncooked
+from Inventory.items import SquirrelCarcass
 from floor_item import FloorItem
 
 _squirrel_path = 'assets\\enemies\\peaceful\\squirrel'
@@ -26,10 +26,31 @@ _SPRITES = {
             'down': {
                 'left': load_sprite_sheet_single(_squirrel_path, 'moving.png', 8, 1, _squirrel_size, flip_x=True),
                 'right': load_sprite_sheet_single(_squirrel_path, 'moving.png', 8, 1, _squirrel_size)
+            },
+        },
+        'hit': {
+            'up': {
+                'left': load_sprite_sheet_single(_squirrel_path, 'hit.png', 8, 1, _squirrel_size, flip_x=True),
+                'right': load_sprite_sheet_single(_squirrel_path, 'hit.png', 8, 1, _squirrel_size)
+            },
+            'down': {
+                'left': load_sprite_sheet_single(_squirrel_path, 'hit.png', 8, 1, _squirrel_size, flip_x=True),
+                'right': load_sprite_sheet_single(_squirrel_path, 'hit.png', 8, 1, _squirrel_size)
+            }
+        },
+        'death': {
+            'up': {
+                'left': load_sprite_sheet_single(_squirrel_path, 'death.png', 8, 1, _squirrel_size, flip_x=True),
+                'right': load_sprite_sheet_single(_squirrel_path, 'death.png', 8, 1, _squirrel_size)
+            },
+            'down': {
+                'left': load_sprite_sheet_single(_squirrel_path, 'death.png', 8, 1, _squirrel_size, flip_x=True),
+                'right': load_sprite_sheet_single(_squirrel_path, 'death.png', 8, 1, _squirrel_size)
             }
         }
     }
 }
+
 
 
 class Squirrel(Enemy):
@@ -39,7 +60,7 @@ class Squirrel(Enemy):
             game,
             chunk,
             _SPRITES['squirrel'],
-            {'idle': 10, 'moving': 10},
+            {'idle': 10, 'moving': 10, 'hit': 10, 'death': 10},
             health=4,
             start_pos=start_pos,
             move_speed=150,
@@ -50,6 +71,6 @@ class Squirrel(Enemy):
 
     def death(self):
         self.chunk.floor_items.append(
-            FloorItem(self.game, self.chunk, self.pos, MeatSmallUncooked(self.game))
+            FloorItem(self.game, self.chunk, self.pos, SquirrelCarcass(self.game, self))
         )
         super().death()

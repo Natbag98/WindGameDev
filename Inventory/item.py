@@ -2,7 +2,16 @@
 
 class Item:
 
-    def __init__(self, game, sprite, equipable='', placeable=False, consumable=False, floor_sprite=None):
+    def __init__(
+        self,
+        game,
+        sprite,
+        equipable='',
+        placeable=False,
+        consumable=False,
+        floor_sprite=None,
+        inventory_sprite=None
+    ):
         self.game = game
 
         self.sprite = sprite
@@ -12,3 +21,4 @@ class Item:
         self.floor_sprite = floor_sprite
         if not floor_sprite:
             self.floor_sprite = sprite
+        self.inventory_sprite = inventory_sprite

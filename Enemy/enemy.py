@@ -62,6 +62,8 @@ class Enemy:
         self.target_pos = start_pos
         self.denied_biomes = denied_biomes
         self.valid_targets = self.get_valid_target_positions()
+        self.hit = False
+        self.dead = False
 
     def get_valid_target_positions(self):
         valid_targets = []
@@ -115,13 +117,19 @@ class Enemy:
         )
 
     def damage(self, damage):
+        self.hit = True
         self.health -= damage
+        self.animation_index = 0
+
+        if self.behaviour == 'patrol_radius' and not self.aggressive:
+            self.target_pos = self.get_target_pos()
+
+    def death_internal(self):
+        self.dead = True
+        self.animation_index = 0
 
     def death(self):
         self.chunk.enemies.remove(self)
-
-        if not self.game.timers.check_max(self.timer_name):
-            self.game.timers.set_max(self.timer_name, 0)
 
     def update(self):
         if self.rect.collidepoint(self.target_pos):
@@ -143,12 +151,15 @@ class Enemy:
             ):
                 self.target_pos.update(self.game.player.rect.center)
 
-        if self.health <= 0:
-            self.death()
+        if self.health <= 0 and not self.dead:
+            self.death_internal()
             return
 
         self.state = 'idle'
         velocity = self.pos.move_towards(self.target_pos, self.move_speed * self.game.delta_time) - self.pos
+
+        if self.dead or self.hit:
+            velocity = Vector2(0, 0)
 
         if velocity.x < 0:
             self.facing_x = 'left'
@@ -164,9 +175,25 @@ class Enemy:
 
         self.pos += velocity
 
+        if self.hit:
+            self.state = 'hit'
+        if self.dead:
+            self.state = 'death'
+
         animation = self.sprites[self.state][self.facing_y][self.facing_x]
         if self.animation_index // self.animation_factors[self.state] >= len(animation):
             self.animation_index = 0
+
+            if self.state == 'death':
+                self.death()
+                return
+
+            self.hit = False
+            if velocity:
+                self.state = 'moving'
+            else:
+                self.state = 'idle'
+            animation = self.sprites[self.state][self.facing_y][self.facing_x]
 
         if self.animation_index == 0:
             self.frame = animation[0]

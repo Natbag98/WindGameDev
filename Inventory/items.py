@@ -1,6 +1,6 @@
 from main import Game
 from Inventory.item import Item
-from load import load_sprites_from_dir
+from load import load_sprites_from_dir, load_sprite_sheet_single
 
 _inventory_items_path = 'assets\\inventory_items'
 _inventory_items = {
@@ -8,7 +8,7 @@ _inventory_items = {
     'OrangeBerries': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='red_berries')[0],
     'OrangePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='orange_potion')[0],
     'BluePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='blue_potion')[0],
-    'MeatSmallUncooked': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='meat_small_uncooked')[0]
+    'SquirrelCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='squirrel_carcass')[0]
 }
 
 
@@ -24,10 +24,12 @@ class BlueBerries(Item):
         super().__init__(game, _inventory_items['BlueBerries'])
 
 
-class MeatSmallUncooked(Item):
+class SquirrelCarcass(Item):
 
-    def __init__(self, game):
-        super().__init__(game, _inventory_items['MeatSmallUncooked'])
+    def __init__(self, game, squirrel):
+        from Enemy.enemies import _SPRITES
+        anim = _SPRITES['squirrel'][squirrel.state][squirrel.facing_y][squirrel.facing_x]
+        super().__init__(game, anim[len(anim) - 1], inventory_sprite=_inventory_items['SquirrelCarcass'])
 
 
 class OrangePotion(Item):

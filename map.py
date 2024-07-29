@@ -55,11 +55,12 @@ class Map:
         'swamp': [],
         'mountain': [],
         'plains': [Squirrel],
-        'forest': []
+        'forest': [Squirrel]
     }
 
     ENEMY_PEACEFUL_COUNT_PER_CELL = {
-        'plains': 0.0001
+        'plains': 0.00005,
+        'forest': 0.0001
     }
 
     ISLAND_EDGE = 350

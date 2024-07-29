@@ -34,9 +34,7 @@ class Inventory:
     # noinspection PyUnresolvedReferences
     def has_item(self, check_item_name, quantity=1):
         count = 0
-        print(check_item_name.__class__.__name__)
         for item in self.items:
-            print(item.__class__.__name__)
             if item.__class__.__name__ == check_item_name:
                 count += 1
         return count >= quantity

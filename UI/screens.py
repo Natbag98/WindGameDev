@@ -40,6 +40,8 @@ def _inventory_item_update(game: Game, element: Element, index):
     item = game.player.inventory.items[index]
     if item:
         element.sprites[1] = item.sprite
+        if item.inventory_sprite:
+            element.sprites[1] = item.inventory_sprite
     else:
         element.sprites[1] = None
 
