@@ -3,11 +3,18 @@ import pygame
 
 class Shrub:
 
-    def __init__(self, game, chunk, pos, sprites):
+    def __init__(self, game, parent, pos, sprites):
         self.game = game
-        self.chunk = chunk
 
-        self.pos = pos + self.chunk.pos
+        from map_chunk import Chunk
+        if type(parent) is Chunk:
+            self.pos = pos + parent.pos
+            self.parent_type = 'chunk'
+        else:
+            self.pos = pos
+            self.parent_type = 'deep_level'
+
+        self.parent = parent
         self.sprites = sprites
         self.active_sprite = 0
         self.frame = self.sprites[self.active_sprite]

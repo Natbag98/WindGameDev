@@ -38,13 +38,19 @@ def load_sprite_sheet_single(
     ]
 
 
-def load_sprites_from_dir(path, size=1, flip_x=False, flip_y=False, prefix=''):
+def load_sprites_from_dir(path, size=1, flip_x=False, flip_y=False, prefix='', return_dict=False):
     sprites = []
+    files = []
     for file in os.listdir(path):
         if file.startswith(prefix):
             sprite = pygame.image.load(f'{path}\\{file}').convert_alpha()
             if type(size) in [float, int]:
                 size = (sprite.get_size()[0] * size, sprite.get_size()[1] * size)
             sprites.append(pygame.transform.scale(sprite, size))
+            files.append(file)
 
+    if return_dict:
+        return {
+            files[i].split('.')[0]: pygame.transform.flip(sprite, flip_x, flip_y) for i, sprite in enumerate(sprites)
+        }
     return [pygame.transform.flip(sprite, flip_x, flip_y) for sprite in sprites]

@@ -3,12 +3,14 @@ from main import Game
 from color import Color
 import random
 import time
+from deep_level import Level
 from Enemy.enemies import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from shrubs import (
     TreeSimple,
     BushSimple,
-    BushFlowers
+    BushFlowers,
+    DeepEntrance
 )
 
 
@@ -108,7 +110,26 @@ class Map:
                 self.game.chunk_progress += 1
 
         self.chunks = chunks
-        self.game.screen = 'game'
+        self.place_deep_entrances()
+        self.game.map_generation_finished()
+
+    def place_deep_entrances(self):
+        for i in range(Game.DEEP_ENTRANCES):
+            while True:
+                chunk = random.choice(
+                    random.choice(self.chunks)
+                )
+
+                if len(chunk.biome_cells['mountain']) > Game.DEEP_REQUIREMENT:
+                    chunk.shrubs.append(
+                        DeepEntrance(
+                            self.game,
+                            chunk,
+                            random.choice(chunk.biome_cells['mountain']),
+                            Level(self.game, 0, 'basic')
+                        )
+                    )
+                    break
 
     def create_chunk(self, x, y, base, colors):
         from map_chunk import Chunk

@@ -14,8 +14,8 @@ class Game:
 
     LAYER_COUNT = 3
     FPS = 30
-    CHUNK_SIZE = 600
-    CHUNK_COUNT = 3
+    CHUNK_SIZE = 1000
+    CHUNK_COUNT = 4
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
@@ -24,6 +24,9 @@ class Game:
     INVENTORY_ITEM_SIZE = (64, 64)
 
     CRAFTING_ITEM_SIZE = (64, 64)
+
+    DEEP_ENTRANCES = 2
+    DEEP_REQUIREMENT = 1
 
     @profilehooks.profile
     def __init__(self):
@@ -87,6 +90,9 @@ class Game:
         self.screen = 'loading'
         self.chunk_progress = 0
         threading.Thread(target=self.map.generate).start()
+
+    def map_generation_finished(self):
+        self.screen = 'game'
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)
