@@ -8,7 +8,8 @@ _inventory_items = {
     'OrangeBerries': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='red_berries')[0],
     'OrangePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='orange_potion')[0],
     'BluePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='blue_potion')[0],
-    'SquirrelCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='squirrel_carcass')[0]
+    'SquirrelCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='squirrel_carcass')[0],
+    'HedgehogCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='hedgehog_carcass')[0]
 }
 
 
@@ -30,6 +31,14 @@ class SquirrelCarcass(Item):
         from Enemy.enemies import _SPRITES
         anim = _SPRITES['squirrel'][squirrel.state][squirrel.facing_y][squirrel.facing_x]
         super().__init__(game, anim[len(anim) - 1], inventory_sprite=_inventory_items['SquirrelCarcass'])
+
+
+class HedgehogCarcass(Item):
+
+    def __init__(self, game, hedgehog):
+        from Enemy.enemies import _SPRITES
+        anim = _SPRITES['hedgehog'][hedgehog.state][hedgehog.facing_y][hedgehog.facing_x]
+        super().__init__(game, anim[len(anim) - 1], inventory_sprite=_inventory_items['HedgehogCarcass'])
 
 
 class OrangePotion(Item):

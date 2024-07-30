@@ -31,13 +31,26 @@ class Player:
                 'down': load_sprite_sheet_single(path, '_down attack.png', 2, 2, size, read_axis='y'),
                 'left': load_sprite_sheet_single(path, '_side attack.png', 2, 2, size, read_axis='y'),
                 'right': load_sprite_sheet_single(path, '_side attack.png', 2, 2, size, flip_x=True, read_axis='y')
-            }
+            },
+            'hit': {
+                'up': load_sprite_sheet_single(path, 'hit_up.png', 4, 2, size * 3, read_axis='y'),
+                'down': load_sprite_sheet_single(path, 'hit_down.png', 4, 2, size * 3, read_axis='y'),
+                'left': load_sprite_sheet_single(path, 'hit_side.png', 4, 2, size * 3, read_axis='y'),
+                'right': load_sprite_sheet_single(path, 'hit_side.png', 4, 2, size * 3, flip_x=True, read_axis='y')
+            },
+            'death': {
+                'up': load_sprite_sheet_single(path, 'hit_up.png', 4, 2, size * 3, read_axis='y'),
+                'down': load_sprite_sheet_single(path, 'hit_down.png', 4, 2, size * 3, read_axis='y'),
+                'left': load_sprite_sheet_single(path, 'hit_side.png', 4, 2, size * 3, read_axis='y'),
+                'right': load_sprite_sheet_single(path, 'hit_side.png', 4, 2, size * 3, flip_x=True, read_axis='y')
+            },
         }
 
         self.animation_factors = {
             'idle': 15,
             'moving': 15,
-            'attacking': 15
+            'attacking': 15,
+            'hit': 5
         }
 
         self.inventory = Inventory(self.game, self)
@@ -47,10 +60,13 @@ class Player:
         self.animation_index = 0
         self.facing = 'down'
         self.frame = self.sprites[self.state][self.facing][0]
+        self.health = 10
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
         self.attacking = False
+        self.hit = False
+        self.death = False
 
     def get_bounding_rect(self, animation=None):
         bounding_rect = self.sprites[self.state][self.facing][0].get_bounding_rect()
@@ -69,6 +85,11 @@ class Player:
     def basic_attack(self):
         self.game.map.basic_damage(self.get_bounding_rect(self.sprites['attacking'][self.facing]), self.BASE_DAMAGE)
 
+    def damage(self, damage):
+        self.health -= damage
+        self.hit = True
+        self.animation_index = 0
+
     def update(self):
         velocity = Vector2(0, 0)
 
@@ -85,6 +106,9 @@ class Player:
             self.facing = 'down'
             velocity.xy += (0, 1)
 
+        if self.hit or self.attacking:
+            velocity = Vector2(0, 0)
+
         if velocity:
             self.state = 'moving'
             self.pos.xy += velocity.normalize() * self.MOVE_SPEED * self.game.delta_time
@@ -98,12 +122,17 @@ class Player:
 
         if self.attacking:
             self.state = 'attacking'
+        if self.hit:
+            self.state = 'hit'
 
+        if self.state == 'hit':
+            print('hit')
         animation = self.sprites[self.state][self.facing]
         if self.animation_index // self.animation_factors[self.state] >= len(animation):
             self.animation_index = 0
 
             self.attacking = False
+            self.hit = False
             if velocity:
                 self.state = 'moving'
             else:

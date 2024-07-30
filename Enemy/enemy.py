@@ -23,7 +23,9 @@ class Enemy:
         aggressive_range=50,
         attacks=None,
         denied_biomes=(),
-        bound_to_chunk=True
+        bound_to_chunk=True,
+        damage_amount=0,
+        attack_cooldown=0,
     ):
         self.game = game
         self.chunk = chunk
@@ -40,9 +42,13 @@ class Enemy:
         self.patrol_center = start_pos.xy
         self.path = path
         self.active_point = -1
+        self.damage_amount = damage_amount
+        self.attack_cooldown = attack_cooldown
 
         self.timer_name = str(self)
+        self.attack_timer_name = f'{str(self)}_attack_timer'
         self.game.timers.add_timer(self.timer_name)
+        self.game.timers.add_timer(self.attack_timer_name)
         self.collided_with_target_last_frame = False
 
         self.aggressive = aggressive
@@ -64,6 +70,7 @@ class Enemy:
         self.valid_targets = self.get_valid_target_positions()
         self.hit = False
         self.dead = False
+        self.attacking = False
 
     def get_valid_target_positions(self):
         valid_targets = []
@@ -131,6 +138,13 @@ class Enemy:
     def death(self):
         self.chunk.enemies.remove(self)
 
+    def attack(self):
+        self.target_pos = self.get_target_pos()
+        self.game.timers.add_timer(self.attack_timer_name, self.attack_cooldown)
+        self.attacking = True
+        self.animation_index = 0
+        self.game.player.damage(self.damage_amount)
+
     def update(self):
         if self.rect.collidepoint(self.target_pos):
             if not self.collided_with_target_last_frame and self.stop_max:
@@ -144,7 +158,7 @@ class Enemy:
         else:
             self.collided_with_target_last_frame = False
 
-        if self.aggressive:
+        if self.aggressive and self.game.timers.check_max(self.attack_timer_name):
             if pygame.sprite.collide_circle(
                     CollideCircle(self.game.player.rect, 2),
                     CollideCircle(self.rect, self.aggressive_range)
@@ -158,7 +172,7 @@ class Enemy:
         self.state = 'idle'
         velocity = self.pos.move_towards(self.target_pos, self.move_speed * self.game.delta_time) - self.pos
 
-        if self.dead or self.hit:
+        if self.dead or self.hit or self.attacking:
             velocity = Vector2(0, 0)
 
         if velocity.x < 0:
@@ -175,10 +189,17 @@ class Enemy:
 
         self.pos += velocity
 
+        if self.get_bounding_rect().colliderect(
+                self.game.player.get_bounding_rect()
+        ) and self.target_pos == self.game.player.rect.center and not self.attacking:
+            self.attack()
+
         if self.hit:
             self.state = 'hit'
         if self.dead:
             self.state = 'death'
+        if self.attacking:
+            self.state = 'attacking'
 
         animation = self.sprites[self.state][self.facing_y][self.facing_x]
         if self.animation_index // self.animation_factors[self.state] >= len(animation):
@@ -189,6 +210,7 @@ class Enemy:
                 return
 
             self.hit = False
+            self.attacking = False
             if velocity:
                 self.state = 'moving'
             else:

@@ -54,8 +54,8 @@ class Map:
         'sand': [],
         'swamp': [],
         'mountain': [],
-        'plains': [Squirrel],
-        'forest': [Squirrel]
+        'plains': [Squirrel, Hedgehog],
+        'forest': [Squirrel, Hedgehog]
     }
 
     ENEMY_PEACEFUL_COUNT_PER_CELL = {
