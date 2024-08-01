@@ -2,6 +2,7 @@ from shrub import Shrub
 from load import load_sprites_from_dir
 import random
 from Inventory.items import OrangeBerries, BlueBerries
+from pygame import Vector2
 
 _shrub_path = 'assets\\environment\\shrubs'
 _shrub_assets = {
@@ -27,12 +28,14 @@ class DeepEntrance(Shrub):
 
     def interact(self):
         self.game.active_map = self.target_level
+        self.game.player.pos = Vector2(self.target_level.shrubs[0].pos)
 
 
 class DeepExit(Shrub):
 
-    def __init__(self, game, parent, pos, target_level):
+    def __init__(self, game, parent, pos, target_level, entrance_pos):
         self.target_level = target_level
+        self.entrance_pos = entrance_pos
         super().__init__(
             game,
             parent,
@@ -42,6 +45,7 @@ class DeepExit(Shrub):
 
     def interact(self):
         self.game.active_map = self.target_level
+        self.game.player.pos = Vector2(self.entrance_pos)
 
 
 class BushSimple(Shrub):

@@ -122,12 +122,13 @@ class Map:
                 )
 
                 if len(chunk.biome_cells['mountain']) > Game.DEEP_REQUIREMENT:
+                    pos = random.choice(chunk.biome_cells['mountain'])
                     chunk.shrubs.append(
                         DeepEntrance(
                             self.game,
                             chunk,
-                            random.choice(chunk.biome_cells['mountain']),
-                            Level(self.game, 0, 'basic', self)
+                            pos,
+                            Level(self.game, 0, 'basic', self, pos)
                         )
                     )
                     break
