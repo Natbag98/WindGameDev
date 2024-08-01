@@ -80,6 +80,7 @@ class Map:
     def __init__(self, game):
         self.game = game
         self.chunks = None
+        self.type = 'basic'
 
     # noinspection PyUnresolvedReferences
     def generate(self):
@@ -126,7 +127,7 @@ class Map:
                             self.game,
                             chunk,
                             random.choice(chunk.biome_cells['mountain']),
-                            Level(self.game, 0, 'basic')
+                            Level(self.game, 0, 'basic', self)
                         )
                     )
                     break

@@ -26,7 +26,22 @@ class DeepEntrance(Shrub):
         )
 
     def interact(self):
-        print(self.target_level)
+        self.game.active_map = self.target_level
+
+
+class DeepExit(Shrub):
+
+    def __init__(self, game, parent, pos, target_level):
+        self.target_level = target_level
+        super().__init__(
+            game,
+            parent,
+            pos,
+            [_shrub_assets['deep_exits'][target_level.type]]
+        )
+
+    def interact(self):
+        self.game.active_map = self.target_level
 
 
 class BushSimple(Shrub):

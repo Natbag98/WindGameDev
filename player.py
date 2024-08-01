@@ -83,7 +83,7 @@ class Player:
         )
 
     def basic_attack(self):
-        self.game.map.basic_damage(self.get_bounding_rect(self.sprites['attacking'][self.facing]), self.BASE_DAMAGE)
+        self.game.active_map.basic_damage(self.get_bounding_rect(self.sprites['attacking'][self.facing]), self.BASE_DAMAGE)
 
     def damage(self, damage):
         self.health -= damage
@@ -125,8 +125,6 @@ class Player:
         if self.hit:
             self.state = 'hit'
 
-        if self.state == 'hit':
-            print('hit')
         animation = self.sprites[self.state][self.facing]
         if self.animation_index // self.animation_factors[self.state] >= len(animation):
             self.animation_index = 0
@@ -150,6 +148,6 @@ class Player:
 
     def draw(self, surface):
         surface.blit(self.frame, self.rect.topleft - self.game.camera.offset)
-        #pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
-        #pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)
-        #pygame.draw.rect(surface, 'red', (self.get_bounding_rect().topleft - self.game.camera.offset, self.get_bounding_rect().size), 5)
+        pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
+        pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)
+        pygame.draw.rect(surface, 'red', (self.get_bounding_rect().topleft - self.game.camera.offset, self.get_bounding_rect().size), 5)

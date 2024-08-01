@@ -14,8 +14,8 @@ class Game:
 
     LAYER_COUNT = 3
     FPS = 30
-    CHUNK_SIZE = 1000
-    CHUNK_COUNT = 4
+    CHUNK_SIZE = 700
+    CHUNK_COUNT = 3
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
@@ -62,6 +62,8 @@ class Game:
         self.ui = UI(self)
         self.player = Player(self)
         self.map = Map(self)
+
+        self.active_map = self.map
 
     @staticmethod
     def get_centered_position(pos, size):
@@ -112,7 +114,7 @@ class Game:
     def game_update(self):
         self.timers.update()
         self.player.update()
-        self.map.update()
+        self.active_map.update()
 
     def draw(self):
         [layer.fill(self.FILL_COLOR) for layer in self.layers]
@@ -125,7 +127,7 @@ class Game:
 
     def game_draw(self):
         self.player.draw(self.layers[1])
-        self.map.draw(self.layers[0], self.layers[1])
+        self.active_map.draw(self.layers[0], self.layers[1])
 
     @profilehooks.profile
     def run(self):
