@@ -119,7 +119,7 @@ class Game:
     def draw(self):
         [layer.fill(self.FILL_COLOR) for layer in self.layers]
 
-        if self.screen == 'game':
+        if self.screen in ['paused', 'game']:
             self.game_draw()
 
         self.ui.draw(self.layers[2])

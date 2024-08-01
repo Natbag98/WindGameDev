@@ -21,6 +21,18 @@ _ui_assets = {
 
 def _home_button_pressed(game: Game, element: Element):
     game.paused = not game.paused
+    if game.paused:
+        game.screen = 'paused'
+    if not game.paused:
+        game.screen = 'game'
+
+
+def _save_button_pressed(game: Game, element: Element):
+    pass
+
+
+def _main_menu_button_pressed(game: Game, element: Element):
+    pass
 
 
 def _exit_button_clicked(game: Game, element: Element):
@@ -297,6 +309,42 @@ SCREENS = {
             text='Description',
             text_color=Color('black').color,
             text_size=35,
+        )
+    ],
+    'paused': [
+        Element(
+            (0, 0),
+            pos_position='top_left',
+            size=Game.RES,
+            bg_color=Color('black', a=180).color,
+            hover_color=Color('black', a=180).color
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 - 50
+            ),
+            text='Resume',
+            text_size=50,
+            clicked_func=_home_button_pressed
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2
+            ),
+            text='Save',
+            text_size=50,
+            clicked_func=_save_button_pressed
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 + 50
+            ),
+            text='Exit',
+            text_size=50,
+            clicked_func=_main_menu_button_pressed
         )
     ],
     'main_menu': [
