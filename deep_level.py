@@ -20,28 +20,33 @@ class Level:
         }
     }
 
-    def __init__(self, game, depth, type, parent, entrance_pos):
+    def __init__(self, game, depth, type, parent, entrance_pos, new=True):
         self.game = game
+        self.id = str(random.randbytes(20))
         self.depth = depth
         self.type = type
         self.parent = parent
         self.entrance_pos = entrance_pos
-
+        self.entrance_positions = []
+        self.surface = pygame.Surface((self.LEVEL_SIZE, self.LEVEL_SIZE))
+        self.game.deep_levels[self.id] = self
         self.shrubs = []
 
-        self.game.total_chunks += 1
-        self.terrain, self.floor_cells = self.generate()
+        self.terrain = None
+        self.floor_cells = None
 
-        self.entrance_positions = []
-        if not self.depth == self.MAX_DEPTH:
-            for i in range(0, random.randrange(0, self.MAX_EXITS + 1)):
-                self.entrance_positions.append(random.choice(self.floor_cells))
+        if new:
+            self.game.total_chunks += 1
+            self.terrain, self.floor_cells = self.generate()
 
-        self.place_exit()
-        self.place_entrance()
-        self.surface = pygame.Surface((self.LEVEL_SIZE, self.LEVEL_SIZE))
-        self.terrain_onto_surface(self.surface)
-        self.game.chunk_progress += 1
+            if not self.depth == self.MAX_DEPTH:
+                for i in range(0, random.randrange(0, self.MAX_EXITS + 1)):
+                    self.entrance_positions.append(random.choice(self.floor_cells))
+
+            self.place_exit()
+            self.place_entrance()
+            self.terrain_onto_surface(self.surface)
+            self.game.chunk_progress += 1
 
     def place_entrance(self):
         for pos in self.entrance_positions:

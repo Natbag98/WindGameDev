@@ -17,13 +17,13 @@ _shrub_assets = {
 
 class DeepEntrance(Shrub):
 
-    def __init__(self, game, parent, pos, target_level):
-        self.target_level = target_level
+    def __init__(self, game, parent, pos, *args):
+        self.target_level = args[0]
         super().__init__(
             game,
             parent,
             pos,
-            [_shrub_assets['deep_entrances'][target_level.type]]
+            [_shrub_assets['deep_entrances'][self.target_level.type]]
         )
 
     def interact(self):
@@ -33,14 +33,14 @@ class DeepEntrance(Shrub):
 
 class DeepExit(Shrub):
 
-    def __init__(self, game, parent, pos, target_level, entrance_pos):
-        self.target_level = target_level
-        self.entrance_pos = entrance_pos
+    def __init__(self, game, parent, pos, *args):
+        self.target_level = args[0]
+        self.entrance_pos = args[1]
         super().__init__(
             game,
             parent,
             pos,
-            [_shrub_assets['deep_exits'][target_level.type]]
+            [_shrub_assets['deep_exits'][self.target_level.type]]
         )
 
     def interact(self):
@@ -91,3 +91,12 @@ class TreeSimple(Shrub):
             pos,
             [random.choice(_shrub_assets['tree_simple'])]
         )
+
+
+_SHRUBS = {
+    'TreeSimple': TreeSimple,
+    'DeepEntrance': DeepEntrance,
+    'DeepExit': DeepExit,
+    'BushSimple': BushSimple,
+    'BushFlowers': BushFlowers
+}

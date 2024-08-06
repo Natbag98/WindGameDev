@@ -40,15 +40,20 @@ class Game:
         self.total_chunks = self.CHUNK_COUNT * self.CHUNK_COUNT
         self.chunk_progress = 0
 
+        self.deep_levels = {}
+
         from window import Window
+        self.window = Window(self)
+
         from input import Input
         from camera import Camera
         from timers import Timers
+        from save import Save
 
-        self.window = Window(self)
         self.input = Input(self)
         self.camera = Camera(self)
         self.timers = Timers(self)
+        self.save = Save(self)
 
         from crafting import CRAFTING_MENU
         for menu in CRAFTING_MENU.values():

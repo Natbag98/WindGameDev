@@ -1,3 +1,4 @@
+import random
 import pygame
 
 
@@ -5,6 +6,7 @@ class Shrub:
 
     def __init__(self, game, parent, pos, sprites):
         self.game = game
+        self.id = str(random.randbytes(20))
 
         from map_chunk import Chunk
         if type(parent) is Chunk:

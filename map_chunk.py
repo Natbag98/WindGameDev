@@ -10,23 +10,27 @@ from Enemy.enemies import *
 class Chunk:
     CHUNK_DIMENSIONS = (Game.CHUNK_SIZE, Game.CHUNK_SIZE)
 
-    def __init__(self, game, map_, pos, base, colors):
+    def __init__(self, game, map_, pos, base, colors, new=True):
         self.game = game
+        self.id = str(random.randbytes(20))
         self.map = map_
         self.pos = Vector2(pos)
         self.rect = pygame.Rect(self.pos, self.CHUNK_DIMENSIONS)
         self.base = base
 
         self.active = False
-
-        self.terrain, self.biome_cells = self.generate()
         self.terrain_surface = pygame.Surface(self.CHUNK_DIMENSIONS)
 
-        self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
+        if new:
+            self.terrain, self.biome_cells = self.generate()
+            self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
 
-        self.shrubs = self.generate_shrubs()
-        self.enemies = self.generate_enemies()
-        self.floor_items = []
+            self.shrubs = self.generate_shrubs()
+            self.enemies = self.generate_enemies()
+            self.floor_items = []
+
+    def load_terrain_onto_surface(self, colors):
+        self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
 
     def generate_enemies(self):
         enemies = []

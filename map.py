@@ -77,8 +77,9 @@ class Map:
         'forest': 0.00015
     }
 
-    def __init__(self, game):
+    def __init__(self, game, id=str(random.randbytes(20))):
         self.game = game
+        self.id = id
         self.chunks = None
         self.type = 'basic'
 
@@ -92,7 +93,7 @@ class Map:
 
         base = [random.randrange(min(Chunk.CHUNK_DIMENSIONS)) for _ in range(len(Map.BIOME_HEIGHTS))]
 
-        colors = {
+        self.game.colors = {
             biome: Color(biome, random_=True).color
             for height in Map.BIOME_HEIGHTS
             for biome in height.values()
@@ -103,7 +104,7 @@ class Map:
             chunk_results = []
             for i, y in enumerate(range(Game.CHUNK_COUNT)):
                 for j, x in enumerate(range(Game.CHUNK_COUNT)):
-                    chunk_results.append(executor.submit(self.create_chunk, y, x, base, colors))
+                    chunk_results.append(executor.submit(self.create_chunk, y, x, base, self.game.colors))
 
             for result in chunk_results:
                 chunk, y, x = result.result()

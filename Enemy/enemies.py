@@ -108,7 +108,6 @@ _SPRITES = {
 }
 
 
-
 class Squirrel(Enemy):
 
     def __init__(self, game, chunk, start_pos, *args, **kwargs):
@@ -156,3 +155,9 @@ class Hedgehog(Enemy):
             FloorItem(self.game, self.chunk, self.pos, HedgehogCarcass(self.game, self))
         )
         super().death()
+
+
+_ENEMIES = {
+    'Squirrel': Squirrel,
+    'Hedgehog': Hedgehog
+}

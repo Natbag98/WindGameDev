@@ -30,7 +30,8 @@ class Enemy:
         self.game = game
         self.chunk = chunk
         self.bound_to_chunk = bound_to_chunk
-        start_pos += self.chunk.pos
+        self.start_pos_base = start_pos
+        self.start_pos = start_pos + self.chunk.pos
         self.health = health
 
         self.sprites = sprites
@@ -39,7 +40,7 @@ class Enemy:
         self.behaviour = behaviour
         self.patrol_radius = patrol_radius
         self.stop_max = stop_max
-        self.patrol_center = start_pos.xy
+        self.patrol_center = self.start_pos.xy
         self.path = path
         self.active_point = -1
         self.damage_amount = damage_amount
@@ -56,7 +57,7 @@ class Enemy:
         self.attacks = attacks
 
         self.move_speed = move_speed
-        self.pos = start_pos
+        self.pos = self.start_pos
         self.state = 'idle'
         self.animation_index = 0
         self.facing_x = 'left'
@@ -65,7 +66,7 @@ class Enemy:
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
-        self.target_pos = start_pos
+        self.target_pos = self.start_pos
         self.denied_biomes = denied_biomes
         self.valid_targets = self.get_valid_target_positions()
         self.hit = False

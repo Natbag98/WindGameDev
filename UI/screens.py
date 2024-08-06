@@ -19,6 +19,12 @@ _ui_assets = {
 }
 
 
+def _load_button_clicked(game: Game, element: Element):
+    print(game.map.chunks)
+    game.save.load()
+    game.screen = 'game'
+    print(game.map.chunks)
+
 def _home_button_pressed(game: Game, element: Element):
     game.paused = not game.paused
     if game.paused:
@@ -28,7 +34,7 @@ def _home_button_pressed(game: Game, element: Element):
 
 
 def _save_button_pressed(game: Game, element: Element):
-    pass
+    game.save.save()
 
 
 def _main_menu_button_pressed(game: Game, element: Element):
@@ -356,6 +362,12 @@ SCREENS = {
         ),
         Element(
             (Game.WIDTH // 2, Game.HEIGHT // 2 - 50),
+            text='Load Game',
+            text_size=80,
+            clicked_func=_load_button_clicked
+        ),
+        Element(
+            (Game.WIDTH // 2, Game.HEIGHT // 2 - 100),
             text='Start New',
             text_size=80,
             clicked_func=_start_button_clicked
