@@ -27,17 +27,23 @@ class BlueBerries(Item):
 
 class SquirrelCarcass(Item):
 
-    def __init__(self, game, squirrel):
+    def __init__(self, game, squirrel, new=True):
         from Enemy.enemies import _SPRITES
-        anim = _SPRITES['squirrel'][squirrel.state][squirrel.facing_y][squirrel.facing_x]
+        if new:
+            anim = _SPRITES['squirrel'][squirrel.state][squirrel.facing_y][squirrel.facing_x]
+        else:
+            anim = [_inventory_items['SquirrelCarcass']]
         super().__init__(game, anim[len(anim) - 1], inventory_sprite=_inventory_items['SquirrelCarcass'])
 
 
 class HedgehogCarcass(Item):
 
-    def __init__(self, game, hedgehog):
+    def __init__(self, game, hedgehog, new=False):
         from Enemy.enemies import _SPRITES
-        anim = _SPRITES['hedgehog'][hedgehog.state][hedgehog.facing_y][hedgehog.facing_x]
+        if new:
+            anim = _SPRITES['hedgehog'][hedgehog.state][hedgehog.facing_y][hedgehog.facing_x]
+        else:
+            anim = [_inventory_items['HedgehogCarcass']]
         super().__init__(game, anim[len(anim) - 1], inventory_sprite=_inventory_items['HedgehogCarcass'])
 
 
@@ -51,3 +57,13 @@ class BluePotion(Item):
 
     def __init__(self, game):
         super().__init__(game, _inventory_items['BluePotion'])
+
+
+_INVENTORY_ITEMS = {
+    'OrangeBerries': OrangeBerries,
+    'BlueBerries': BlueBerries,
+    'OrangePotion': OrangePotion,
+    'BluePotion': BluePotion,
+    'SquirrelCarcass': SquirrelCarcass,
+    'HedgehogCarcass': HedgehogCarcass
+}

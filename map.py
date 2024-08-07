@@ -129,6 +129,8 @@ class Map:
                             self.game,
                             chunk,
                             pos,
+                            True,
+                            str(random.randbytes(20)),
                             Level(self.game, 0, 'basic', self, pos)
                         )
                     )

@@ -4,9 +4,9 @@ import pygame
 
 class Shrub:
 
-    def __init__(self, game, parent, pos, sprites):
+    def __init__(self, game, parent, pos, sprites, id, new=False):
         self.game = game
-        self.id = str(random.randbytes(20))
+        self.id = id
 
         from map_chunk import Chunk
         if type(parent) is Chunk:
@@ -15,6 +15,9 @@ class Shrub:
         else:
             self.pos = pos
             self.parent_type = 'deep_level'
+
+        if not new:
+            self.pos = pos
 
         self.parent = parent
         self.sprites = sprites

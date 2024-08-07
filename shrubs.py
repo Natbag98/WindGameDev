@@ -17,13 +17,15 @@ _shrub_assets = {
 
 class DeepEntrance(Shrub):
 
-    def __init__(self, game, parent, pos, *args):
+    def __init__(self, game, parent, pos, new, id, *args):
         self.target_level = args[0]
         super().__init__(
             game,
             parent,
             pos,
-            [_shrub_assets['deep_entrances'][self.target_level.type]]
+            [_shrub_assets['deep_entrances'][self.target_level.type]],
+            id,
+            new
         )
 
     def interact(self):
@@ -33,14 +35,16 @@ class DeepEntrance(Shrub):
 
 class DeepExit(Shrub):
 
-    def __init__(self, game, parent, pos, *args):
+    def __init__(self, game, parent, pos, new, id, *args):
         self.target_level = args[0]
         self.entrance_pos = args[1]
         super().__init__(
             game,
             parent,
             pos,
-            [_shrub_assets['deep_exits'][self.target_level.type]]
+            [_shrub_assets['deep_exits'][self.target_level.type]],
+            id,
+            new
         )
 
     def interact(self):
@@ -50,12 +54,14 @@ class DeepExit(Shrub):
 
 class BushSimple(Shrub):
 
-    def __init__(self, game, chunk, pos):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
         super().__init__(
             game,
             chunk,
             pos,
-            [random.choice(_shrub_assets['bush_simple'])]
+            [random.choice(_shrub_assets['bush_simple'])],
+            id,
+            new
         )
 
 
@@ -65,7 +71,7 @@ class BushFlowers(Shrub):
         'blue': BlueBerries
     }
 
-    def __init__(self, game, chunk, pos):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
         self.color = random.choice(list(self.FLOWER_COLORS.keys()))
         self.collected = False
 
@@ -73,7 +79,9 @@ class BushFlowers(Shrub):
             game,
             chunk,
             pos,
-            [random.choice(_shrub_assets[f'bush_{self.color}_flowers'])]
+            [random.choice(_shrub_assets[f'bush_{self.color}_flowers'])],
+            id,
+            new
         )
 
     def interact(self):
@@ -84,12 +92,14 @@ class BushFlowers(Shrub):
 
 class TreeSimple(Shrub):
 
-    def __init__(self, game, chunk, pos):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
         super().__init__(
             game,
             chunk,
             pos,
-            [random.choice(_shrub_assets['tree_simple'])]
+            [random.choice(_shrub_assets['tree_simple'])],
+            id,
+            new
         )
 
 

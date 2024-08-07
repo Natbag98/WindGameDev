@@ -7,6 +7,9 @@ from shrubs import BushFlowers, DeepExit, DeepEntrance
 from Enemy.enemy import Enemy
 from deep_level import Level
 from player import Player
+from floor_item import FloorItem
+from Inventory.inventory import Inventory
+from Inventory.item import Item
 
 
 class WindEncoder(json.JSONEncoder):
@@ -31,6 +34,13 @@ class WindEncoder(json.JSONEncoder):
                 'shrubs': obj.shrubs,
                 'enemies': obj.enemies,
                 'floor_items': obj.floor_items
+            }
+
+        if isinstance(obj, FloorItem):
+            return {
+                'chunk_id': obj.chunk.id,
+                'pos': obj.pos,
+                'item': obj.item
             }
 
         if isinstance(obj, pygame.Vector2):
@@ -99,7 +109,18 @@ class WindEncoder(json.JSONEncoder):
         if isinstance(obj, Player):
             return {
                 'health': obj.health,
-                'inventory': None
+                'inventory': obj.inventory,
+                'pos': obj.pos
+            }
+
+        if isinstance(obj, Inventory):
+            return {
+                'items': obj.items
+            }
+
+        if isinstance(obj, Item):
+            return {
+                'type': obj.__class__.__name__
             }
 
         return super().default(obj)

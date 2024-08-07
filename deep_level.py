@@ -20,9 +20,9 @@ class Level:
         }
     }
 
-    def __init__(self, game, depth, type, parent, entrance_pos, new=True):
+    def __init__(self, game, depth, type, parent, entrance_pos, new=True, id=str(random.randbytes(20))):
         self.game = game
-        self.id = str(random.randbytes(20))
+        self.id = id
         self.depth = depth
         self.type = type
         self.parent = parent
@@ -55,6 +55,8 @@ class Level:
                     self.game,
                     self,
                     pos,
+                    True,
+                    str(random.randbytes(20)),
                     Level(self.game, self.depth + 1, 'basic', self, pos)
                 )
             )
@@ -65,6 +67,8 @@ class Level:
                 self.game,
                 self,
                 random.choice(self.floor_cells),
+                True,
+                str(random.randbytes(20)),
                 self.parent,
                 self.entrance_pos
             )

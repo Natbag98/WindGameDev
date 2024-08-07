@@ -10,9 +10,9 @@ from Enemy.enemies import *
 class Chunk:
     CHUNK_DIMENSIONS = (Game.CHUNK_SIZE, Game.CHUNK_SIZE)
 
-    def __init__(self, game, map_, pos, base, colors, new=True):
+    def __init__(self, game, map_, pos, base, colors, new=True, id=str(random.randbytes(20))):
         self.game = game
-        self.id = str(random.randbytes(20))
+        self.id = id
         self.map = map_
         self.pos = Vector2(pos)
         self.rect = pygame.Rect(self.pos, self.CHUNK_DIMENSIONS)
@@ -57,7 +57,8 @@ class Chunk:
                         random.choice(Map.BIOME_SHRUBS[biome])(
                             self.game,
                             self,
-                            random.choice(self.biome_cells[biome])
+                            random.choice(self.biome_cells[biome]),
+                            True
                         )
                         for _ in range(round(Map.SHRUB_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
                     ]
