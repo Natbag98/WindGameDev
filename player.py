@@ -44,13 +44,18 @@ class Player:
                 'left': load_sprite_sheet_single(path, 'hit_side.png', 4, 2, size * 3, read_axis='y'),
                 'right': load_sprite_sheet_single(path, 'hit_side.png', 4, 2, size * 3, flip_x=True, read_axis='y')
             },
+            'pickup': {
+                'left': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, read_axis='y'),
+                'right': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, flip_x=True, read_axis='y')
+            }
         }
 
         self.animation_factors = {
             'idle': 15,
             'moving': 15,
             'attacking': 15,
-            'hit': 5
+            'hit': 5,
+            'pickup': 5
         }
 
         self.inventory = Inventory(self.game, self)
@@ -67,6 +72,7 @@ class Player:
         self.attacking = False
         self.hit = False
         self.death = False
+        self.pickup = False
 
     def get_bounding_rect(self, animation=None):
         bounding_rect = self.sprites[self.state][self.facing][0].get_bounding_rect()
@@ -106,6 +112,9 @@ class Player:
             self.facing = 'down'
             velocity.xy += (0, 1)
 
+        if self.game.input.keys[pygame.K_e].pressed:
+            self.pickup = True
+
         if self.hit or self.attacking:
             velocity = Vector2(0, 0)
 
@@ -120,9 +129,13 @@ class Player:
             self.animation_index = 0
             self.basic_attack()
 
-        if self.attacking:
+        if self.pickup:
+            self.state = 'pickup'
+            if self.facing in ['up', 'down']:
+                self.facing = 'left'
+        elif self.attacking:
             self.state = 'attacking'
-        if self.hit:
+        elif self.hit:
             self.state = 'hit'
 
         animation = self.sprites[self.state][self.facing]
@@ -131,6 +144,7 @@ class Player:
 
             self.attacking = False
             self.hit = False
+            self.pickup = False
             if velocity:
                 self.state = 'moving'
             else:

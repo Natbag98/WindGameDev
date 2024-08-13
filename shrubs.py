@@ -9,10 +9,79 @@ _shrub_assets = {
     'bush_simple': load_sprites_from_dir(f'{_shrub_path}\\bush_simple'),
     'bush_orange_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_orange_flowers'),
     'bush_blue_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_blue_flowers'),
-    'tree_simple': load_sprites_from_dir(f'{_shrub_path}\\tree_simple'),
+    'tree_simple': load_sprites_from_dir(f'{_shrub_path}\\tree_simple', size=1.5),
     'deep_entrances': load_sprites_from_dir(f'{_shrub_path}\\deep_entrances', return_dict=True),
-    'deep_exits': load_sprites_from_dir(f'{_shrub_path}\\deep_exits', return_dict=True)
+    'deep_exits': load_sprites_from_dir(f'{_shrub_path}\\deep_exits', return_dict=True),
+    'sand_general': load_sprites_from_dir(f'{_shrub_path}\\sand\\general', return_dict=True),
+    'swamp_general': load_sprites_from_dir(f'{_shrub_path}\\swamp\\general', return_dict=True),
+    'forest_general': load_sprites_from_dir(f'{_shrub_path}\\forest\\general', return_dict=True),
+    'ships': load_sprites_from_dir(f'{_shrub_path}\\sand\\ships', return_dict=True)
 }
+
+
+class SandGeneral(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['sand_general'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['sand_general'][self.sprite_name]],
+            id,
+            new
+        )
+
+
+class Ship(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['ships'].keys()))
+        self.wood_remaining = random.randrange(1, 3)
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['ships'][self.sprite_name]],
+            id,
+            new
+        )
+
+
+class SwampGeneral(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['swamp_general'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['swamp_general'][self.sprite_name]],
+            id,
+            new
+        )
+
+
+class ForestGeneral(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['forest_general'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['forest_general'][self.sprite_name]],
+            id,
+            new
+        )
 
 
 class DeepEntrance(Shrub):

@@ -14,8 +14,8 @@ class Game:
 
     LAYER_COUNT = 3
     FPS = 30
-    CHUNK_SIZE = 700
-    CHUNK_COUNT = 3
+    CHUNK_SIZE = 1000
+    CHUNK_COUNT = 4
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color

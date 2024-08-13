@@ -1,17 +1,9 @@
-import profilehooks
 from main import Game
 from color import Color
-import random
-import time
 from deep_level import Level
 from Enemy.enemies import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from shrubs import (
-    TreeSimple,
-    BushSimple,
-    BushFlowers,
-    DeepEntrance
-)
+from shrubs import *
 
 
 class Map:
@@ -43,11 +35,11 @@ class Map:
     BIOME_SHRUBS = {
         'deep_ocean': [],
         'ocean': [],
-        'sand': [],
-        'swamp': [],
+        'sand': [SandGeneral,  SandGeneral, Ship],
+        'swamp': [SwampGeneral],
         'mountain': [],
         'plains': [BushSimple, BushSimple, BushSimple, TreeSimple, BushFlowers],
-        'forest': [TreeSimple, BushSimple, TreeSimple]
+        'forest': [TreeSimple, BushSimple, TreeSimple, ForestGeneral, ForestGeneral, ForestGeneral]
     }
 
     BIOME_ENEMIES_PEACEFUL = {
@@ -61,8 +53,8 @@ class Map:
     }
 
     ENEMY_PEACEFUL_COUNT_PER_CELL = {
-        'plains': 0.00005,
-        'forest': 0.0001
+        'plains': 0.000025,
+        'forest': 0.00005
     }
 
     ISLAND_EDGE = 350
@@ -73,8 +65,10 @@ class Map:
     MAX_VAL = 0.8
 
     SHRUB_COUNT_PER_CELL = {
+        'sand': 0.0001,
         'plains': 0.00025,
-        'forest': 0.00015
+        'forest': 0.00015,
+        'swamp': 0.00015
     }
 
     def __init__(self, game, id=str(random.randbytes(20))):
@@ -116,6 +110,7 @@ class Map:
         self.game.map_generation_finished()
 
     def place_deep_entrances(self):
+        print('starting_deep')
         for i in range(Game.DEEP_ENTRANCES):
             while True:
                 chunk = random.choice(
@@ -135,6 +130,7 @@ class Map:
                         )
                     )
                     break
+        print('finished_deep')
 
     def create_chunk(self, x, y, base, colors):
         from map_chunk import Chunk
