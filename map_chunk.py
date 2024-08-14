@@ -29,6 +29,15 @@ class Chunk:
             self.enemies = self.generate_enemies()
             self.floor_items = []
 
+            self.delete_overlapping_shrubs()
+
+    def delete_overlapping_shrubs(self):
+        for i, shrub_to_check in enumerate(self.shrubs):
+            for _, shrub in enumerate(self.shrubs):
+                if not shrub_to_check == shrub:
+                    if shrub_to_check.get_bounding_rect().colliderect(shrub.get_bounding_rect()):
+                        self.shrubs.pop(i)
+
     def load_terrain_onto_surface(self, colors):
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
 
