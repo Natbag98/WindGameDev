@@ -1,7 +1,6 @@
 from shrub import Shrub
-from load import load_sprites_from_dir
 import random
-from Inventory.items import OrangeBerries, BlueBerries
+from Inventory.items import *
 from pygame import Vector2
 
 _shrub_path = 'assets\\environment\\shrubs'
@@ -50,6 +49,11 @@ class Ship(Shrub):
             id,
             new=new
         )
+
+    def interact(self):
+        if self.wood_remaining > 0:
+            self.game.player.inventory.add_item(Wood(self.game))
+            self.wood_remaining -= 1
 
 
 class SwampGeneral(Shrub):

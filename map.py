@@ -1,8 +1,7 @@
-from main import Game
 from color import Color
 from deep_level import Level
 from Enemy.enemies import *
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from shrubs import *
 
 

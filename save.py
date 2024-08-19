@@ -1,7 +1,6 @@
 import os
 import json
 
-import pygame
 from pygame import Vector2
 
 from wind_json import WindEncoder
