@@ -10,8 +10,15 @@ _inventory_items = {
     'BluePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='blue_potion')[0],
     'SquirrelCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='squirrel_carcass')[0],
     'HedgehogCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='hedgehog_carcass')[0],
-    'Wood': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='wood')[0]
+    'Wood': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='wood')[0],
+    'BasicCraftingTable': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='basic_crafting_table')[0]
 }
+
+
+class BasicCraftingTable(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['BasicCraftingTable'])
 
 
 class Wood(Item):

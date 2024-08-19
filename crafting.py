@@ -15,23 +15,22 @@ class CraftingRecipe:
         self.output_item = self.output_item(game)
 
     def craft(self):
-        items = {item.__class__.__name__: 0 for item in self.input_items}
+        required_items = {item.__class__.__name__: 0 for item in self.input_items}
         for item in self.input_items:
-            items[item.__class__.__name__] += 1
+            required_items[item.__class__.__name__] += 1
 
-        for item in items:
-            if not self.game.player.inventory.has_item(item, items[item]):
+        for item in required_items:
+            if not self.game.player.inventory.has_item(item, required_items[item]):
                 return
 
-        for item in items:
-            self.game.player.inventory.remove_item(item)
+        for item in required_items:
+            self.game.player.inventory.remove_item(item, required_items[item])
         self.game.player.inventory.add_item(self.output_item)
 
 
 CRAFTING_MENU = {
-    'placeholder_image_1': [
-        CraftingRecipe([BlueBerries], BluePotion),
-        CraftingRecipe([OrangeBerries], OrangePotion)
+    BasicCraftingTable(None).sprite: [
+        CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable)
     ]
 }
 CRAFTING_MENUS = len(CRAFTING_MENU)

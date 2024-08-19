@@ -25,6 +25,7 @@ def _load_button_clicked(game: Game, element: Element):
     game.screen = 'game'
     print(game.map.chunks)
 
+
 def _home_button_pressed(game: Game, element: Element):
     game.paused = not game.paused
     if game.paused:
@@ -137,7 +138,7 @@ for i in range(CRAFTING_MENUS):
                 (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[1] * CRAFTING_MENUS) // 2) + i * CRAFTING_BACK_SIZE[1],
             ),
             pos_position='top_left',
-            sprites=[_ui_assets['inventory_back'][back]]
+            sprites=[_ui_assets['inventory_back'][back], list(CRAFTING_MENU.keys())[i]]
         )
     )
 
