@@ -10,12 +10,12 @@ _shrub_assets = {
     'bush_orange_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_orange_flowers'),
     'bush_blue_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_blue_flowers'),
     'tree_simple': load_sprites_from_dir(f'{_shrub_path}\\tree_simple', size=1.5),
-    'deep_entrances': load_sprites_from_dir(f'{_shrub_path}\\deep_entrances', return_dict=True),
-    'deep_exits': load_sprites_from_dir(f'{_shrub_path}\\deep_exits', return_dict=True),
+    'deep_entrances': load_sprites_from_dir(f'{_shrub_path}\\deep_entrances', return_dict=True, size=2.5),
+    'deep_exits': load_sprites_from_dir(f'{_shrub_path}\\deep_exits', return_dict=True, size=2.5),
     'sand_general': load_sprites_from_dir(f'{_shrub_path}\\sand\\general', return_dict=True),
     'swamp_general': load_sprites_from_dir(f'{_shrub_path}\\swamp\\general', return_dict=True),
-    'forest_general': load_sprites_from_dir(f'{_shrub_path}\\forest\\general', return_dict=True),
-    'ships': load_sprites_from_dir(f'{_shrub_path}\\sand\\ships', return_dict=True)
+    'forest_general': load_sprites_from_dir(f'{_shrub_path}\\forest\\general', return_dict=True, size=2),
+    'ships': load_sprites_from_dir(f'{_shrub_path}\\sand\\ships', return_dict=True, size=1.5)
 }
 
 
@@ -31,7 +31,7 @@ class SandGeneral(Shrub):
             pos,
             [_shrub_assets['sand_general'][self.sprite_name]],
             id,
-            new
+            new=new
         )
 
 
@@ -48,7 +48,7 @@ class Ship(Shrub):
             pos,
             [_shrub_assets['ships'][self.sprite_name]],
             id,
-            new
+            new=new
         )
 
 
@@ -64,7 +64,7 @@ class SwampGeneral(Shrub):
             pos,
             [_shrub_assets['swamp_general'][self.sprite_name]],
             id,
-            new
+            new=new
         )
 
 
@@ -80,7 +80,7 @@ class ForestGeneral(Shrub):
             pos,
             [_shrub_assets['forest_general'][self.sprite_name]],
             id,
-            new
+            new=new
         )
 
 
@@ -94,7 +94,7 @@ class DeepEntrance(Shrub):
             pos,
             [_shrub_assets['deep_entrances'][self.target_level.type]],
             id,
-            new
+            new=new
         )
 
     def interact(self):
@@ -113,7 +113,7 @@ class DeepExit(Shrub):
             pos,
             [_shrub_assets['deep_exits'][self.target_level.type]],
             id,
-            new
+            new=new
         )
 
     def interact(self):
@@ -130,7 +130,8 @@ class BushSimple(Shrub):
             pos,
             [random.choice(_shrub_assets['bush_simple'])],
             id,
-            new
+            solid=False,
+            new=new
         )
 
 
@@ -150,7 +151,7 @@ class BushFlowers(Shrub):
             pos,
             [random.choice(_shrub_assets[f'bush_{self.color}_flowers'])],
             id,
-            new
+            new=new
         )
 
     def interact(self):
@@ -168,7 +169,7 @@ class TreeSimple(Shrub):
             pos,
             [random.choice(_shrub_assets['tree_simple'])],
             id,
-            new
+            new=new
         )
 
 

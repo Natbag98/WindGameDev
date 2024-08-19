@@ -33,10 +33,12 @@ class Chunk:
 
     def delete_overlapping_shrubs(self):
         for i, shrub_to_check in enumerate(self.shrubs):
+            popped = False
             for _, shrub in enumerate(self.shrubs):
                 if not shrub_to_check == shrub:
-                    if shrub_to_check.get_bounding_rect().colliderect(shrub.get_bounding_rect()):
+                    if shrub_to_check.get_bounding_rect().colliderect(shrub.get_bounding_rect()) and not popped:
                         self.shrubs.pop(i)
+                        popped = True
 
     def load_terrain_onto_surface(self, colors):
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
@@ -50,7 +52,8 @@ class Chunk:
                         random.choice(Map.BIOME_ENEMIES_PEACEFUL[biome])(
                             self.game,
                             self,
-                            Vector2(random.choice(self.biome_cells[biome]))
+                            Vector2(random.choice(self.biome_cells[biome])),
+                            new=True
                         )
                         for _ in range(round(Map.ENEMY_PEACEFUL_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
                     ]
@@ -67,7 +70,7 @@ class Chunk:
                             self.game,
                             self,
                             random.choice(self.biome_cells[biome]),
-                            True
+                            new=True
                         )
                         for _ in range(round(Map.SHRUB_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
                     ]
@@ -153,6 +156,8 @@ class Chunk:
         self.active = False
         if self.game.camera.rect.colliderect(self.rect):
             self.active = True
+        if self.game.player.rect.colliderect(self.rect):
+            self.map.active_chunk = self
 
         if self.enemies:
             [enemy.update() for enemy in self.enemies]

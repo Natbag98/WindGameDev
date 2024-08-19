@@ -76,6 +76,7 @@ class Map:
         self.id = id
         self.chunks = None
         self.type = 'basic'
+        self.shrubs_colliding_with_player = []
 
     # noinspection PyUnresolvedReferences
     def generate(self):
@@ -106,8 +107,9 @@ class Map:
                 self.game.chunk_progress += 1
 
         self.chunks = chunks
-        self.place_deep_entrances()
+        #self.place_deep_entrances()
         self.game.map_generation_finished()
+        self.active_chunk = self.chunks[0][0]
 
     def place_deep_entrances(self):
         print('starting_deep')
@@ -149,6 +151,7 @@ class Map:
                     chunk.basic_damage(rect, damage)
 
     def update(self):
+        self.shrubs_colliding_with_player = []
         [
             [chunk.update() for chunk in row]
             for row in self.chunks

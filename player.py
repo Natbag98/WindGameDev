@@ -7,6 +7,7 @@ from Inventory.inventory import Inventory
 class Player:
     MOVE_SPEED = 500
     BASE_DAMAGE = 2
+    COLL_PADDING = 25
 
     def __init__(self, game):
         self.game = game
@@ -74,19 +75,25 @@ class Player:
         self.death = False
         self.pickup = False
 
-    def get_bounding_rect(self, animation=None):
+    def get_bounding_rect(self, animation=None, coll=False):
         bounding_rect = self.sprites[self.state][self.facing][0].get_bounding_rect()
         if animation:
             bounding_rect = animation[0].get_bounding_rect()
         if type(bounding_rect) == list:
             bounding_rect = bounding_rect[0]
 
-        return pygame.Rect(
-            bounding_rect.x + self.rect.topleft[0],
-            bounding_rect.y + self.rect.topleft[1],
-            bounding_rect.size[0],
-            bounding_rect.size[1]
-        )
+        if coll:
+            return pygame.Rect(
+                self.pos,
+                (3, 3)
+            )
+        else:
+            return pygame.Rect(
+                bounding_rect.x + self.rect.topleft[0],
+                bounding_rect.y + self.rect.topleft[1],
+                bounding_rect.size[0],
+                bounding_rect.size[1]
+            )
 
     def basic_attack(self):
         self.game.active_map.basic_damage(self.get_bounding_rect(self.sprites['attacking'][self.facing]), self.BASE_DAMAGE)
@@ -95,6 +102,34 @@ class Player:
         self.health -= damage
         self.hit = True
         self.animation_index = 0
+
+    def check_col_axis_x(self, rect_left: pygame.Rect, rect_right: pygame.Rect):
+        if rect_right.x < rect_left.x < rect_right.x + rect_right.size[0]:
+            return True
+
+    def check_col(self, velocity, rect):
+        collided = False
+        temp_velocity = Vector2(round(velocity.x * self.COLL_PADDING), round(velocity.y * self.COLL_PADDING))
+
+        temp_x = self.pos.x
+        self.pos.x += temp_velocity.x
+        self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
+        if self.get_bounding_rect(coll=True).colliderect(rect):
+            velocity.x = 0
+            collided = True
+        self.pos.x = temp_x
+        self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
+
+        temp_y = self.pos.y
+        self.pos.y += temp_velocity.y
+        self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
+        if self.get_bounding_rect(coll=True).colliderect(rect):
+            velocity.y = 0
+            collided = True
+        self.pos.y = temp_y
+
+        self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
+        return velocity, collided
 
     def update(self):
         velocity = Vector2(0, 0)
@@ -117,6 +152,10 @@ class Player:
 
         if self.hit or self.attacking:
             velocity = Vector2(0, 0)
+
+        for shrub in self.game.map.shrubs_colliding_with_player:
+            if shrub.solid:
+                velocity, collided = self.check_col(velocity, shrub.get_bounding_rect())
 
         if velocity:
             self.state = 'moving'
