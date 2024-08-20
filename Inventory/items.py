@@ -18,7 +18,7 @@ _inventory_items = {
 class BasicCraftingTable(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['BasicCraftingTable'])
+        super().__init__(game, _inventory_items['BasicCraftingTable'], placeable=True)
 
 
 class Wood(Item):

@@ -4,6 +4,7 @@ from color import Color
 from load import load_sprites_from_dir
 from crafting import CRAFTING_MENU, CRAFTING_MENUS
 from UI.ui import UI
+from shrubs import BasicCraftingTable
 
 CRAFTING_BACK_SIZE = (Game.INVENTORY_ITEM_SIZE[0] * 1.1, Game.INVENTORY_ITEM_SIZE[1] * 1.1)
 
@@ -53,6 +54,24 @@ def _start_button_clicked(game: Game, element: Element):
 def _crafting_button_clicked(game: Game, element: Element):
     if game.ui.active_crafting_recipe:
         game.ui.active_crafting_recipe.craft()
+
+
+def _inventory_button_clicked(game: Game, element: Element, index):
+    item = game.player.inventory.items[index]
+    if item:
+        if item.placeable:
+            game.player.inventory.remove_item(item.__class__.__name__)
+            game.active_map.active_chunk.shrubs.append(
+                BasicCraftingTable(
+                    game,
+                    game.map.active_chunk,
+                    (
+                        game.player.rect.x + game.player.rect.size[0],
+                        game.player.rect.y + game.player.rect.size[1]
+                    ),
+                    new=False
+                )
+            )
 
 
 def _inventory_item_update(game: Game, element: Element, index):
@@ -219,6 +238,8 @@ SCREENS = {
                 ),
                 pos_position='top_left',
                 sprites=[_ui_assets['inventory_frame_1'], None],
+                clicked_func=_inventory_button_clicked,
+                clicked_func_args=(i,),
                 update_func=_inventory_item_update,
                 update_func_args=(i,)
             )

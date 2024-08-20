@@ -14,8 +14,23 @@ _shrub_assets = {
     'sand_general': load_sprites_from_dir(f'{_shrub_path}\\sand\\general', return_dict=True),
     'swamp_general': load_sprites_from_dir(f'{_shrub_path}\\swamp\\general', return_dict=True),
     'forest_general': load_sprites_from_dir(f'{_shrub_path}\\forest\\general', return_dict=True, size=2),
-    'ships': load_sprites_from_dir(f'{_shrub_path}\\sand\\ships', return_dict=True, size=1.5)
+    'ships': load_sprites_from_dir(f'{_shrub_path}\\sand\\ships', return_dict=True, size=1.5),
+    'basic_crafting_table': load_sprites_from_dir('assets\\inventory_items', size=1.75, prefix='basic_crafting_table')
 }
+
+
+class BasicCraftingTable(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            _shrub_assets['basic_crafting_table'],
+            id,
+            solid=True,
+            new=new
+        )
 
 
 class SandGeneral(Shrub):

@@ -32,6 +32,7 @@ class Chunk:
             self.delete_overlapping_shrubs()
 
     def delete_overlapping_shrubs(self):
+        print(len(self.shrubs))
         for i, shrub_to_check in enumerate(self.shrubs):
             popped = False
             for _, shrub in enumerate(self.shrubs):
@@ -39,6 +40,7 @@ class Chunk:
                     if shrub_to_check.get_bounding_rect().colliderect(shrub.get_bounding_rect()) and not popped:
                         self.shrubs.pop(i)
                         popped = True
+        print(len(self.shrubs))
 
     def load_terrain_onto_surface(self, colors):
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))

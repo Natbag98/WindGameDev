@@ -47,7 +47,9 @@ class Player:
             },
             'pickup': {
                 'left': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, read_axis='y'),
-                'right': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, flip_x=True, read_axis='y')
+                'right': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, flip_x=True, read_axis='y'),
+                'up': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, flip_x=True, read_axis='y'),
+                'down': load_sprite_sheet_single(path, '_pick up.png', 4, 2, size, flip_x=True, read_axis='y')
             }
         }
 
@@ -56,7 +58,7 @@ class Player:
             'moving': 15,
             'attacking': 15,
             'hit': 5,
-            'pickup': 5
+            'pickup': 15
         }
 
         self.inventory = Inventory(self.game, self)
