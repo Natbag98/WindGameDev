@@ -62,6 +62,7 @@ class Player:
         }
 
         self.inventory = Inventory(self.game, self)
+        self.basic_crafting = False
 
         self.pos = Vector2(0, 0)
         self.state = 'idle'
@@ -155,9 +156,13 @@ class Player:
         if self.hit or self.attacking:
             velocity = Vector2(0, 0)
 
+        self.basic_crafting = False
         for shrub in self.game.map.shrubs_colliding_with_player:
             if shrub.solid:
                 velocity, collided = self.check_col(velocity, shrub.get_bounding_rect())
+
+            if shrub.__class__.__name__ == 'BasicCraftingTable':
+                self.basic_crafting = True
 
         if velocity:
             self.state = 'moving'

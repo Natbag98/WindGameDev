@@ -28,9 +28,15 @@ class CraftingRecipe:
         self.game.player.inventory.add_item(self.output_item)
 
 
+# TODO : Finish crafting menu ui placement and sprite display
 CRAFTING_MENU = {
-    BasicCraftingTable(None).sprite: [
-        CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable)
+    'placeholder0': [
+        CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable),
+
+    ],
+    'placeholder1': [
+        CraftingRecipe([BlueBerries], BluePotion),
+        CraftingRecipe([OrangeBerries], OrangePotion)
     ]
 }
 CRAFTING_MENUS = len(CRAFTING_MENU)

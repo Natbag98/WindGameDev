@@ -89,7 +89,22 @@ def _loading_text_update(game: Game, element: Element):
     element.render_text()
 
 
+_CRAFTING_INDEXES = {
+    0: True,
+    1: 'basic_crafting'
+}
+
+
 def _crafting_menu_update(game: Game, element: Element, index):
+    if type(_CRAFTING_INDEXES[index]) is str:
+        if not game.player.__getattribute__(_CRAFTING_INDEXES[index]):
+            if game.ui.crafting_menu_open == index:
+                game.ui.crafting_menu_open = None
+            element.hidden = True
+            return
+
+    element.hidden = False
+
     if game.input.mouse['left'].interact(element.rect, 'clicked'):
         if game.ui.crafting_menu_open == index:
             game.ui.crafting_menu_open = None
@@ -103,13 +118,13 @@ def _crafting_menu_bg_update(game: Game, element: Element, index):
         element.hidden = False
 
 
-def _crafting_item_update(game: Game, element: Element, index, crafting_item):
+def _crafting_item_update(game: Game, element: Element, index, crafting_recipe):
     _crafting_menu_bg_update(game, element, index)
-    if game.input.mouse['left'].interact(element.rect, 'clicked'):
-        if game.ui.active_crafting_recipe == crafting_item:
+    if game.input.mouse['left'].interact(element.rect, 'clicked') and not element.hidden:
+        if game.ui.active_crafting_recipe == crafting_recipe:
             game.ui.active_crafting_recipe = None
         else:
-            game.ui.active_crafting_recipe = crafting_item
+            game.ui.active_crafting_recipe = crafting_recipe
 
 
 def _crafting_info_input_update(game: Game, element: Element, index):
@@ -157,7 +172,7 @@ for i in range(CRAFTING_MENUS):
                 (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[1] * CRAFTING_MENUS) // 2) + i * CRAFTING_BACK_SIZE[1],
             ),
             pos_position='top_left',
-            sprites=[_ui_assets['inventory_back'][back], list(CRAFTING_MENU.keys())[i]]
+            sprites=[_ui_assets['inventory_back'][back]]
         )
     )
 
