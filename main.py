@@ -1,3 +1,4 @@
+import random
 import sys
 sys.path.append('..')
 
@@ -100,6 +101,11 @@ class Game:
 
     def map_generation_finished(self):
         self.screen = 'game'
+        for row in self.map.chunks:
+            for chunk in row:
+                if len(chunk.biome_cells['sand']) > 100:
+                    self.player.pos = pygame.Vector2(random.choice(chunk.biome_cells['sand']))
+                    return
 
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)

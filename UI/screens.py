@@ -40,10 +40,8 @@ inv_bar_backs = {
 
 
 def _load_button_clicked(game: Game, element: Element):
-    print(game.map.chunks)
     game.save.load()
-    game.screen = 'game'
-    print(game.map.chunks)
+    game.map_generation_finished()
 
 
 def _home_button_pressed(game: Game, element: Element):
