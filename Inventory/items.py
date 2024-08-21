@@ -20,25 +20,25 @@ _inventory_items_floor = {
 class Plank(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['Plank'], floor_sprite=_inventory_items_floor['Plank'])
+        super().__init__(game, _inventory_items['Plank'])
 
 
 class SwordBasic(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['SwordBasic'], floor_sprite=_inventory_items_floor['SwordBasic'])
+        super().__init__(game, _inventory_items['SwordBasic'], hand=True)
 
 
 class PickBasic(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['PickBasic'], floor_sprite=_inventory_items_floor['PickBasic'])
+        super().__init__(game, _inventory_items['PickBasic'], hand=True)
 
 
 class AxeBasic(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['AxeBasic'], floor_sprite=_inventory_items_floor['AxeBasic'])
+        super().__init__(game, _inventory_items['AxeBasic'], hand=True)
 
 
 class StonesSmall(Item):

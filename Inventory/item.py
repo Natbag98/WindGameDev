@@ -11,7 +11,8 @@ class Item:
         shrub_to_place=None,
         consumable=False,
         floor_sprite=None,
-        inventory_sprite=None
+        inventory_sprite=None,
+        hand=False
     ):
         self.game = game
 
@@ -24,3 +25,4 @@ class Item:
         if not floor_sprite:
             self.floor_sprite = sprite
         self.inventory_sprite = inventory_sprite
+        self.hand = hand

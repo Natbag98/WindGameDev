@@ -5,6 +5,7 @@ from load import load_sprites_from_dir
 from crafting import CRAFTING_MENU, CRAFTING_MENUS
 from UI.ui import UI
 from shrubs import BasicCraftingTable
+from Inventory.inventory import Inventory
 
 CRAFTING_BACK_SIZE = (Game.INVENTORY_ITEM_SIZE[0] * 1.1, Game.INVENTORY_ITEM_SIZE[1] * 1.1)
 
@@ -17,6 +18,24 @@ _ui_assets = {
     'home_button': load_sprites_from_dir(_ui_path, 2, prefix='home_button')[0],
     'inventory_frame_1': load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
     'inventory_back': load_sprites_from_dir(f'{_ui_path}\\inventory_back', CRAFTING_BACK_SIZE)
+}
+
+inv_bar_backs = {
+    0: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    1: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    2: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    3: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    4: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    5: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    6: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    7: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    8: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    9: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    10: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    11: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    12: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_hand')[0],
+    13: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
+    14: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0]
 }
 
 
@@ -72,16 +91,28 @@ def _inventory_button_clicked(game: Game, element: Element, index):
                     new=False
                 )
             )
+        elif item.hand:
+            game.player.inventory.place_in_hand(item.__class__.__name__)
 
 
 def _inventory_item_update(game: Game, element: Element, index):
-    item = game.player.inventory.items[index]
-    if item:
-        element.sprites[1] = item.sprite
-        if item.inventory_sprite:
-            element.sprites[1] = item.inventory_sprite
+    if index > Game.PLAYER_INVENTORY_SIZE - 1:
+        if index == Inventory.HAND_INDEX:
+            if game.player.inventory.hand_item:
+                element.sprites[1] = game.player.inventory.hand_item.sprite
+                if game.player.inventory.hand_item.inventory_sprite:
+                    element.sprites[1] = game.player.inventory.hand_item.inventory_sprite
+            else:
+                element.sprites[1] = None
+
     else:
-        element.sprites[1] = None
+        item = game.player.inventory.items[index]
+        if item:
+            element.sprites[1] = item.sprite
+            if item.inventory_sprite:
+                element.sprites[1] = item.inventory_sprite
+        else:
+            element.sprites[1] = None
 
 
 def _loading_text_update(game: Game, element: Element):
@@ -140,17 +171,20 @@ def _crafting_info_output_update(game: Game, element: Element):
         element.sprites[1] = game.ui.active_crafting_recipe.output_item.sprite
 
 
+INV_CENTRE = Game.WIDTH // 2 + 100
+CRAFT_CENTRE = Game.HEIGHT // 2 - 100
+
 INV_BAR_BG = []
-for i in range(Game.PLAYER_INVENTORY_SIZE):
+for i in range(Game.PLAYER_INVENTORY_SIZE + 3):
     back = 1
     if i == 0:
         back = 2
-    elif i == Game.PLAYER_INVENTORY_SIZE - 1:
+    elif i == Game.PLAYER_INVENTORY_SIZE + 2:
         back = 4
     INV_BAR_BG.append(
         Element(
             (
-                (Game.WIDTH // 2 - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
+                (INV_CENTRE - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE + 3) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
                 (Game.HEIGHT - Game.INVENTORY_ITEM_SIZE[1])
             ),
             pos_position='top_left',
@@ -169,7 +203,7 @@ for i in range(CRAFTING_MENUS):
         Element(
             (
                 0,
-                (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[1] * CRAFTING_MENUS) // 2) + i * CRAFTING_BACK_SIZE[1],
+                (CRAFT_CENTRE - (CRAFTING_BACK_SIZE[1] * CRAFTING_MENUS) // 2) + i * CRAFTING_BACK_SIZE[1],
             ),
             pos_position='top_left',
             sprites=[_ui_assets['inventory_back'][back]]
@@ -179,7 +213,7 @@ for i in range(CRAFTING_MENUS):
 CRAFTING_ITEM_MENUS_BG = []
 for i in range(CRAFTING_MENUS):
     for j in range(len(list(CRAFTING_MENU.values())[i])):
-        back = 4
+        back = 5
         if j == 0:
             back = 4
         elif j == len(list(CRAFTING_MENU.values())[i]) - 1:
@@ -188,7 +222,7 @@ for i in range(CRAFTING_MENUS):
             Element(
                 (
                     CRAFTING_BACK_SIZE[0],
-                    (Game.HEIGHT // 2 - (CRAFTING_BACK_SIZE[1] * CRAFTING_MENUS) // 2) + j * CRAFTING_BACK_SIZE[1],
+                    (CRAFT_CENTRE - (CRAFTING_BACK_SIZE[1] * CRAFTING_MENUS) // 2) + j * CRAFTING_BACK_SIZE[1],
                 ),
                 pos_position='top_left',
                 sprites=[_ui_assets['inventory_back'][back]],
@@ -205,7 +239,7 @@ for i in range(CRAFTING_MENUS):
             Element(
                 (
                     Game.CRAFTING_ITEM_SIZE[0],
-                    (Game.HEIGHT // 2 - (Game.CRAFTING_ITEM_SIZE[0] * CRAFTING_MENUS) // 2) + j * Game.CRAFTING_ITEM_SIZE[0],
+                    (CRAFT_CENTRE - (Game.CRAFTING_ITEM_SIZE[0] * CRAFTING_MENUS) // 2) + j * Game.CRAFTING_ITEM_SIZE[0],
                 ),
                 pos_position='top_left',
                 sprites=[_ui_assets['inventory_frame_1'], crafting_item.output_item.sprite],
@@ -248,17 +282,17 @@ SCREENS = {
         *[
             Element(
                 (
-                    3 + (Game.WIDTH // 2 - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
+                    3 + (INV_CENTRE - (Game.INVENTORY_ITEM_SIZE[0] * Game.PLAYER_INVENTORY_SIZE + 3) // 2) + i * Game.INVENTORY_ITEM_SIZE[0],
                     5 + (Game.HEIGHT - Game.INVENTORY_ITEM_SIZE[1])
                 ),
                 pos_position='top_left',
-                sprites=[_ui_assets['inventory_frame_1'], None],
+                sprites=[inv_bar_backs[i], None],
                 clicked_func=_inventory_button_clicked,
                 clicked_func_args=(i,),
                 update_func=_inventory_item_update,
                 update_func_args=(i,)
             )
-            for i in range(Game.PLAYER_INVENTORY_SIZE)
+            for i in range(Game.PLAYER_INVENTORY_SIZE + 3)
         ],
         *CRAFTING_MENU_BG,
         *CRAFTING_ITEM_MENUS_BG,
@@ -266,7 +300,7 @@ SCREENS = {
             Element(
                 (
                     0,
-                    (Game.HEIGHT // 2 - (Game.CRAFTING_ITEM_SIZE[0] * CRAFTING_MENUS) // 2) + i * Game.CRAFTING_ITEM_SIZE[0],
+                    (CRAFT_CENTRE - (Game.CRAFTING_ITEM_SIZE[0] * CRAFTING_MENUS) // 2) + i * Game.CRAFTING_ITEM_SIZE[0],
                 ),
                 pos_position='top_left',
                 sprites=[_ui_assets['inventory_frame_1']],

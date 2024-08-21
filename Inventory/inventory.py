@@ -2,12 +2,32 @@ from main import Game
 
 
 class Inventory:
+    HAND_INDEX = 12
 
     def __init__(self, game, player):
         self.game = game
         self.player = player
 
+        self.hand_item = None
+
         self.items = [None for _ in range(Game.PLAYER_INVENTORY_SIZE)]
+
+    def place_in_hand(self, item_name):
+        item = self.get_item(item_name)
+        if item:
+            self.remove_item(item_name)
+
+            if self.hand_item:
+                self.add_item(self.hand_item)
+
+            self.hand_item = item
+
+    # noinspection PyUnresolvedReferences
+    def get_item(self, item_name):
+        for item in self.items:
+            if item.__class__.__name__ == item_name:
+                return item
+        return False
 
     def add_item(self, item_to_add):
         for i, item in enumerate(self.items):
