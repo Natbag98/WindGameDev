@@ -27,12 +27,11 @@ class Chunk:
 
             self.shrubs = self.generate_shrubs()
             self.enemies = self.generate_enemies()
-            self.floor_items = []
+            self.floor_items = self.place_floor_items()
 
             self.delete_overlapping_shrubs()
 
     def delete_overlapping_shrubs(self):
-        print(len(self.shrubs))
         for i, shrub_to_check in enumerate(self.shrubs):
             popped = False
             for _, shrub in enumerate(self.shrubs):
@@ -40,7 +39,23 @@ class Chunk:
                     if shrub_to_check.get_bounding_rect().colliderect(shrub.get_bounding_rect()) and not popped:
                         self.shrubs.pop(i)
                         popped = True
-        print(len(self.shrubs))
+
+    def place_floor_items(self):
+        floor_items = []
+        for biome in Map.BIOMES:
+            if self.biome_cells[biome] and biome in Map.FLOOR_ITEM_COUNT_PER_CELL:
+                floor_items.extend(
+                    [
+                        FloorItem(
+                            self.game,
+                            self,
+                            Vector2(random.choice(self.biome_cells[biome])) + self.pos,
+                            random.choice(Map.FLOOR_ITEMS[biome])(self.game)
+                        )
+                        for _ in range(round(Map.FLOOR_ITEM_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
+                    ]
+                )
+        return floor_items
 
     def load_terrain_onto_surface(self, colors):
         self.terrain_onto_surface(self.terrain_surface, colors, (0, 0))
@@ -174,9 +189,9 @@ class Chunk:
             [floor_item.active_update() for floor_item in self.floor_items]
 
     def draw(self, surface):
-        if self.shrubs:
-            [shrub.draw(surface) for shrub in self.shrubs]
-        if self.enemies:
-            [enemy.draw(surface) for enemy in self.enemies]
         if self.floor_items:
             [floor_item.draw(surface) for floor_item in self.floor_items]
+        if self.enemies:
+            [enemy.draw(surface) for enemy in self.enemies]
+        if self.shrubs:
+            [shrub.draw(surface) for shrub in self.shrubs]

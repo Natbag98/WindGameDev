@@ -3,6 +3,7 @@ from deep_level import Level
 from Enemy.enemies import *
 from concurrent.futures import ThreadPoolExecutor
 from shrubs import *
+from Inventory.items import StonesSmall
 
 
 class Map:
@@ -54,6 +55,15 @@ class Map:
     ENEMY_PEACEFUL_COUNT_PER_CELL = {
         'plains': 0.000025,
         'forest': 0.00005
+    }
+
+    FLOOR_ITEMS = {
+        'plains': [StonesSmall],
+        'forest': [StonesSmall]
+    }
+    FLOOR_ITEM_COUNT_PER_CELL = {
+        'plains': 0.000025,
+        'forest': 0.00004
     }
 
     ISLAND_EDGE = 350

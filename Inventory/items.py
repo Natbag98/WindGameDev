@@ -1,18 +1,50 @@
+import os
+
 from main import Game
 from Inventory.item import Item
 from load import load_sprites_from_dir, load_sprite_sheet_single
 
+
 _inventory_items_path = 'assets\\inventory_items'
 _inventory_items = {
-    'BlueBerries': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='purple_berries')[0],
-    'OrangeBerries': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='red_berries')[0],
-    'OrangePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='orange_potion')[0],
-    'BluePotion': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='blue_potion')[0],
-    'SquirrelCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='squirrel_carcass')[0],
-    'HedgehogCarcass': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='hedgehog_carcass')[0],
-    'Wood': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='wood')[0],
-    'BasicCraftingTable': load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix='basic_crafting_table')[0]
+    ''.join([word.capitalize() for word in item.split('.')[0].split('_')]):
+    load_sprites_from_dir(_inventory_items_path, Game.INVENTORY_ITEM_SIZE, prefix=item)[0]
+    for item in os.listdir(_inventory_items_path)
 }
+
+_inventory_items_floor = {
+    'StonesSmall': load_sprites_from_dir(_inventory_items_path, 0.6, prefix='stones_small')[0]
+}
+
+
+class Plank(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Plank'], floor_sprite=_inventory_items_floor['Plank'])
+
+
+class SwordBasic(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['SwordBasic'], floor_sprite=_inventory_items_floor['SwordBasic'])
+
+
+class PickBasic(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['PickBasic'], floor_sprite=_inventory_items_floor['PickBasic'])
+
+
+class AxeBasic(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['AxeBasic'], floor_sprite=_inventory_items_floor['AxeBasic'])
+
+
+class StonesSmall(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['StonesSmall'], floor_sprite=_inventory_items_floor['StonesSmall'])
 
 
 class BasicCraftingTable(Item):

@@ -32,11 +32,14 @@ class CraftingRecipe:
 CRAFTING_MENU = {
     'placeholder0': [
         CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable),
-
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], SwordBasic),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], AxeBasic),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], PickBasic),
     ],
     'placeholder1': [
         CraftingRecipe([BlueBerries], BluePotion),
-        CraftingRecipe([OrangeBerries], OrangePotion)
+        CraftingRecipe([OrangeBerries], OrangePotion),
+        CraftingRecipe([Wood, Wood], Plank)
     ]
 }
 CRAFTING_MENUS = len(CRAFTING_MENU)
