@@ -1,3 +1,5 @@
+import re
+
 import pygame
 from pygame import Vector2
 from load import load_sprite_sheet_single
@@ -6,8 +8,8 @@ from Inventory.inventory import Inventory
 
 class Player:
     MOVE_SPEED = 500
-    BASE_DAMAGE = 2
     COLL_PADDING = 25
+    BASE_ATTACK_STRENGTH = 1
 
     def __init__(self, game):
         self.game = game
@@ -70,6 +72,7 @@ class Player:
         self.facing = 'down'
         self.frame = self.sprites[self.state][self.facing][0]
         self.health = 10
+        self.attack_strength = self.BASE_ATTACK_STRENGTH
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
@@ -99,7 +102,10 @@ class Player:
             )
 
     def basic_attack(self):
-        self.game.active_map.basic_damage(self.get_bounding_rect(self.sprites['attacking'][self.facing]), self.BASE_DAMAGE)
+        self.game.active_map.basic_damage(
+            self.get_bounding_rect(self.sprites['attacking'][self.facing]),
+            self.attack_strength
+        )
 
     def damage(self, damage):
         self.health -= damage
@@ -135,6 +141,10 @@ class Player:
         return velocity, collided
 
     def update(self):
+        self.attack_strength = self.BASE_ATTACK_STRENGTH
+        if self.inventory.hand_item:
+            self.attack_strength = self.inventory.hand_item.attack_strength
+
         velocity = Vector2(0, 0)
 
         if self.game.input.keys[pygame.K_a].held:
@@ -174,6 +184,10 @@ class Player:
             self.attacking = True
             self.animation_index = 0
             self.basic_attack()
+
+            hand_item_name = re.findall('[A-Z][^A-Z]*', self.inventory.hand_item.__class__.__name__)
+            for shrub in self.game.map.shrubs_colliding_with_player:
+                shrub.attacked(hand_item_name[0], hand_item_name[1], self.inventory.hand_item.attack_strength)
 
         if self.pickup:
             self.state = 'pickup'

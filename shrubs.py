@@ -62,13 +62,22 @@ class Ship(Shrub):
             pos,
             [_shrub_assets['ships'][self.sprite_name]],
             id,
-            new=new
+            new=new,
+            health=2,
         )
 
     def interact(self):
         if self.wood_remaining > 0:
             self.game.player.inventory.add_item(Wood(self.game))
             self.wood_remaining -= 1
+
+    def attacked(self, weapon_type, level, strength):
+        if weapon_type == 'Axe':
+            self.health -= strength
+
+    def death(self):
+        self.parent.place_floor_items_in_rect(Wood, self.rect, random.randrange(1, 2))
+        super().death()
 
 
 class SwampGeneral(Shrub):
@@ -188,8 +197,17 @@ class TreeSimple(Shrub):
             pos,
             [random.choice(_shrub_assets['tree_simple'])],
             id,
-            new=new
+            new=new,
+            health=8
         )
+
+    def attacked(self, weapon_type, level, strength):
+        if weapon_type == 'Axe':
+            self.health -= strength
+
+    def death(self):
+        self.parent.place_floor_items_in_rect(Wood, self.rect, random.randrange(2, 5))
+        super().death()
 
 
 _SHRUBS = {

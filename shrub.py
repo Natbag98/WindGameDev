@@ -4,7 +4,7 @@ import pygame
 
 class Shrub:
 
-    def __init__(self, game, parent, pos, sprites, id, solid=True, new=False):
+    def __init__(self, game, parent, pos, sprites, id, solid=True, new=False, health=1):
         self.game = game
         self.id = id
 
@@ -25,6 +25,7 @@ class Shrub:
         self.active_sprite = 0
         self.frame = self.sprites[self.active_sprite]
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
+        self.health = health
 
     def get_bounding_rect(self):
         bounding_rect = self.frame.get_bounding_rect()
@@ -49,6 +50,15 @@ class Shrub:
             self.game.map.shrubs_colliding_with_player.append(self)
             if self.game.input.keys[pygame.K_e].pressed:
                 self.interact()
+
+        if self.health < 1:
+            self.death()
+
+    def death(self):
+        self.parent.shrubs.remove(self)
+
+    def attacked(self, weapon_type, level, strength):
+        pass
 
     def draw(self, surface):
         surface.blit(self.frame, self.rect.topleft - self.game.camera.offset)

@@ -26,18 +26,21 @@ class Plank(Item):
 class SwordBasic(Item):
 
     def __init__(self, game):
+        self.attack_strength = 3
         super().__init__(game, _inventory_items['SwordBasic'], hand=True)
 
 
 class PickBasic(Item):
 
     def __init__(self, game):
+        self.attack_strength = 1
         super().__init__(game, _inventory_items['PickBasic'], hand=True)
 
 
 class AxeBasic(Item):
 
     def __init__(self, game):
+        self.attack_strength = 2
         super().__init__(game, _inventory_items['AxeBasic'], hand=True)
 
 

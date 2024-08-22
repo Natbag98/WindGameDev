@@ -169,6 +169,20 @@ class Chunk:
             ):
                 enemy.damage(damage)
 
+    def place_floor_items_in_rect(self, item, rect, count):
+        for i in range(count):
+            self.floor_items.append(
+                FloorItem(
+                    self.game,
+                    self,
+                    (
+                        random.randrange(rect.x, rect.x + rect.size[0]),
+                        random.randrange(rect.y, rect.y + rect.size[1])
+                    ),
+                    item(self.game)
+                )
+            )
+
     def update(self):
         self.active = False
         if self.game.camera.rect.colliderect(self.rect):

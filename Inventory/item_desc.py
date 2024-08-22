@@ -1,4 +1,5 @@
 
+
 DESC = {
     'BluePotion': 'A potion that increases\nyour health\nClick to use',
     'OrangePotion': 'A potion that increases\nyour damage\nClick to use',
@@ -8,7 +9,7 @@ DESC = {
     'OrangeBerries': 'Some orange berries\nCan be used to make potions',
     'Wood': 'A basic crafting material',
     'StonesSmall': 'A basic crafting material',
-    'AxeBasic': 'A basic axe that can be used\nto collect wood\nClick to equip\nAttack trees to use',
+    'AxeBasic': 'A basic axe that can be used\nto collect wood\nClick to equip\nAttack trees and ships to use',
     'PickBasic': 'A basic pickaxe that can be\nused to collect minerals\nClick to equip\nAttack rocks to use',
     'SwordBasic': 'A basic sword that can\nincrease your attack strength\nClick to equip',
     'Plank': 'A more advanced building\nmaterial',
