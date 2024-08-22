@@ -9,7 +9,7 @@ from Inventory.inventory import Inventory
 
 CRAFTING_BACK_SIZE = (Game.INVENTORY_ITEM_SIZE[0] * 1.1, Game.INVENTORY_ITEM_SIZE[1] * 1.1)
 
-INFO_TILES_COUNT = (6, 5)
+INFO_TILES_COUNT = (7, 5)
 INFO_HORIZONTAL_PADDING = 15
 INFO_VERTICAL_PADDING = 15
 
@@ -73,24 +73,37 @@ def _crafting_button_clicked(game: Game, element: Element):
         game.ui.active_crafting_recipe.craft()
 
 
+def _inventory_item_hover(game: Game, element: Element, index):
+    if index > Game.PLAYER_INVENTORY_SIZE - 1:
+        if index == Inventory.HAND_INDEX:
+            if game.player.inventory.hand_item:
+                game.ui.item_desc_display = game.player.inventory.hand_item.__class__.__name__
+
+    else:
+        item = game.player.inventory.items[index]
+        if item:
+            game.ui.item_desc_display = item.__class__.__name__
+
+
 def _inventory_button_clicked(game: Game, element: Element, index):
-    item = game.player.inventory.items[index]
-    if item:
-        if item.placeable:
-            game.player.inventory.remove_item(item.__class__.__name__)
-            game.active_map.active_chunk.shrubs.append(
-                BasicCraftingTable(
-                    game,
-                    game.map.active_chunk,
-                    (
-                        game.player.rect.x + game.player.rect.size[0],
-                        game.player.rect.y + game.player.rect.size[1]
-                    ),
-                    new=False
+    if index < 12:
+        item = game.player.inventory.items[index]
+        if item:
+            if item.placeable:
+                game.player.inventory.remove_item(item.__class__.__name__)
+                game.active_map.active_chunk.shrubs.append(
+                    BasicCraftingTable(
+                        game,
+                        game.map.active_chunk,
+                        (
+                            game.player.rect.x + game.player.rect.size[0],
+                            game.player.rect.y + game.player.rect.size[1]
+                        ),
+                        new=False
+                    )
                 )
-            )
-        elif item.hand:
-            game.player.inventory.place_in_hand(item.__class__.__name__)
+            elif item.hand:
+                game.player.inventory.place_in_hand(item.__class__.__name__)
 
 
 def _inventory_item_update(game: Game, element: Element, index):
@@ -167,6 +180,25 @@ def _crafting_info_output_update(game: Game, element: Element):
     element.sprites[1] = None
     if game.ui.active_crafting_recipe:
         element.sprites[1] = game.ui.active_crafting_recipe.output_item.sprite
+
+
+def _crafting_info_output_hover(game: Game, element: Element):
+    if game.ui.active_crafting_recipe:
+        game.ui.item_desc_display = game.ui.active_crafting_recipe.output_item.__class__.__name__
+
+
+def _item_name_update(game: Game, element: Element):
+    if game.ui.item_desc_display:
+        element.render_text(game.ui.item_desc_name[game.ui.item_desc_display])
+    else:
+        element.render_text()
+
+
+def _item_desc_update(game: Game, element: Element):
+    if game.ui.item_desc_display:
+        element.render_text(game.ui.item_desc[game.ui.item_desc_display])
+    else:
+        element.render_text()
 
 
 INV_CENTRE = Game.WIDTH // 2 + 100
@@ -288,7 +320,9 @@ SCREENS = {
                 clicked_func=_inventory_button_clicked,
                 clicked_func_args=(i,),
                 update_func=_inventory_item_update,
-                update_func_args=(i,)
+                update_func_args=(i,),
+                hovered_func=_inventory_item_hover,
+                hovered_func_args=(i,)
             )
             for i in range(Game.PLAYER_INVENTORY_SIZE + 3)
         ],
@@ -351,7 +385,8 @@ SCREENS = {
             ),
             pos_position='top_left',
             sprites=[_ui_assets['inventory_frame_1'], None],
-            update_func=_crafting_info_output_update
+            update_func=_crafting_info_output_update,
+            hovered_func=_crafting_info_output_hover
         ),
         Element(
             (
@@ -371,9 +406,10 @@ SCREENS = {
                 (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 11
             ),
             pos_position='top_left',
-            text='Item Name',
+            text=' ',
             text_color=Color('black').color,
             text_size=45,
+            update_func=_item_name_update
         ),
         Element(
             (
@@ -381,9 +417,10 @@ SCREENS = {
                 (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 13
             ),
             pos_position='top_left',
-            text='Description',
+            text=' ',
             text_color=Color('black').color,
             text_size=35,
+            update_func=_item_desc_update
         )
     ],
     'paused': [

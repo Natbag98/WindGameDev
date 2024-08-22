@@ -153,7 +153,7 @@ class Player:
         if self.game.input.keys[pygame.K_e].pressed:
             self.pickup = True
 
-        if self.hit or self.attacking:
+        if self.hit or self.attacking or self.pickup:
             velocity = Vector2(0, 0)
 
         self.basic_crafting = False

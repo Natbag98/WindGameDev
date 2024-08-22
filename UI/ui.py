@@ -1,5 +1,6 @@
 import pygame
 from color import Color
+from Inventory.item_desc import DESC
 
 
 class UI:
@@ -8,6 +9,16 @@ class UI:
         self.game = game
 
         from UI.screens import SCREENS
+
+        self.item_desc = {
+            item: self.create_rendered_text(DESC[item], 35)
+            for item in DESC
+        }
+        self.item_desc_name = {
+            item: self.create_rendered_text(item, 35)
+            for item in DESC
+        }
+        self.item_desc_display = None
 
         self.crafting_menu_open = None
         self.active_crafting_recipe = None
@@ -20,6 +31,7 @@ class UI:
         return sys_font.render(text, True, text_color)
 
     def update(self):
+        self.item_desc_display = None
         [element.update() for element in self.screens[self.game.screen]]
 
     def draw(self, surface):

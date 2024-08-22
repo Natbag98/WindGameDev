@@ -21,7 +21,9 @@ class Element:
         size=None,
         update_func=None,
         update_func_args=(),
-        hidden=False
+        hidden=False,
+        hovered_func=None,
+        hovered_func_args=()
     ):
         self.game = None
         self.size = None
@@ -44,6 +46,8 @@ class Element:
         self.sprites = sprites
         self.update_func_args = update_func_args
         self.hidden = hidden
+        self.hovered_func=hovered_func
+        self.hovered_func_args=hovered_func_args
 
     def initialize(self, game):
         self.game = game
@@ -67,10 +71,12 @@ class Element:
         if pre_rendered:
             self.text = pre_rendered
             self.size = self.text.get_size
-
-        sys_font = pygame.font.SysFont(self.font, self.text_size)
-        self.text = sys_font.render(self.text, True, self.text_color)
-        self.size = self.text.get_size()
+        else:
+            sys_font = pygame.font.SysFont(self.font, self.text_size)
+            if type(self.text) not in [str, bytes]:
+                self.text = ' '
+            self.text = sys_font.render(self.text, True, self.text_color)
+            self.size = self.text.get_size()
 
     def update(self):
         if self.game.input.mouse['left'].interact(self.rect):
@@ -79,6 +85,9 @@ class Element:
         else:
             self.bg_color = self.default_bg_color
             self.hovering = False
+
+        if self.game.input.mouse['left'].interact(self.rect) and self.hovered_func:
+            self.hovered_func(self.game, self, *self.hovered_func_args)
 
         if self.game.input.mouse['left'].interact(self.rect, 'clicked') and self.clicked_func and not self.hidden:
             self.clicked_func(self.game, self, *self.clicked_func_args)
