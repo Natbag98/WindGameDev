@@ -17,6 +17,66 @@ _inventory_items_floor = {
 }
 
 
+class SmallStonesOrange(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['SmallStonesOrange'])
+
+
+class SmallStonesBlue(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['SmallStonesBlue'])
+
+
+class RockOrange(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['RockOrange'])
+
+
+class RockBlue(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['RockBlue'])
+
+
+class Rock(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Rock'])
+
+
+class OrangeBrick(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['OrangeBrick'])
+
+
+class Brick(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Brick'])
+
+
+class OrangePowder(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['OrangePowder'])
+
+
+class BluePowder(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['BluePowder'])
+
+
+class BlueBrick(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['BlueBrick'])
+
+
 class Plank(Item):
 
     def __init__(self, game):

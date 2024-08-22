@@ -1,6 +1,7 @@
 from shrub import Shrub
 import random
 from Inventory.items import *
+from Inventory import items
 from pygame import Vector2
 
 _shrub_path = 'assets\\environment\\shrubs'
@@ -15,8 +16,90 @@ _shrub_assets = {
     'swamp_general': load_sprites_from_dir(f'{_shrub_path}\\swamp\\general', return_dict=True),
     'forest_general': load_sprites_from_dir(f'{_shrub_path}\\forest\\general', return_dict=True, size=2),
     'ships': load_sprites_from_dir(f'{_shrub_path}\\sand\\ships', return_dict=True, size=1.5),
-    'basic_crafting_table': load_sprites_from_dir('assets\\inventory_items', size=1.75, prefix='basic_crafting_table')
+    'basic_crafting_table': load_sprites_from_dir('assets\\inventory_items', size=1.75, prefix='basic_crafting_table'),
+    'mountain_general': load_sprites_from_dir(f'{_shrub_path}\\mountain\\general', return_dict=True),
+    'rock_basic': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_basic', return_dict=True),
+    'rock_blue': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_blue', return_dict=True),
+    'rock_orange': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_orange', return_dict=True)
 }
+
+
+class RockOrange(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['rock_orange'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['rock_orange'][self.sprite_name]],
+            id,
+            new=new,
+            health=4
+        )
+
+    def attacked(self, weapon_type, level, strength):
+        if weapon_type == 'Pick':
+            self.health -= strength
+
+    def death(self):
+        self.parent.place_floor_items_in_rect(SmallStonesOrange, self.rect, random.randrange(1, 3))
+        self.parent.place_floor_items_in_rect(items.RockOrange, self.rect, random.randrange(0, 3))
+        super().death()
+
+
+class RockBlue(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['rock_blue'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['rock_blue'][self.sprite_name]],
+            id,
+            new=new,
+            health=4
+        )
+
+    def attacked(self, weapon_type, level, strength):
+        if weapon_type == 'Pick':
+            self.health -= strength
+
+    def death(self):
+        self.parent.place_floor_items_in_rect(SmallStonesBlue, self.rect, random.randrange(1, 3))
+        self.parent.place_floor_items_in_rect(RockBlue, self.rect, random.randrange(0, 3))
+        super().death()
+
+
+class RockBasic(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['rock_basic'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['rock_basic'][self.sprite_name]],
+            id,
+            new=new,
+            health=2
+        )
+
+    def attacked(self, weapon_type, level, strength):
+        if weapon_type == 'Pick':
+            self.health -= strength
+
+    def death(self):
+        self.parent.place_floor_items_in_rect(StonesSmall, self.rect, random.randrange(1, 3))
+        self.parent.place_floor_items_in_rect(Rock, self.rect, random.randrange(0, 3))
+        super().death()
 
 
 class BasicCraftingTable(Shrub):
@@ -76,8 +159,24 @@ class Ship(Shrub):
             self.health -= strength
 
     def death(self):
-        self.parent.place_floor_items_in_rect(Wood, self.rect, random.randrange(1, 2))
+        self.parent.place_floor_items_in_rect(Wood, self.rect, random.randrange(1, 3))
         super().death()
+
+
+class MountainGeneral(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['mountain_general'].keys()))
+
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            [_shrub_assets['mountain_general'][self.sprite_name]],
+            id,
+            new=new
+        )
 
 
 class SwampGeneral(Shrub):

@@ -185,9 +185,10 @@ class Player:
             self.animation_index = 0
             self.basic_attack()
 
-            hand_item_name = re.findall('[A-Z][^A-Z]*', self.inventory.hand_item.__class__.__name__)
-            for shrub in self.game.map.shrubs_colliding_with_player:
-                shrub.attacked(hand_item_name[0], hand_item_name[1], self.inventory.hand_item.attack_strength)
+            if self.inventory.hand_item:
+                hand_item_name = re.findall('[A-Z][^A-Z]*', self.inventory.hand_item.__class__.__name__)
+                for shrub in self.game.map.shrubs_colliding_with_player:
+                    shrub.attacked(hand_item_name[0], hand_item_name[1], self.inventory.hand_item.attack_strength)
 
         if self.pickup:
             self.state = 'pickup'

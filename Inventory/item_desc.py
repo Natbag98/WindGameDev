@@ -13,5 +13,16 @@ DESC = {
     'PickBasic': 'A basic pickaxe that can be\nused to collect minerals\nClick to equip\nAttack rocks to use',
     'SwordBasic': 'A basic sword that can\nincrease your attack strength\nClick to equip',
     'Plank': 'A more advanced building\nmaterial',
-    'BasicCraftingTable': 'A crafting table that can be used\nto craft more advanced materials\nClick to place'
+    'BasicCraftingTable': 'A crafting table that can be used\nto craft more advanced materials\nClick to place',
+    'BlueBrick': 'A more advanced crafting\nmaterial',
+    'BluePowder': 'A powder used in advanced\ncrafting',
+    'Brick': 'A more advanced crafting\nmaterial',
+    'OrangeBrick': 'A more advanced crafting\nmaterial',
+    'OrangePowder': 'A powder used in advanced\ncrafting',
+    'RockBasic': 'A basic crafting\nmaterial',
+    'Rock': 'A basic crafting\nmaterial',
+    'RockBlue': 'A basic crafting\nmaterial',
+    'RockOrange': 'A basic crafting\nmaterial',
+    'StonesSmallBlue': 'A basic crafting\nmaterial',
+    'StonesSmallOrange': 'A basic crafting\nmaterial',
 }

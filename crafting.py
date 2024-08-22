@@ -37,9 +37,11 @@ CRAFTING_MENU = {
         CraftingRecipe([Wood, StonesSmall, StonesSmall], PickBasic),
     ],
     'placeholder1': [
-        CraftingRecipe([BlueBerries], BluePotion),
+        CraftingRecipe([BlueBerries, BluePowder], BluePotion),
         CraftingRecipe([OrangeBerries], OrangePotion),
-        CraftingRecipe([Wood, Wood], Plank)
+        CraftingRecipe([Wood, Wood], Plank),
+        CraftingRecipe([SmallStonesBlue, RockBlue], BluePowder),
+        CraftingRecipe([SmallStonesOrange, RockOrange], OrangePowder)
     ]
 }
 CRAFTING_MENUS = len(CRAFTING_MENU)

@@ -7,13 +7,27 @@ from Inventory.items import StonesSmall
 
 
 class Map:
-    BIOME_HEIGHTS = [
+    BIOME_HEIGHTS_MAIN = [
         {
             0.01: 'deep_ocean',
             0.02: 'ocean',
             0.06: 'sand',
             0.28: '',
             0.44: 'swamp',
+            1: 'mountain'
+        },
+        {
+            0.5: 'plains',
+            1: 'forest'
+        }
+    ]
+    BIOME_HEIGHTS = [
+        {
+            0.01: 'deep_ocean',
+            0.02: 'ocean',
+            0.06: 'sand',
+            0.1: '',
+            0.2: 'swamp',
             1: 'mountain'
         },
         {
@@ -37,7 +51,7 @@ class Map:
         'ocean': [],
         'sand': [SandGeneral,  SandGeneral, Ship],
         'swamp': [SwampGeneral],
-        'mountain': [],
+        'mountain': [MountainGeneral, RockBasic, RockBasic, RockBlue, RockOrange],
         'plains': [BushSimple, BushSimple, BushSimple, TreeSimple, BushFlowers],
         'forest': [TreeSimple, BushSimple, TreeSimple, ForestGeneral, ForestGeneral, ForestGeneral]
     }
@@ -77,7 +91,8 @@ class Map:
         'sand': 0.0001,
         'plains': 0.00025,
         'forest': 0.00015,
-        'swamp': 0.00015
+        'swamp': 0.00015,
+        'mountain': 0.0001
     }
 
     def __init__(self, game, id=str(random.randbytes(20))):
