@@ -4,7 +4,7 @@ import pygame
 
 class Shrub:
 
-    def __init__(self, game, parent, pos, sprites, id, solid=True, new=False, health=1):
+    def __init__(self, game, parent, pos, sprites, id, solid=True, new=False, health=1, animated=False, animation_factor=15):
         self.game = game
         self.id = id
 
@@ -26,6 +26,10 @@ class Shrub:
         self.frame = self.sprites[self.active_sprite]
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
         self.health = health
+        self.animated = animated
+
+        self.animation_index = 0
+        self.animation_factor = animation_factor
 
     def get_bounding_rect(self):
         bounding_rect = self.frame.get_bounding_rect()
@@ -53,6 +57,17 @@ class Shrub:
 
         if self.health < 1:
             self.death()
+
+        if self.animated:
+            if self.animation_index // self.animation_factor >= len(self.sprites):
+                self.animation_index = 0
+
+            if self.animation_index == 0:
+                self.frame = self.sprites[0]
+            else:
+                self.frame = self.sprites[self.animation_index // self.animation_factor]
+
+            self.animation_index += round(self.game.delta_time * 100)
 
     def death(self):
         self.parent.shrubs.remove(self)

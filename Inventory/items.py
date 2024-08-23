@@ -3,6 +3,7 @@ import os
 from main import Game
 from Inventory.item import Item
 from load import load_sprites_from_dir, load_sprite_sheet_single
+import shrubs
 
 
 _inventory_items_path = 'assets\\inventory_items'
@@ -13,38 +14,55 @@ _inventory_items = {
 }
 
 _inventory_items_floor = {
-    'StonesSmall': load_sprites_from_dir(_inventory_items_path, 0.6, prefix='stones_small')[0]
+    'StonesSmall': load_sprites_from_dir(_inventory_items_path, 0.8, prefix='stones_small')[0],
+    'SmallStonesOrange': load_sprites_from_dir(_inventory_items_path, 0.8, prefix='stones_small')[0],
+    'SmallStonesBlue': load_sprites_from_dir(_inventory_items_path, 0.8, prefix='stones_small')[0],
+    'Rock': load_sprites_from_dir(_inventory_items_path, 0.6, prefix='rock')[0],
+    'RockBlue': load_sprites_from_dir(_inventory_items_path, 0.6, prefix='rock_blue')[0],
+    'RockOrange': load_sprites_from_dir(_inventory_items_path, 0.6, prefix='rock_orange')[0]
 }
+
+
+class Campfire(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Campfire'], placeable=True, shrub_to_place=shrubs.Campfire)
+
+
+class Firestarter(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Firestarter'])
 
 
 class SmallStonesOrange(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['SmallStonesOrange'])
+        super().__init__(game, _inventory_items['SmallStonesOrange'], floor_sprite=_inventory_items_floor['SmallStonesOrange'])
 
 
 class SmallStonesBlue(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['SmallStonesBlue'])
+        super().__init__(game, _inventory_items['SmallStonesBlue'], floor_sprite=_inventory_items_floor['SmallStonesBlue'])
 
 
 class RockOrange(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['RockOrange'])
+        super().__init__(game, _inventory_items['RockOrange'], floor_sprite=_inventory_items_floor['RockOrange'])
 
 
 class RockBlue(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['RockBlue'])
+        super().__init__(game, _inventory_items['RockBlue'], floor_sprite=_inventory_items_floor['RockBlue'])
 
 
 class Rock(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['Rock'])
+        super().__init__(game, _inventory_items['Rock'], floor_sprite=_inventory_items_floor['Rock'])
 
 
 class OrangeBrick(Item):
@@ -113,7 +131,7 @@ class StonesSmall(Item):
 class BasicCraftingTable(Item):
 
     def __init__(self, game):
-        super().__init__(game, _inventory_items['BasicCraftingTable'], placeable=True)
+        super().__init__(game, _inventory_items['BasicCraftingTable'], placeable=True, shrub_to_place=shrubs.BasicCraftingTable)
 
 
 class Wood(Item):

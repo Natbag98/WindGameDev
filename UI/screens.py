@@ -103,7 +103,7 @@ def _inventory_button_clicked(game: Game, element: Element, index):
             if item.placeable:
                 game.player.inventory.remove_item(item.__class__.__name__)
                 game.active_map.active_chunk.shrubs.append(
-                    BasicCraftingTable(
+                    item.shrub_to_place(
                         game,
                         game.map.active_chunk,
                         (
@@ -216,8 +216,8 @@ def _cycles_disp_update(game: Game, element: Element):
     element.sprites = [_ui_assets['cycles'][game.cycle]]
 
 
-INV_CENTRE = Game.WIDTH // 2 + 100
-CRAFT_CENTRE = Game.HEIGHT // 2 - 100
+INV_CENTRE = Game.WIDTH // 2 + 50
+CRAFT_CENTRE = Game.HEIGHT // 2 - 300
 
 INV_BAR_BG = []
 for i in range(Game.PLAYER_INVENTORY_SIZE + 3):

@@ -35,13 +35,18 @@ CRAFTING_MENU = {
         CraftingRecipe([Wood, StonesSmall, StonesSmall], SwordBasic),
         CraftingRecipe([Wood, StonesSmall, StonesSmall], AxeBasic),
         CraftingRecipe([Wood, StonesSmall, StonesSmall], PickBasic),
+        CraftingRecipe([StonesSmall, Rock], Firestarter),
+        CraftingRecipe([Wood, Wood, Firestarter], Campfire)
     ],
     'placeholder1': [
         CraftingRecipe([BlueBerries, BluePowder], BluePotion),
         CraftingRecipe([OrangeBerries], OrangePotion),
         CraftingRecipe([Wood, Wood], Plank),
         CraftingRecipe([SmallStonesBlue, RockBlue], BluePowder),
-        CraftingRecipe([SmallStonesOrange, RockOrange], OrangePowder)
+        CraftingRecipe([SmallStonesOrange, RockOrange], OrangePowder),
+        CraftingRecipe([Rock, Rock, StonesSmall], Brick),
+        CraftingRecipe([RockOrange, RockOrange, SmallStonesOrange], OrangeBrick),
+        CraftingRecipe([RockBlue, RockBlue, SmallStonesBlue], BlueBrick),
     ]
 }
 CRAFTING_MENUS = len(CRAFTING_MENU)

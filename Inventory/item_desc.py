@@ -23,6 +23,8 @@ DESC = {
     'Rock': 'A basic crafting\nmaterial',
     'RockBlue': 'A basic crafting\nmaterial',
     'RockOrange': 'A basic crafting\nmaterial',
-    'StonesSmallBlue': 'A basic crafting\nmaterial',
-    'StonesSmallOrange': 'A basic crafting\nmaterial',
+    'SmallStonesBlue': 'A basic crafting\nmaterial',
+    'SmallStonesOrange': 'A basic crafting\nmaterial',
+    'Firestarter': 'Flint and steel used to start\nfires',
+    'Campfire': 'A campfire to light up the\nnight and cook food\nClick to place'
 }

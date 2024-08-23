@@ -20,8 +20,23 @@ _shrub_assets = {
     'mountain_general': load_sprites_from_dir(f'{_shrub_path}\\mountain\\general', return_dict=True),
     'rock_basic': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_basic', return_dict=True),
     'rock_blue': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_blue', return_dict=True),
-    'rock_orange': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_orange', return_dict=True)
+    'rock_orange': load_sprites_from_dir(f'{_shrub_path}\\mountain\\rock_orange', return_dict=True),
+    'campfire': load_sprite_sheet_single(_shrub_path, 'campfire_animated.png', 4, 1, size=1.35)
 }
+
+
+class Campfire(Shrub):
+
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+        super().__init__(
+            game,
+            chunk,
+            pos,
+            _shrub_assets['campfire'],
+            id,
+            new=new,
+            animated=True
+        )
 
 
 class RockOrange(Shrub):
