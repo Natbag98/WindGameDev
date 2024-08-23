@@ -13,7 +13,7 @@ import threading
 class Game:
     RES = WIDTH, HEIGHT = 1600, 900
 
-    LAYER_COUNT = 3
+    LAYER_COUNT = 4
     FPS = 30
     CHUNK_SIZE = 850
     CHUNK_COUNT = 4
@@ -28,6 +28,19 @@ class Game:
 
     DEEP_ENTRANCES = 2
     DEEP_REQUIREMENT = 1
+
+    CYCLES = {
+        'day': [0, 10],
+        'sunset': [10, 200],
+        'night': [200, 190],
+        'sunrise': [190, 0]
+    }
+    CYCLE_TIMES = {
+        'day': 1000,
+        'sunset': 1000,
+        'night': 1000,
+        'sunrise': 1000
+    }
 
     @profilehooks.profile
     def __init__(self):
@@ -70,6 +83,10 @@ class Game:
         self.map = Map(self)
 
         self.active_map = self.map
+        self.time_timer_name = f'{self}_timer_time'
+        self.timers.add_timer(self.time_timer_name)
+        self.darkness = 0
+        self.cycle = 'sunrise'
 
     @staticmethod
     def get_centered_position(pos, size):
@@ -107,6 +124,23 @@ class Game:
                     self.player.pos = pygame.Vector2(random.choice(chunk.biome_cells['sand']))
                     return
 
+    def update_day_night_cycle(self):
+        if self.timers.check_max(self.time_timer_name):
+            next_cycle_index = list(self.CYCLES.keys()).index(self.cycle) + 1
+            if next_cycle_index >= len(self.CYCLES):
+                next_cycle_index = 0
+            self.cycle = list(self.CYCLES.keys())[next_cycle_index]
+            self.timers.add_timer(self.time_timer_name, self.CYCLE_TIMES[self.cycle])
+
+        cycle_time = self.timers.timers[self.time_timer_name]
+        cycle_progress =  cycle_time / self.CYCLE_TIMES[self.cycle] + 0.000000001
+        self.darkness = round(
+            (self.CYCLES[self.cycle][1] - self.CYCLES[self.cycle][0]) * cycle_progress + self.CYCLES[self.cycle][0]
+        )
+
+    def draw_effects(self):
+        self.draw_transparent_rect(self.layers[2], self.RES, (0, 0), Color('black', a=self.darkness).color)
+
     def update(self):
         self.delta_time = self.clock.tick(self.FPS)
         self.delta_time /= 1000
@@ -123,6 +157,7 @@ class Game:
         self.ui.update()
 
     def game_update(self):
+        self.update_day_night_cycle()
         self.timers.update()
         self.player.update()
         self.active_map.update()
@@ -133,10 +168,11 @@ class Game:
         if self.screen in ['paused', 'game']:
             self.game_draw()
 
-        self.ui.draw(self.layers[2])
-        self.input.draw(self.layers[2])
+        self.ui.draw(self.layers[3])
+        self.input.draw(self.layers[3])
 
     def game_draw(self):
+        self.draw_effects()
         self.player.draw(self.layers[1])
         self.active_map.draw(self.layers[0], self.layers[1])
 
