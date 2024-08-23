@@ -36,10 +36,10 @@ class Game:
         'sunrise': [190, 0]
     }
     CYCLE_TIMES = {
-        'day': 1000,
-        'sunset': 1000,
-        'night': 1000,
-        'sunrise': 1000
+        'day': 5000,
+        'sunset': 2000,
+        'night': 3500,
+        'sunrise': 1500
     }
 
     @profilehooks.profile

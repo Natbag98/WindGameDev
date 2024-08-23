@@ -64,6 +64,10 @@ class Element:
             self.pos = (self.pos[0], self.pos[1] - self.size[1] // 2)
         elif self.pos_position == 'left_center':
             self.pos = (self.pos[0] + self.size[0] // 2, self.pos[1])
+        elif self.pos_position =='bottom_right':
+            self.pos = (self.pos[0] - self.size[0], self.pos[1] - self.size[1])
+        elif self.pos_position == 'center_2':
+            self.pos = (self.pos[0] - self.size[0] // 2 + 5, self.pos[1] - self.size[1] // 2 + 5)
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.size), self.size)
 

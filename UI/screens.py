@@ -6,6 +6,7 @@ from crafting import CRAFTING_MENU, CRAFTING_MENUS
 from UI.ui import UI
 from shrubs import BasicCraftingTable
 from Inventory.inventory import Inventory
+import pygame
 
 CRAFTING_BACK_SIZE = (Game.INVENTORY_ITEM_SIZE[0] * 1.1, Game.INVENTORY_ITEM_SIZE[1] * 1.1)
 
@@ -13,12 +14,22 @@ INFO_TILES_COUNT = (7, 5)
 INFO_HORIZONTAL_PADDING = 15
 INFO_VERTICAL_PADDING = 15
 
+CYCLES_TILES_COUNT = (2, 2)
+
 _ui_path = 'assets\\ui'
 _ui_assets = {
     'home_button': load_sprites_from_dir(_ui_path, 2, prefix='home_button')[0],
     'inventory_frame_1': load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
-    'inventory_back': load_sprites_from_dir(f'{_ui_path}\\inventory_back', CRAFTING_BACK_SIZE)
+    'inventory_back': load_sprites_from_dir(f'{_ui_path}\\inventory_back', CRAFTING_BACK_SIZE),
+    'cycles': load_sprites_from_dir(f'{_ui_path}\\cycles', return_dict=True)
 }
+_ui_assets['inventory_back'].append(
+    pygame.transform.flip(
+        load_sprites_from_dir(f'{_ui_path}\\inventory_back', CRAFTING_BACK_SIZE, prefix='inventory_back_vertical')[0],
+        True,
+        False
+    )
+)
 
 inv_bar_backs = {
     0: load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
@@ -201,6 +212,10 @@ def _item_desc_update(game: Game, element: Element):
         element.render_text()
 
 
+def _cycles_disp_update(game: Game, element: Element):
+    element.sprites = [_ui_assets['cycles'][game.cycle]]
+
+
 INV_CENTRE = Game.WIDTH // 2 + 100
 CRAFT_CENTRE = Game.HEIGHT // 2 - 100
 
@@ -293,6 +308,27 @@ for x in range(INFO_TILES_COUNT[0]):
             Element(
                 (
                     round(x * Game.INVENTORY_ITEM_SIZE[0]),
+                    round(Game.HEIGHT - y * Game.INVENTORY_ITEM_SIZE[0])
+                ),
+                sprites=[_ui_assets['inventory_back'][back]]
+            )
+        )
+
+
+CYCLES_TILES_BACK = []
+for x in range(CYCLES_TILES_COUNT[0]):
+    for y in range(CYCLES_TILES_COUNT[1]):
+        back = 0
+        if y == CYCLES_TILES_COUNT[1] - 1 and x == CYCLES_TILES_COUNT[0] - 1:
+            back = 2
+        elif y == CYCLES_TILES_COUNT[1] - 1:
+            back = 1
+        elif x == CYCLES_TILES_COUNT[1] - 1:
+            back = 6
+        CYCLES_TILES_BACK.append(
+            Element(
+                (
+                    round(Game.WIDTH - x * Game.INVENTORY_ITEM_SIZE[0]),
                     round(Game.HEIGHT - y * Game.INVENTORY_ITEM_SIZE[0])
                 ),
                 sprites=[_ui_assets['inventory_back'][back]]
@@ -421,6 +457,13 @@ SCREENS = {
             text_color=Color('black').color,
             text_size=35,
             update_func=_item_desc_update
+        ),
+        *CYCLES_TILES_BACK,
+        Element(
+            Game.RES,
+            pos_position='center_2',
+            sprites=[_ui_assets['cycles']['day']],
+            update_func=_cycles_disp_update
         )
     ],
     'paused': [
