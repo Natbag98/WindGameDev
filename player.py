@@ -223,6 +223,3 @@ class Player:
 
     def draw(self, surface):
         surface.blit(self.frame, self.rect.topleft - self.game.camera.offset)
-        pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
-        pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)
-        pygame.draw.rect(surface, 'red', (self.get_bounding_rect().topleft - self.game.camera.offset, self.get_bounding_rect().size), 5)

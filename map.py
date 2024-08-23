@@ -7,27 +7,13 @@ from Inventory.items import StonesSmall
 
 
 class Map:
-    BIOME_HEIGHTS_MAIN = [
-        {
-            0.01: 'deep_ocean',
-            0.02: 'ocean',
-            0.06: 'sand',
-            0.28: '',
-            0.44: 'swamp',
-            1: 'mountain'
-        },
-        {
-            0.5: 'plains',
-            1: 'forest'
-        }
-    ]
     BIOME_HEIGHTS = [
         {
             0.01: 'deep_ocean',
             0.02: 'ocean',
             0.06: 'sand',
-            0.1: '',
-            0.2: 'swamp',
+            0.26: '',
+            0.38: 'swamp',
             1: 'mountain'
         },
         {
@@ -67,8 +53,8 @@ class Map:
     }
 
     ENEMY_PEACEFUL_COUNT_PER_CELL = {
-        'plains': 0.000025,
-        'forest': 0.00005
+        'plains': 0.000015,
+        'forest': 0.000025
     }
 
     FLOOR_ITEMS = {
@@ -88,11 +74,11 @@ class Map:
     MAX_VAL = 0.8
 
     SHRUB_COUNT_PER_CELL = {
-        'sand': 0.0001,
-        'plains': 0.00025,
-        'forest': 0.00015,
-        'swamp': 0.00015,
-        'mountain': 0.0001
+        'sand': 0.00005,
+        'plains': 0.00015,
+        'forest': 0.0001,
+        'swamp': 0.0001,
+        'mountain': 0.00005
     }
 
     def __init__(self, game, id=str(random.randbytes(20))):

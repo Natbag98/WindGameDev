@@ -477,7 +477,7 @@ SCREENS = {
         Element(
             (
                 Game.WIDTH // 2,
-                Game.HEIGHT // 2 - 50
+                Game.HEIGHT // 2 - 25
             ),
             text='Resume',
             text_size=50,
@@ -486,16 +486,7 @@ SCREENS = {
         Element(
             (
                 Game.WIDTH // 2,
-                Game.HEIGHT // 2
-            ),
-            text='Save',
-            text_size=50,
-            clicked_func=_save_button_pressed
-        ),
-        Element(
-            (
-                Game.WIDTH // 2,
-                Game.HEIGHT // 2 + 50
+                Game.HEIGHT // 2 + 25
             ),
             text='Exit',
             text_size=50,
@@ -510,19 +501,13 @@ SCREENS = {
             pos_position='top_left'
         ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 - 50),
-            text='Load Game',
-            text_size=80,
-            clicked_func=_load_button_clicked
-        ),
-        Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 - 100),
+            (Game.WIDTH // 2, Game.HEIGHT // 2 - 25),
             text='Start New',
             text_size=80,
             clicked_func=_start_button_clicked
         ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 + 50),
+            (Game.WIDTH // 2, Game.HEIGHT // 2 + 25),
             text='Exit',
             text_size=80,
             clicked_func=_exit_button_clicked

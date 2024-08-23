@@ -23,5 +23,3 @@ class FloorItem:
 
     def draw(self, surface):
         surface.blit(self.item.floor_sprite, self.rect.topleft - self.game.camera.offset)
-        #pygame.draw.circle(surface, 'red', self.pos - self.game.camera.offset, 5)
-        #pygame.draw.rect(surface, 'red', (self.rect.topleft - self.game.camera.offset, self.rect.size), 5)
