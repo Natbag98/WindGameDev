@@ -58,6 +58,8 @@ class MouseButton:
         return rect.collidepoint(self.input.mouse_pos) and self.__dict__[click_type]
 
     def update(self):
+        self.clicked = False
+        self.released = False
         if pygame.mouse.get_pressed()[self.button]:
             if self.clicked:
                 self.clicked = False
@@ -80,6 +82,8 @@ class Key:
         self.released = False
 
     def update(self, keys):
+        self.pressed = False
+        self.released = False
         if keys[self.key]:
             if self.pressed:
                 self.pressed = False
