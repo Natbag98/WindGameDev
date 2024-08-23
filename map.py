@@ -101,6 +101,7 @@ class Map:
         self.chunks = None
         self.type = 'basic'
         self.shrubs_colliding_with_player = []
+        self.campfires = []
 
     # noinspection PyUnresolvedReferences
     def generate(self):

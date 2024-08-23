@@ -217,7 +217,7 @@ def _cycles_disp_update(game: Game, element: Element):
 
 
 INV_CENTRE = Game.WIDTH // 2 + 50
-CRAFT_CENTRE = Game.HEIGHT // 2 - 300
+CRAFT_CENTRE = Game.HEIGHT // 2 - 350
 
 INV_BAR_BG = []
 for i in range(Game.PLAYER_INVENTORY_SIZE + 3):

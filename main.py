@@ -23,6 +23,8 @@ class Game:
 
     PLAYER_INVENTORY_SIZE = 12
     INVENTORY_ITEM_SIZE = (64, 64)
+    CAMPFIRE_RANGE = 200
+    CAMPFIRE_POWER = 0.75
 
     CRAFTING_ITEM_SIZE = (64, 64)
 
@@ -30,10 +32,10 @@ class Game:
     DEEP_REQUIREMENT = 1
 
     CYCLES = {
-        'day': [0, 10],
-        'sunset': [10, 200],
-        'night': [200, 190],
-        'sunrise': [190, 0]
+        'day': [0, 5],
+        'sunset': [5, 240],
+        'night': [240, 235],
+        'sunrise': [235, 0]
     }
     CYCLE_TIMES = {
         'day': 5000,
@@ -137,6 +139,20 @@ class Game:
         self.darkness = round(
             (self.CYCLES[self.cycle][1] - self.CYCLES[self.cycle][0]) * cycle_progress + self.CYCLES[self.cycle][0]
         )
+
+        if self.map.campfires:
+            shortest_distance = None
+            for campfire in self.map.campfires:
+                if not shortest_distance:
+                    shortest_distance = self.player.pos.distance_to(pygame.Vector2(campfire))
+                elif self.player.pos.distance_to(pygame.Vector2(campfire)) < shortest_distance:
+                    shortest_distance = self.player.pos.distance_to(pygame.Vector2(campfire))
+
+            if shortest_distance < self.CAMPFIRE_RANGE:
+                self.darkness -= (self.CAMPFIRE_RANGE - shortest_distance) * self.CAMPFIRE_POWER
+
+            if self.darkness < 0:
+                self.darkness = 0
 
     def draw_effects(self):
         self.draw_transparent_rect(self.layers[2], self.RES, (0, 0), Color('black', a=self.darkness).color)

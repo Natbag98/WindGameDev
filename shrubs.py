@@ -28,6 +28,8 @@ _shrub_assets = {
 class Campfire(Shrub):
 
     def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+        game.map.campfires.append(pos)
+
         super().__init__(
             game,
             chunk,
@@ -37,6 +39,10 @@ class Campfire(Shrub):
             new=new,
             animated=True
         )
+
+    def death(self):
+        self.game.map.campfires.remove(self.pos)
+        super().death()
 
 
 class RockOrange(Shrub):
@@ -87,7 +93,7 @@ class RockBlue(Shrub):
 
     def death(self):
         self.parent.place_floor_items_in_rect(SmallStonesBlue, self.rect, random.randrange(1, 3))
-        self.parent.place_floor_items_in_rect(RockBlue, self.rect, random.randrange(0, 3))
+        self.parent.place_floor_items_in_rect(items.RockBlue, self.rect, random.randrange(0, 3))
         super().death()
 
 
