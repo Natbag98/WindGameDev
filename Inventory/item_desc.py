@@ -26,5 +26,6 @@ DESC = {
     'SmallStonesBlue': 'A basic crafting\nmaterial',
     'SmallStonesOrange': 'A basic crafting\nmaterial',
     'Firestarter': 'Flint and steel used to start\nfires',
-    'Campfire': 'A campfire to light up the\nnight and cook food\nClick to place'
+    'Campfire': 'A campfire to light up the\nnight and cook food\nClick to place',
+    'MeatCooked': 'A small chunk of\ncooked meat\nClick to consume'
 }

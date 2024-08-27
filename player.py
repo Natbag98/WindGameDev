@@ -65,6 +65,8 @@ class Player:
 
         self.inventory = Inventory(self.game, self)
         self.basic_crafting = False
+        self.advanced_crafting = False
+        self.food_crafting = False
 
         self.pos = Vector2(0, 0)
         self.state = 'idle'
@@ -82,12 +84,18 @@ class Player:
         self.sanity = 80
         self._sanity = self.sanity
 
+        self.food_decay = 0.4
+        self.sanity_decay = 0.2
+
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
         self.attacking = False
         self.hit = False
         self.death = False
         self.pickup = False
+
+    def increase_hunger(self, amount):
+        self.hunger += amount
 
     def get_bounding_rect(self, animation=None, coll=False):
         bounding_rect = self.sprites[self.state][self.facing][0].get_bounding_rect()
@@ -149,6 +157,17 @@ class Player:
         return velocity, collided
 
     def update(self):
+        self._hunger -= self.food_decay * self.game.delta_time
+        self._sanity -= self.sanity_decay * self.game.delta_time
+
+        if self._hunger < 0:
+            self._hunger = 0
+        if self._sanity < 0:
+            self._sanity = 0
+
+        self.hunger = round(self._hunger)
+        self.sanity = round(self._sanity)
+
         self.attack_strength = self.BASE_ATTACK_STRENGTH
         if self.inventory.hand_item:
             self.attack_strength = self.inventory.hand_item.attack_strength
@@ -175,12 +194,17 @@ class Player:
             velocity = Vector2(0, 0)
 
         self.basic_crafting = False
+        self.advanced_crafting = False
+        self.food_crafting = False
         for shrub in self.game.map.shrubs_colliding_with_player:
             if shrub.solid:
                 velocity, collided = self.check_col(velocity, shrub.get_bounding_rect())
 
             if shrub.__class__.__name__ == 'BasicCraftingTable':
                 self.basic_crafting = True
+
+            if shrub.__class__.__name__ == 'Campfire':
+                self.food_crafting = True
 
         if velocity:
             self.state = 'moving'

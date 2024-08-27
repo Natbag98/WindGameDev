@@ -30,7 +30,7 @@ class CraftingRecipe:
 
 # TODO : Finish crafting menu ui placement and sprite display
 CRAFTING_MENU = {
-    'placeholder0': [
+    'placeholder1': [
         CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable),
         CraftingRecipe([Wood, StonesSmall, StonesSmall], SwordBasic),
         CraftingRecipe([Wood, StonesSmall, StonesSmall], AxeBasic),
@@ -38,7 +38,7 @@ CRAFTING_MENU = {
         CraftingRecipe([StonesSmall, Rock], Firestarter),
         CraftingRecipe([Wood, Wood, Firestarter], Campfire)
     ],
-    'placeholder1': [
+    'placeholder2': [
         CraftingRecipe([BlueBerries, BluePowder], BluePotion),
         CraftingRecipe([OrangeBerries, OrangePowder], OrangePotion),
         CraftingRecipe([Wood, Wood], Plank),
@@ -47,6 +47,11 @@ CRAFTING_MENU = {
         CraftingRecipe([Rock, Rock, StonesSmall], Brick),
         CraftingRecipe([RockOrange, RockOrange, SmallStonesOrange], OrangeBrick),
         CraftingRecipe([RockBlue, RockBlue, SmallStonesBlue], BlueBrick),
+    ],
+    'placeholder3': [],
+    'placeholder4': [
+        CraftingRecipe([SquirrelCarcass, SquirrelCarcass], MeatCooked),
+        CraftingRecipe([HedgehogCarcass, HedgehogCarcass], MeatCooked)
     ]
 }
 CRAFTING_MENUS = len(CRAFTING_MENU)

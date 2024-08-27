@@ -14,7 +14,7 @@ INFO_TILES_COUNT = (7, 5)
 INFO_HORIZONTAL_PADDING = 15
 INFO_VERTICAL_PADDING = 15
 
-CYCLES_TILES_COUNT = (2, 8)
+CYCLES_TILES_COUNT = (2, 6)
 
 _ui_path = 'assets\\ui'
 _ui_assets = {
@@ -117,6 +117,8 @@ def _inventory_button_clicked(game: Game, element: Element, index):
                 )
             elif item.hand:
                 game.player.inventory.place_in_hand(item.__class__.__name__)
+            elif item.__class__.__name__ == 'MeatCooked':
+                game.player.increase_hunger(25)
 
 
 def _inventory_item_update(game: Game, element: Element, index):
@@ -146,7 +148,9 @@ def _loading_text_update(game: Game, element: Element):
 
 _CRAFTING_INDEXES = {
     0: True,
-    1: 'basic_crafting'
+    1: 'basic_crafting',
+    2: 'advanced_crafting',
+    3: 'food_crafting'
 }
 
 
@@ -527,7 +531,15 @@ SCREENS = {
         Element(
             (
                 Game.WIDTH,
-                Game.HEIGHT - 70
+                Game.HEIGHT - 80
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status_grey']['heart']]
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 80
             ),
             pos_position='center_2',
             sprites=[_ui_assets['player_status']['heart']],
@@ -536,15 +548,15 @@ SCREENS = {
         Element(
             (
                 Game.WIDTH,
-                Game.HEIGHT - 70
+                Game.HEIGHT - 80 * 2
             ),
             pos_position='center_2',
-            sprites=[_ui_assets['player_status_grey']['heart']]
+            sprites=[_ui_assets['player_status_grey']['stomach']]
         ),
         Element(
             (
                 Game.WIDTH,
-                Game.HEIGHT - 70 * 2
+                Game.HEIGHT - 80 * 2
             ),
             pos_position='center_2',
             sprites=[_ui_assets['player_status']['stomach']],
@@ -553,27 +565,19 @@ SCREENS = {
         Element(
             (
                 Game.WIDTH,
-                Game.HEIGHT - 70 * 2
+                Game.HEIGHT - 80 * 3
             ),
             pos_position='center_2',
-            sprites=[_ui_assets['player_status_grey']['stomach']]
+            sprites=[_ui_assets['player_status_grey']['brain']]
         ),
         Element(
             (
                 Game.WIDTH,
-                Game.HEIGHT - 70 * 3
+                Game.HEIGHT - 80 * 3
             ),
             pos_position='center_2',
             sprites=[_ui_assets['player_status']['brain']],
             update_func=_brain_colored_display_update
-        ),
-        Element(
-            (
-                Game.WIDTH,
-                Game.HEIGHT - 70 * 3
-            ),
-            pos_position='center_2',
-            sprites=[_ui_assets['player_status_grey']['brain']]
         )
     ],
     'paused': [
