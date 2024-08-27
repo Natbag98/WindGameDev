@@ -71,8 +71,16 @@ class Player:
         self.animation_index = 0
         self.facing = 'down'
         self.frame = self.sprites[self.state][self.facing][0]
-        self.health = 10
         self.attack_strength = self.BASE_ATTACK_STRENGTH
+
+        self.max_health = 10
+        self.health = 8
+        self.max_hunger = 100
+        self.hunger = 80
+        self._hunger = self.hunger
+        self.max_sanity = 100
+        self.sanity = 80
+        self._sanity = self.sanity
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 

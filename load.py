@@ -1,5 +1,19 @@
 import pygame
 import os
+import numpy
+from PIL import Image
+
+
+def _grayscale(surface):
+    grayscale_surface = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+    surface.lock()
+    for x in range(surface.get_width()):
+        for y in range(surface.get_height()):
+            r, g, b, a = surface.get_at((x, y))
+            grayscale_value = int(0.21 * r + 0.72 * g + 0.07 * b)
+            grayscale_surface.set_at((x, y), (grayscale_value, grayscale_value, grayscale_value, a))
+    surface.unlock()
+    return grayscale_surface
 
 
 def load_sprite_sheet_single(
@@ -38,7 +52,7 @@ def load_sprite_sheet_single(
     ]
 
 
-def load_sprites_from_dir(path, size=1, flip_x=False, flip_y=False, prefix='', return_dict=False):
+def load_sprites_from_dir(path, size=1, flip_x=False, flip_y=False, prefix='', return_dict=False, grey=False):
     sprites = []
     files = []
     for file in os.listdir(path):
@@ -48,6 +62,9 @@ def load_sprites_from_dir(path, size=1, flip_x=False, flip_y=False, prefix='', r
                 size = (sprite.get_size()[0] * size, sprite.get_size()[1] * size)
             sprites.append(pygame.transform.scale(sprite, size))
             files.append(file)
+
+    if grey:
+        sprites = [_grayscale(sprite) for sprite in sprites]
 
     if return_dict:
         return {

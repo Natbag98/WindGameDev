@@ -26,7 +26,6 @@ class Element:
         hovered_func_args=()
     ):
         self.game = None
-        self.size = None
         self.rect = None
         self.size = size
         self.pos = pos

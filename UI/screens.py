@@ -14,14 +14,16 @@ INFO_TILES_COUNT = (7, 5)
 INFO_HORIZONTAL_PADDING = 15
 INFO_VERTICAL_PADDING = 15
 
-CYCLES_TILES_COUNT = (2, 2)
+CYCLES_TILES_COUNT = (2, 8)
 
 _ui_path = 'assets\\ui'
 _ui_assets = {
     'home_button': load_sprites_from_dir(_ui_path, 2, prefix='home_button')[0],
     'inventory_frame_1': load_sprites_from_dir(_ui_path, Game.INVENTORY_ITEM_SIZE, prefix='inventory_frame_1')[0],
     'inventory_back': load_sprites_from_dir(f'{_ui_path}\\inventory_back', CRAFTING_BACK_SIZE),
-    'cycles': load_sprites_from_dir(f'{_ui_path}\\cycles', return_dict=True)
+    'cycles': load_sprites_from_dir(f'{_ui_path}\\cycles', return_dict=True),
+    'player_status': load_sprites_from_dir(f'{_ui_path}\\player_status', return_dict=True),
+    'player_status_grey': load_sprites_from_dir(f'{_ui_path}\\player_status', return_dict=True, grey=True)
 }
 _ui_assets['inventory_back'].append(
     pygame.transform.flip(
@@ -216,6 +218,63 @@ def _cycles_disp_update(game: Game, element: Element):
     element.sprites = [_ui_assets['cycles'][game.cycle]]
 
 
+def _heart_colored_display_update(game: Game, element: Element):
+    sprite = _ui_assets['player_status']['heart']
+    img = pygame.Surface(element.sprites[0].get_size(), pygame.SRCALPHA)
+    img.blit(
+        sprite,
+        (
+            0,
+            0
+        ),
+        (
+            0,
+            0,
+            sprite.get_size()[0],
+            sprite.get_size()[1] * (game.player.health / game.player.max_health)
+        )
+    )
+    element.sprites = [img]
+
+
+def _stomach_colored_display_update(game: Game, element: Element):
+    sprite = _ui_assets['player_status']['stomach']
+    img = pygame.Surface(element.sprites[0].get_size(), pygame.SRCALPHA)
+    img.blit(
+        sprite,
+        (
+            0,
+            0
+        ),
+        (
+            0,
+            0,
+            sprite.get_size()[0],
+            sprite.get_size()[1] * (game.player.hunger / game.player.max_hunger)
+        )
+    )
+    element.sprites = [img]
+
+
+def _brain_colored_display_update(game: Game, element: Element):
+    sprite = _ui_assets['player_status']['brain']
+    img = pygame.Surface(element.sprites[0].get_size(), pygame.SRCALPHA)
+    img.blit(
+        sprite,
+        (
+            0,
+            0
+        ),
+        (
+            0,
+            0,
+            sprite.get_size()[0],
+            sprite.get_size()[1] * (game.player.sanity / game.player.max_sanity)
+        )
+    )
+    element.sprites = [img]
+
+
 INV_CENTRE = Game.WIDTH // 2 + 50
 CRAFT_CENTRE = Game.HEIGHT // 2 - 350
 
@@ -323,7 +382,7 @@ for x in range(CYCLES_TILES_COUNT[0]):
             back = 2
         elif y == CYCLES_TILES_COUNT[1] - 1:
             back = 1
-        elif x == CYCLES_TILES_COUNT[1] - 1:
+        elif x == CYCLES_TILES_COUNT[0] - 1:
             back = 6
         CYCLES_TILES_BACK.append(
             Element(
@@ -464,6 +523,57 @@ SCREENS = {
             pos_position='center_2',
             sprites=[_ui_assets['cycles']['day']],
             update_func=_cycles_disp_update
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 70
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status']['heart']],
+            update_func=_heart_colored_display_update
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 70
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status_grey']['heart']]
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 70 * 2
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status']['stomach']],
+            update_func=_stomach_colored_display_update
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 70 * 2
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status_grey']['stomach']]
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 70 * 3
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status']['brain']],
+            update_func=_brain_colored_display_update
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 70 * 3
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status_grey']['brain']]
         )
     ],
     'paused': [
