@@ -26,6 +26,7 @@ class Enemy:
         bound_to_chunk=True,
         damage_amount=0,
         attack_cooldown=0,
+        attack_frame=0
     ):
         self.game = game
         self.chunk = chunk
@@ -55,6 +56,7 @@ class Enemy:
         self.aggressive = aggressive
         self.aggressive_range = aggressive_range
         self.attacks = attacks
+        self.attack_frame = attack_frame
 
         self.move_speed = move_speed
         self.pos = self.start_pos
@@ -140,11 +142,13 @@ class Enemy:
         self.chunk.enemies.remove(self)
 
     def attack(self):
-        self.target_pos = self.get_target_pos()
-        self.game.timers.add_timer(self.attack_timer_name, self.attack_cooldown)
         self.attacking = True
         self.animation_index = 0
+
+    def perform_attack(self):
         self.game.player.damage(self.damage_amount)
+        self.target_pos = self.get_target_pos()
+        self.game.timers.add_timer(self.attack_timer_name, self.attack_cooldown)
 
     def update(self):
         if self.rect.collidepoint(self.target_pos):
@@ -218,11 +222,10 @@ class Enemy:
                 self.state = 'idle'
             animation = self.sprites[self.state][self.facing_y][self.facing_x]
 
-        if self.animation_index == 0:
-            self.frame = animation[0]
-        else:
-            self.frame = animation[self.animation_index // self.animation_factors[self.state]]
+        if self.animation_index // self.animation_factors[self.state] == self.attack_frame and self.attacking:
+            self.perform_attack()
 
+        self.frame = animation[self.animation_index // self.animation_factors[self.state]]
         self.animation_index += round(self.game.delta_time * 100)
 
         self.rect.update(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())

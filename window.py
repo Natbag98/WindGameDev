@@ -1,5 +1,4 @@
 import pygame.display
-import math
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 

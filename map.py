@@ -56,19 +56,21 @@ class Map:
         'forest': [TreeSimple, BushSimple, TreeSimple, ForestGeneral, ForestGeneral, ForestGeneral]
     }
 
-    BIOME_ENEMIES_PEACEFUL = {
+    BIOME_ENEMIES = {
         'deep_ocean': [],
         'ocean': [],
         'sand': [],
-        'swamp': [],
-        'mountain': [],
+        'swamp': [Slime],
+        'mountain': [StrongSkeleton, Skeleton, Skeleton, Skeleton, Skeleton],
         'plains': [Squirrel, Hedgehog],
         'forest': [Squirrel, Hedgehog]
     }
 
-    ENEMY_PEACEFUL_COUNT_PER_CELL = {
-        'plains': 0.000025,
-        'forest': 0.00005
+    ENEMY_COUNT_PER_CELL = {
+        'plains': 0.000015,
+        'forest': 0.000025,
+        'swamp': 0.0001,
+        'mountain': 0.00004
     }
 
     FLOOR_ITEMS = {

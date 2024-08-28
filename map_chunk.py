@@ -63,16 +63,16 @@ class Chunk:
     def generate_enemies(self):
         enemies = []
         for biome in Map.BIOMES:
-            if self.biome_cells[biome] and biome in Map.ENEMY_PEACEFUL_COUNT_PER_CELL:
+            if self.biome_cells[biome] and biome in Map.ENEMY_COUNT_PER_CELL:
                 enemies.extend(
                     [
-                        random.choice(Map.BIOME_ENEMIES_PEACEFUL[biome])(
+                        random.choice(Map.BIOME_ENEMIES[biome])(
                             self.game,
                             self,
                             Vector2(random.choice(self.biome_cells[biome])),
                             new=True
                         )
-                        for _ in range(round(Map.ENEMY_PEACEFUL_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
+                        for _ in range(round(Map.ENEMY_COUNT_PER_CELL[biome] * len(self.biome_cells[biome])))
                     ]
                 )
         return enemies
