@@ -13,7 +13,7 @@ _hedgehog_size = 2
 _aggressive_path = 'assets\\enemies\\aggressive'
 _peaceful_path = 'assets\\enemies\\peaceful'
 
-_skeleton_size = 1.75
+_skeleton_size = 1.5
 
 _SPRITES = {
     'squirrel': {
@@ -348,7 +348,7 @@ class Skeleton(Enemy):
             game,
             chunk,
             _SPRITES['skeleton'],
-            {'idle': 10, 'moving': 10, 'hit': 10, 'death': 10,  'attacking': 10},
+            {'idle': 8, 'moving': 8, 'hit': 8, 'death': 8,  'attacking': 10},
             health=3,
             start_pos=start_pos,
             move_speed=50,
@@ -370,7 +370,7 @@ class StrongSkeleton(Enemy):
             game,
             chunk,
             _SPRITES['strong_skeleton'],
-            {'idle': 10, 'moving': 10, 'hit': 10, 'death': 10,  'attacking': 10},
+            {'idle': 8, 'moving': 8, 'hit': 8, 'death': 8,  'attacking': 10},
             health=10,
             start_pos=start_pos,
             move_speed=50,
