@@ -32,9 +32,9 @@ class CraftingRecipe:
 CRAFTING_MENU = {
     'placeholder1': [
         CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable),
-        CraftingRecipe([Wood, StonesSmall, StonesSmall], SwordBasic),
-        CraftingRecipe([Wood, StonesSmall, StonesSmall], AxeBasic),
-        CraftingRecipe([Wood, StonesSmall, StonesSmall], PickBasic),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], Sword),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], Axe),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], Pick),
         CraftingRecipe([StonesSmall, Rock], Firestarter),
         CraftingRecipe([Wood, Wood, Firestarter], Campfire)
     ],
@@ -48,7 +48,11 @@ CRAFTING_MENU = {
         CraftingRecipe([RockOrange, RockOrange, SmallStonesOrange], OrangeBrick),
         CraftingRecipe([RockBlue, RockBlue, SmallStonesBlue], BlueBrick),
     ],
-    'placeholder3': [],
+    'placeholder3': [
+        CraftingRecipe([Bone, Bone, OrangeBrick], BonePick),
+        CraftingRecipe([Bone, Bone, BlueBrick], BoneAxe),
+        CraftingRecipe([Bone, Bone, BlueBrick], BoneSword)
+    ],
     'placeholder4': [
         CraftingRecipe([SquirrelCarcass, SquirrelCarcass], MeatCooked),
         CraftingRecipe([HedgehogCarcass, HedgehogCarcass], MeatCooked)
