@@ -1,8 +1,8 @@
 from Enemy.enemy import Enemy
-from load import load_sprite_sheet_single, load_sprites_from_dir
 from main import Game as _Game
-from Inventory.items import SquirrelCarcass, HedgehogCarcass
+from Inventory.items import *
 from floor_item import FloorItem
+import random
 
 _squirrel_path = 'assets\\enemies\\peaceful\\squirrel'
 _squirrel_size = 2
@@ -362,6 +362,11 @@ class Skeleton(Enemy):
             attack_frame=4
         )
 
+    def death(self):
+        self.chunk.place_floor_items_in_rect(Skull, self.rect, random.randrange(0, 2))
+        self.chunk.place_floor_items_in_rect(Bone, self.rect, random.randrange(1, 3))
+        super().death()
+
 
 class StrongSkeleton(Enemy):
 
@@ -383,6 +388,11 @@ class StrongSkeleton(Enemy):
             aggressive_range=200,
             attack_frame=3
         )
+
+    def death(self):
+        self.chunk.place_floor_items_in_rect(Skull, self.rect, 1)
+        self.chunk.place_floor_items_in_rect(Bone, self.rect, random.randrange(1, 3))
+        super().death()
 
 
 _ENEMIES = {

@@ -23,6 +23,16 @@ _inventory_items_floor = {
 }
 
 
+class Bone(Item):
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Bone'])
+
+
+class Skull(Item):
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Skull'])
+
+
 class MeatCooked(Item):
 
     def __init__(self, game):

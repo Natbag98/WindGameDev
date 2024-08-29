@@ -180,7 +180,7 @@ class Ship(Shrub):
             self.health -= strength
 
     def death(self):
-        self.parent.place_floor_items_in_rect(Wood, self.rect, random.randrange(1, 3))
+        self.parent.place_floor_items_in_rect(Wood, self.rect, random.randrange(1, 3) + self.wood_remaining)
         super().death()
 
 
