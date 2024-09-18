@@ -95,7 +95,7 @@ class Player:
         self.pickup = False
 
     def increase_hunger(self, amount):
-        self.hunger += amount
+        self._hunger += amount
 
     def get_bounding_rect(self, animation=None, coll=False):
         bounding_rect = self.sprites[self.state][self.facing][0].get_bounding_rect()

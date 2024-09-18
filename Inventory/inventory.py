@@ -12,6 +12,9 @@ class Inventory:
 
         self.items = [None for _ in range(Game.PLAYER_INVENTORY_SIZE)]
 
+        from Inventory.items import Campfire
+        self.items[0] = Campfire(game)
+
     def place_in_hand(self, item_name):
         item = self.get_item(item_name)
         if item:

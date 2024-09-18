@@ -32,9 +32,9 @@ class CraftingRecipe:
 CRAFTING_MENU = {
     'placeholder1': [
         CraftingRecipe([Wood, Wood, Wood], BasicCraftingTable),
-        CraftingRecipe([Wood, StonesSmall, StonesSmall], Sword),
-        CraftingRecipe([Wood, StonesSmall, StonesSmall], Axe),
-        CraftingRecipe([Wood, StonesSmall, StonesSmall], Pick),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], SwordBasic),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], AxeBasic),
+        CraftingRecipe([Wood, StonesSmall, StonesSmall], PickBasic),
         CraftingRecipe([StonesSmall, Rock], Firestarter),
         CraftingRecipe([Wood, Wood, Firestarter], Campfire)
     ],

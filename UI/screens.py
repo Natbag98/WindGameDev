@@ -118,6 +118,7 @@ def _inventory_button_clicked(game: Game, element: Element, index):
             elif item.hand:
                 game.player.inventory.place_in_hand(item.__class__.__name__)
             elif item.__class__.__name__ == 'MeatCooked':
+                game.player.inventory.remove_item('MeatCooked')
                 game.player.increase_hunger(25)
 
 

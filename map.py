@@ -7,7 +7,7 @@ from Inventory.items import StonesSmall
 
 
 class Map:
-    BIOME_HEIGHTS_MAIN = [
+    BIOME_HEIGHTS = [
         {
             0.01: 'deep_ocean',
             0.02: 'ocean',
@@ -21,7 +21,7 @@ class Map:
             1: 'forest'
         }
     ]
-    BIOME_HEIGHTS = [
+    BIOME_HEIGHTS_MAIN = [
         {
             0.01: 'deep_ocean',
             0.02: 'ocean',
