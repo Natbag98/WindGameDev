@@ -281,7 +281,7 @@ def _brain_colored_display_update(game: Game, element: Element):
 
 
 INV_CENTRE = Game.WIDTH // 2 + 50
-CRAFT_CENTRE = Game.HEIGHT // 2 - 350
+CRAFT_CENTRE = Game.HEIGHT // 2 - 300
 
 INV_BAR_BG = []
 for i in range(Game.PLAYER_INVENTORY_SIZE + 3):
@@ -303,7 +303,7 @@ for i in range(Game.PLAYER_INVENTORY_SIZE + 3):
 
 CRAFTING_MENU_BG = []
 for i in range(CRAFTING_MENUS):
-    back = 4
+    back = 5
     if i == 0:
         back = 4
     elif i == CRAFTING_MENUS - 1:
