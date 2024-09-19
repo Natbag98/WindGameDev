@@ -84,8 +84,8 @@ class Player:
         self.sanity = 80
         self._sanity = self.sanity
 
-        self.food_decay = 0.4
-        self.sanity_decay = 0.2
+        self.food_decay = 0.3
+        self.sanity_decay = 0.5
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
@@ -158,7 +158,7 @@ class Player:
 
     def update(self):
         self._hunger -= self.food_decay * self.game.delta_time
-        self._sanity -= self.sanity_decay * self.game.delta_time
+        self._sanity -= self.sanity_decay * self.game.delta_time * (self.game.darkness / 255)
 
         if self._hunger < 0:
             self._hunger = 0
