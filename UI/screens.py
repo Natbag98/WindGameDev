@@ -70,7 +70,7 @@ def _save_button_pressed(game: Game, element: Element):
 
 
 def _main_menu_button_pressed(game: Game, element: Element):
-    pass
+    game.quit()
 
 
 def _exit_button_clicked(game: Game, element: Element):
@@ -625,19 +625,19 @@ SCREENS = {
             pos_position='top_left'
         ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 - 50),
+            (Game.WIDTH // 2, Game.HEIGHT // 2),
             text='Load Game',
             text_size=80,
             clicked_func=_load_button_clicked
         ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 - 100),
+            (Game.WIDTH // 2, Game.HEIGHT // 2 - 75),
             text='Start New',
             text_size=80,
             clicked_func=_start_button_clicked
         ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 + 50),
+            (Game.WIDTH // 2, Game.HEIGHT // 2 + 75),
             text='Exit',
             text_size=80,
             clicked_func=_exit_button_clicked
