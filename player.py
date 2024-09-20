@@ -76,7 +76,7 @@ class Player:
         self.attack_strength = self.BASE_ATTACK_STRENGTH
 
         self.max_health = 10
-        self.health = 8
+        self.health = 100
         self.max_hunger = 100
         self.hunger = 80
         self._hunger = self.hunger
@@ -93,6 +93,8 @@ class Player:
         self.hit = False
         self.death = False
         self.pickup = False
+
+        self.death_reason = False
 
     def increase_hunger(self, amount):
         self._hunger += amount
@@ -160,6 +162,8 @@ class Player:
         self._hunger -= self.food_decay * self.game.delta_time
         self._sanity -= self.sanity_decay * self.game.delta_time * (self.game.darkness / 255)
 
+        if self.health < 0:
+            self.health = 0
         if self._hunger < 0:
             self._hunger = 0
         if self._sanity < 0:
@@ -167,6 +171,16 @@ class Player:
 
         self.hunger = round(self._hunger)
         self.sanity = round(self._sanity)
+
+        if self.health == 0:
+            self.death_reason = 1
+        elif self.hunger == 0:
+            self.death_reason = 2
+        elif self.sanity == 0:
+            self.death_reason = 3
+
+        if self.death_reason:
+            self.game.screen = f'death_{self.death_reason}'
 
         self.attack_strength = self.BASE_ATTACK_STRENGTH
         if self.inventory.hand_item:

@@ -657,5 +657,62 @@ SCREENS = {
             text_size=80,
             update_func=_loading_text_update
         ),
+    ],
+    'death_1': [
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 - 50
+            ),
+            text='You were killed',
+            text_size=100
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 + 50
+            ),
+            text='Quit',
+            text_size=50,
+            clicked_func=_exit_button_clicked
+        ),
+    ],
+    'death_2': [
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 - 50
+            ),
+            text='You starved to death',
+            text_size=100
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 + 50
+            ),
+            text='Quit',
+            text_size=50,
+            clicked_func=_exit_button_clicked
+        ),
+    ],
+    'death_3': [
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 - 50
+            ),
+            text='You went insane',
+            text_size=100
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 + 50
+            ),
+            text='Quit',
+            text_size=50,
+            clicked_func=_exit_button_clicked
+        ),
     ]
 }

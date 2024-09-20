@@ -307,7 +307,7 @@ class Hedgehog(Enemy):
             stop_max=350,
             denied_biomes=('sand', 'ocean', 'deep_ocean', 'mountain', 'swamp'),
             aggressive=True,
-            damage_amount=2,
+            damage_amount=8,
             attack_cooldown=200,
             attack_frame=3
         )
@@ -334,7 +334,7 @@ class Slime(Enemy):
             stop_max=2000,
             denied_biomes=('sand', 'ocean', 'deep_ocean', 'mountain', 'plains'),
             aggressive=True,
-            damage_amount=4,
+            damage_amount=20,
             attack_cooldown=200,
             aggressive_range=150,
             attack_frame=6
@@ -356,7 +356,7 @@ class Skeleton(Enemy):
             stop_max=400,
             denied_biomes=('sand', 'ocean', 'deep_ocean', 'forest', 'plains'),
             aggressive=True,
-            damage_amount=6,
+            damage_amount=40,
             attack_cooldown=100,
             aggressive_range=150,
             attack_frame=4
@@ -383,7 +383,7 @@ class StrongSkeleton(Enemy):
             stop_max=200,
             denied_biomes=('sand', 'ocean', 'deep_ocean', 'forest', 'plains'),
             aggressive=True,
-            damage_amount=5,
+            damage_amount=25,
             attack_cooldown=150,
             aggressive_range=200,
             attack_frame=3
