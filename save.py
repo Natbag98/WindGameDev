@@ -41,6 +41,7 @@ class Save:
                     indent=2
                 )
             )
+        self.game.saving = False
 
     def set_id(self, obj, id):
         obj.id = id

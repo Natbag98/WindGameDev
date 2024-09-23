@@ -4,8 +4,8 @@ from color import Color
 from load import load_sprites_from_dir
 from crafting import CRAFTING_MENU, CRAFTING_MENUS
 from UI.ui import UI
-from shrubs import BasicCraftingTable
 from Inventory.inventory import Inventory
+import threading
 import pygame
 
 CRAFTING_BACK_SIZE = (Game.INVENTORY_ITEM_SIZE[0] * 1.1, Game.INVENTORY_ITEM_SIZE[1] * 1.1)
@@ -66,7 +66,8 @@ def _home_button_pressed(game: Game, element: Element):
 
 
 def _save_button_pressed(game: Game, element: Element):
-    game.save.save()
+    game.saving = True
+    threading.Thread(target=game.save.save()).start()
 
 
 def _main_menu_button_pressed(game: Game, element: Element):
@@ -278,6 +279,13 @@ def _brain_colored_display_update(game: Game, element: Element):
         )
     )
     element.sprites = [img]
+
+
+def _saving_update(game: Game, element: Element):
+    print(game.saving)
+    element.hidden = True
+    if game.saving:
+        element.hidden = False
 
 
 INV_CENTRE = Game.WIDTH // 2 + 50
@@ -579,6 +587,16 @@ SCREENS = {
             pos_position='center_2',
             sprites=[_ui_assets['player_status']['brain']],
             update_func=_brain_colored_display_update
+        ),
+        Element(
+            (
+                Game.WIDTH - 100,
+                100
+            ),
+            text='Saving',
+            text_size=50,
+            text_color=Color('white').color,
+            update_func=_saving_update
         )
     ],
     'paused': [

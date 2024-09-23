@@ -52,6 +52,7 @@ class Game:
         self.delta_time = 1
         self.screen = 'main_menu'
         self.paused = False
+        self.saving = False
 
         self.total_chunks = self.CHUNK_COUNT * self.CHUNK_COUNT
         self.chunk_progress = 0
@@ -90,6 +91,11 @@ class Game:
         self.darkness = 0
         self.cycle = 'sunrise'
 
+        # self.enemy_wave_timer_name = f'{self}_enemy_wave_timer_name'
+        # self.enemy_wave_count = 1
+        # self.enemy_wave_timer_max = 10000
+        # self.timers.add_timer(self.enemy_wave_timer_name, self.enemy_wave_timer_max)
+
     @staticmethod
     def get_centered_position(pos, size):
         return pos[0] - size[0] // 2, pos[1] - size[1] // 2
@@ -112,6 +118,10 @@ class Game:
     @staticmethod
     def round_base(x, base):
         return base * round(x / base)
+
+    # def manage_enemy_waves(self):
+    #     if self.timers.check_max(self.enemy_wave_timer_name):
+    #         self
 
     def setup(self):
         self.screen = 'loading'
