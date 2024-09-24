@@ -75,7 +75,7 @@ class Player:
         self.frame = self.sprites[self.state][self.facing][0]
         self.attack_strength = self.BASE_ATTACK_STRENGTH
 
-        self.max_health = 10
+        self.max_health = 100
         self.health = 100
         self.max_hunger = 100
         self.hunger = 80

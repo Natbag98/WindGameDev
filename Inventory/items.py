@@ -4,6 +4,8 @@ from main import Game
 from Inventory.item import Item
 from load import load_sprites_from_dir, load_sprite_sheet_single
 import shrubs
+import sys
+import inspect
 
 
 _inventory_items_path = 'assets\\inventory_items'
@@ -213,13 +215,3 @@ class BluePotion(Item):
 
     def __init__(self, game):
         super().__init__(game, _inventory_items['BluePotion'])
-
-
-_INVENTORY_ITEMS = {
-    'OrangeBerries': OrangeBerries,
-    'BlueBerries': BlueBerries,
-    'OrangePotion': OrangePotion,
-    'BluePotion': BluePotion,
-    'SquirrelCarcass': SquirrelCarcass,
-    'HedgehogCarcass': HedgehogCarcass
-}

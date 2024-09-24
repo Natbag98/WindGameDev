@@ -31,6 +31,9 @@ class Shrub:
         self.animation_index = 0
         self.animation_factor = animation_factor
 
+        if 'sprite_name' not in dir(self):
+            self.sprite_name = None
+
     def get_bounding_rect(self):
         bounding_rect = self.frame.get_bounding_rect()
         if type(bounding_rect) is list:

@@ -11,8 +11,10 @@ from shrubs import _SHRUBS
 from deep_level import Level
 from Enemy.enemies import _ENEMIES
 from player import Player
-from Inventory.items import _INVENTORY_ITEMS
 from floor_item import FloorItem
+import sys
+import inspect
+import Inventory
 
 
 class Save:
@@ -54,13 +56,25 @@ class Save:
             return tuple(pos)
 
     def load_shrub(self, shrub):
-        if not shrub['type'].startswith('Deep'):
+        if shrub['type'] == 'BushFlowers':
             new_shrub = _SHRUBS[shrub['type']](
                 self.game,
                 self.id_objects[shrub['parent_id']],
                 Vector2(self.load_pos(shrub['pos'])),
                 new=False,
-                id=shrub['id']
+                id=shrub['id'],
+                sprite=shrub['sprite_name'],
+                color=shrub['color'],
+                collected=shrub['collected']
+            )
+        elif not shrub['type'].startswith('Deep'):
+            new_shrub = _SHRUBS[shrub['type']](
+                self.game,
+                self.id_objects[shrub['parent_id']],
+                Vector2(self.load_pos(shrub['pos'])),
+                new=False,
+                id=shrub['id'],
+                sprite=shrub['sprite_name']
             )
         else:
             if 'entrance_pos' in shrub.keys():
@@ -83,12 +97,14 @@ class Save:
                     self.id_objects[shrub['target_level_id']]
                 )
 
+        if shrub['type'] == 'Ship':
+            print(shrub)
+            print(new_shrub.wood_remaining)
+            new_shrub.wood_remaining = shrub['wood_remaining']
+            print(new_shrub.wood_remaining)
+
+        new_shrub.health = shrub['health']
         new_shrub.active_sprite = shrub['active_sprite']
-
-        if shrub['type'] == 'BushFlowers':
-            new_shrub.color = shrub['color']
-            new_shrub.collected = shrub['collected']
-
         return new_shrub
 
     def load_enemy(self, enemy):
@@ -108,7 +124,9 @@ class Save:
                 None,
                 False
             )
-        return _INVENTORY_ITEMS[item['type']](self.game)
+        return {
+            name: obj for name, obj in inspect.getmembers(Inventory.items) if inspect.isclass(obj)
+        }[item['type']](self.game)
 
     def load_floor_item(self, item):
         return FloorItem(
@@ -128,6 +146,8 @@ class Save:
         self.game.player = Player(self.game)
         self.game.player.pos = Vector2(self.load_pos(game_data['player']['pos']))
         self.game.player.health = game_data['player']['health']
+        self.game.player._hunger = game_data['player']['hunger']
+        self.game.player._sanity = game_data['player']['sanity']
         self.game.player.inventory.items = [
             self.load_item(item)
             if item else None

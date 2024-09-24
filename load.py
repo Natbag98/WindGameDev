@@ -1,7 +1,5 @@
 import pygame
 import os
-import numpy
-from PIL import Image
 
 
 def _grayscale(surface):

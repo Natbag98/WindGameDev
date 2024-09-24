@@ -6,9 +6,9 @@ from pygame import Vector2
 
 _shrub_path = 'assets\\environment\\shrubs'
 _shrub_assets = {
-    'bush_simple': load_sprites_from_dir(f'{_shrub_path}\\bush_simple'),
-    'bush_orange_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_orange_flowers'),
-    'bush_blue_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_blue_flowers'),
+    'bush_simple': load_sprites_from_dir(f'{_shrub_path}\\bush_simple', return_dict=True),
+    'bush_orange_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_orange_flowers', return_dict=True),
+    'bush_blue_flowers': load_sprites_from_dir(f'{_shrub_path}\\bush_blue_flowers', return_dict=True),
     'tree_simple': load_sprites_from_dir(f'{_shrub_path}\\tree_simple', size=1.5),
     'deep_entrances': load_sprites_from_dir(f'{_shrub_path}\\deep_entrances', return_dict=True, size=2.5),
     'deep_exits': load_sprites_from_dir(f'{_shrub_path}\\deep_exits', return_dict=True, size=2.5),
@@ -24,10 +24,15 @@ _shrub_assets = {
     'campfire': load_sprite_sheet_single(_shrub_path, 'campfire_animated.png', 4, 1, size=1.35)
 }
 
+_FLOWER_COLORS = {
+    'orange': OrangeBerries,
+    'blue': BlueBerries
+}
+
 
 class Campfire(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), **_):
         game.map.campfires.append(pos)
 
         super().__init__(
@@ -47,9 +52,11 @@ class Campfire(Shrub):
 
 class RockOrange(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['rock_orange'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
@@ -73,9 +80,11 @@ class RockOrange(Shrub):
 
 class RockBlue(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['rock_blue'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
@@ -99,9 +108,11 @@ class RockBlue(Shrub):
 
 class RockBasic(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['rock_basic'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
@@ -125,7 +136,7 @@ class RockBasic(Shrub):
 
 class BasicCraftingTable(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), **_):
         super().__init__(
             game,
             chunk,
@@ -139,10 +150,11 @@ class BasicCraftingTable(Shrub):
 
 class SandGeneral(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['sand_general'].keys()))
-
+        else:
+            self.sprite_name = sprite
         super().__init__(
             game,
             chunk,
@@ -155,9 +167,11 @@ class SandGeneral(Shrub):
 
 class Ship(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['ships'].keys()))
+        else:
+            self.sprite_name = sprite
         self.wood_remaining = random.randrange(1, 3)
 
         super().__init__(
@@ -186,9 +200,11 @@ class Ship(Shrub):
 
 class MountainGeneral(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['mountain_general'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
@@ -202,9 +218,11 @@ class MountainGeneral(Shrub):
 
 class SwampGeneral(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['swamp_general'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
@@ -218,9 +236,11 @@ class SwampGeneral(Shrub):
 
 class ForestGeneral(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
         if sprite is None:
             self.sprite_name = random.choice(list(_shrub_assets['forest_general'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
@@ -271,12 +291,17 @@ class DeepExit(Shrub):
 
 class BushSimple(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), sprite=None, **_):
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets['bush_simple'].keys()))
+        else:
+            self.sprite_name = sprite
+
         super().__init__(
             game,
             chunk,
             pos,
-            [random.choice(_shrub_assets['bush_simple'])],
+            [_shrub_assets['bush_simple'][self.sprite_name]],
             id,
             solid=False,
             new=new
@@ -284,33 +309,45 @@ class BushSimple(Shrub):
 
 
 class BushFlowers(Shrub):
-    FLOWER_COLORS = {
-        'orange': OrangeBerries,
-        'blue': BlueBerries
-    }
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
-        self.color = random.choice(list(self.FLOWER_COLORS.keys()))
-        self.collected = False
+    def __init__(
+        self,
+        game,
+        chunk,
+        pos,
+        new,
+        id=str(random.randbytes(20)),
+        sprite=None,
+        color=random.choice(list(_FLOWER_COLORS.keys())),
+        collected=False,
+        **_
+    ):
+        self.color = color
+        self.collected = collected
+
+        if sprite is None:
+            self.sprite_name = random.choice(list(_shrub_assets[f'bush_{self.color}_flowers'].keys()))
+        else:
+            self.sprite_name = sprite
 
         super().__init__(
             game,
             chunk,
             pos,
-            [random.choice(_shrub_assets[f'bush_{self.color}_flowers'])],
+            [_shrub_assets[f'bush_{self.color}_flowers'][self.sprite_name]],
             id,
             new=new
         )
 
     def interact(self):
         if not self.collected:
-            self.game.player.inventory.add_item(self.FLOWER_COLORS[self.color](self.game))
+            self.game.player.inventory.add_item(_FLOWER_COLORS[self.color](self.game))
             self.collected = True
 
 
 class TreeSimple(Shrub):
 
-    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20))):
+    def __init__(self, game, chunk, pos, new, id=str(random.randbytes(20)), **_):
         super().__init__(
             game,
             chunk,
@@ -330,10 +367,4 @@ class TreeSimple(Shrub):
         super().death()
 
 
-_SHRUBS = {
-    'TreeSimple': TreeSimple,
-    'DeepEntrance': DeepEntrance,
-    'DeepExit': DeepExit,
-    'BushSimple': BushSimple,
-    'BushFlowers': BushFlowers
-}
+_SHRUBS = {name: obj for name, obj in inspect.getmembers(sys.modules[__name__]) if inspect.isclass(obj)}

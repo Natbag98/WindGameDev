@@ -128,13 +128,14 @@ class Game:
         self.chunk_progress = 0
         threading.Thread(target=self.map.generate).start()
 
-    def map_generation_finished(self):
+    def map_generation_finished(self, set_player_pos=True):
         self.screen = 'game'
-        for row in self.map.chunks:
-            for chunk in row:
-                if len(chunk.biome_cells['sand']) > 100:
-                    self.player.pos = pygame.Vector2(random.choice(chunk.biome_cells['sand']))
-                    return
+        if set_player_pos:
+            for row in self.map.chunks:
+                for chunk in row:
+                    if len(chunk.biome_cells['sand']) > 100:
+                        self.player.pos = pygame.Vector2(random.choice(chunk.biome_cells['sand']))
+                        return
 
     def update_day_night_cycle(self):
         if self.timers.check_max(self.time_timer_name):

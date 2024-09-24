@@ -54,7 +54,7 @@ inv_bar_backs = {
 
 def _load_button_clicked(game: Game, element: Element):
     game.save.load()
-    game.map_generation_finished()
+    game.map_generation_finished(False)
 
 
 def _home_button_pressed(game: Game, element: Element):
@@ -282,7 +282,6 @@ def _brain_colored_display_update(game: Game, element: Element):
 
 
 def _saving_update(game: Game, element: Element):
-    print(game.saving)
     element.hidden = True
     if game.saving:
         element.hidden = False

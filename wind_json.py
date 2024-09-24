@@ -3,7 +3,7 @@ from map import Map
 from map_chunk import Chunk
 import pygame
 from shrub import Shrub
-from shrubs import BushFlowers, DeepExit, DeepEntrance
+from shrubs import BushFlowers, DeepExit, DeepEntrance, Ship
 from Enemy.enemy import Enemy
 from deep_level import Level
 from player import Player
@@ -56,7 +56,9 @@ class WindEncoder(json.JSONEncoder):
                 'pos': obj.pos,
                 'parent_type': obj.parent_type,
                 'parent_id': obj.parent.id,
-                'active_sprite': obj.active_sprite
+                'active_sprite': obj.active_sprite,
+                'sprite_name': obj.sprite_name,
+                'health': obj.health
             }
 
             if isinstance(obj, BushFlowers):
@@ -79,6 +81,13 @@ class WindEncoder(json.JSONEncoder):
                     {
                         'target_level_id': obj.target_level.id,
                         'entrance_pos': obj.entrance_pos
+                    }
+                )
+
+            if isinstance(obj, Ship):
+                to_return.update(
+                    {
+                        'wood_remaining': obj.wood_remaining
                     }
                 )
 
@@ -109,6 +118,8 @@ class WindEncoder(json.JSONEncoder):
         if isinstance(obj, Player):
             return {
                 'health': obj.health,
+                'hunger': obj._hunger,
+                'sanity': obj._sanity,
                 'inventory': obj.inventory,
                 'pos': obj.pos
             }
