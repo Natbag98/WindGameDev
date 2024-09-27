@@ -439,6 +439,18 @@ for x in range(CYCLES_TILES_COUNT[0]):
         )
 
 
+from window import Window
+_RES_OPTIONS = {
+    0: (Window.BASE_RES[0] * 1, Window.BASE_RES[1] * 1),
+    1: (Window.BASE_RES[0] * 1.5, Window.BASE_RES[1] * 1.5),
+    2: (Window.BASE_RES[0] * 2, Window.BASE_RES[1] * 2),
+}
+
+
+def _size_button_clicked(game: Game, element: Element, index):
+    game.window.set_res(_RES_OPTIONS[index])
+
+
 SCREENS = {
     'game': [
         Element(
@@ -697,16 +709,42 @@ SCREENS = {
         #     clicked_func=_load_button_clicked
         # ),
         Element(
-            (Game.WIDTH // 2 - 75, Game.HEIGHT // 2 - 50),
-            text='Start New',
+            (Game.WIDTH // 2 - 200, Game.HEIGHT // 2 - 50),
+            text='Start New Game',
             text_size=80,
             clicked_func=_start_button_clicked
         ),
         Element(
-            (Game.WIDTH // 2 - 75, Game.HEIGHT // 2 + 50),
+            (Game.WIDTH // 2 - 200, Game.HEIGHT // 2 + 50),
             text='Exit',
             text_size=80,
             clicked_func=_exit_button_clicked
+        ),
+        Element(
+            (Game.WIDTH // 2 + 200, Game.HEIGHT // 2 - 150),
+            text='Screen Size:',
+            text_size=80
+        ),
+        Element(
+            (Game.WIDTH // 2 + 200, Game.HEIGHT // 2 -50),
+            text=f'{_RES_OPTIONS[0]}'.replace('(', '').replace(')', ''),
+            text_size=80,
+            clicked_func=_size_button_clicked,
+            clicked_func_args=(0,)
+        ),
+        Element(
+            (Game.WIDTH // 2 + 200, Game.HEIGHT // 2 + 50),
+            text=f'{_RES_OPTIONS[1]}'.replace('(', '').replace(')', ''),
+            text_size=80,
+            clicked_func=_size_button_clicked,
+            clicked_func_args=(1,)
+        ),
+        Element(
+            (Game.WIDTH // 2 + 200, Game.HEIGHT // 2 + 150),
+            text=f'{_RES_OPTIONS[2]}'.replace('(', '').replace(')', ''),
+            text_size=80,
+            clicked_func=_size_button_clicked,
+            clicked_func_args=(2,)
         )
     ],
     'loading': [

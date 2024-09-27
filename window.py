@@ -3,10 +3,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 class Window:
+    BASE_RES = (1920 // 2, 1080 // 2)
 
     def __init__(self, game):
         self.game = game
-        self.res = (960 * 1, 540 * 1)
+        self.set_res(self.BASE_RES)
+
+    def set_res(self, res):
+        self.res = res
         self.res_scale = (self.res[0] / self.game.RES[0], self.res[1] / self.game.RES[1])
 
         self.window = pygame.display.set_mode(self.res, pygame.SRCALPHA)
