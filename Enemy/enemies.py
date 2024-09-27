@@ -395,7 +395,4 @@ class StrongSkeleton(Enemy):
         super().death()
 
 
-_ENEMIES = {
-    'Squirrel': Squirrel,
-    'Hedgehog': Hedgehog
-}
+_ENEMIES = {name: obj for name, obj in inspect.getmembers(sys.modules[__name__]) if inspect.isclass(obj)}

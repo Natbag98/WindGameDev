@@ -14,7 +14,7 @@ INFO_TILES_COUNT = (7, 5)
 INFO_HORIZONTAL_PADDING = 15
 INFO_VERTICAL_PADDING = 15
 
-CYCLES_TILES_COUNT = (2, 6)
+CYCLES_TILES_COUNT = (2, 7)
 
 _ui_path = 'assets\\ui'
 _ui_assets = {
@@ -276,6 +276,25 @@ def _brain_colored_display_update(game: Game, element: Element):
             0,
             sprite.get_size()[0],
             sprite.get_size()[1] * (game.player.sanity / game.player.max_sanity)
+        )
+    )
+    element.sprites = [img]
+
+
+def _lungs_colored_display_update(game: Game, element: Element):
+    sprite = _ui_assets['player_status']['lungs']
+    img = pygame.Surface(element.sprites[0].get_size(), pygame.SRCALPHA)
+    img.blit(
+        sprite,
+        (
+            0,
+            0
+        ),
+        (
+            0,
+            0,
+            sprite.get_size()[0],
+            sprite.get_size()[1] * (game.player.air / game.player.max_air)
         )
     )
     element.sprites = [img]
@@ -589,6 +608,23 @@ SCREENS = {
         ),
         Element(
             (
+                Game.WIDTH,
+                Game.HEIGHT - 80 * 4
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status_grey']['lungs']]
+        ),
+        Element(
+            (
+                Game.WIDTH,
+                Game.HEIGHT - 80 * 4
+            ),
+            pos_position='center_2',
+            sprites=[_ui_assets['player_status']['lungs']],
+            update_func=_lungs_colored_display_update
+        ),
+        Element(
+            (
                 Game.WIDTH - 100,
                 100
             ),
@@ -720,6 +756,25 @@ SCREENS = {
                 Game.HEIGHT // 2 - 50
             ),
             text='You went insane',
+            text_size=100
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 + 50
+            ),
+            text='Quit',
+            text_size=50,
+            clicked_func=_exit_button_clicked
+        ),
+    ],
+    'death_4': [
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 - 50
+            ),
+            text='You drowned',
             text_size=100
         ),
         Element(

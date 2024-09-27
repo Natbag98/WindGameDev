@@ -9,14 +9,13 @@ from color import Color
 import profilehooks
 import threading
 
-
 class Game:
     RES = WIDTH, HEIGHT = 1600, 900
 
     LAYER_COUNT = 4
     FPS = 30
-    CHUNK_SIZE = 850
-    CHUNK_COUNT = 2
+    CHUNK_SIZE = 1000
+    CHUNK_COUNT = 3
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('black', random_=False).color
@@ -97,6 +96,20 @@ class Game:
         # self.timers.add_timer(self.enemy_wave_timer_name, self.enemy_wave_timer_max)
 
     @staticmethod
+    def collide_mask_rect(left, right):
+        xoffset = right.rect[0] - left.rect[0]
+        yoffset = right.rect[1] - left.rect[1]
+        try:
+            leftmask = left.mask
+        except AttributeError:
+            leftmask = pygame.mask.Mask(left.size, True)
+        try:
+            rightmask = right.mask
+        except AttributeError:
+            rightmask = pygame.mask.Mask(right.rect.size, True)
+        return not bool(leftmask.overlap(rightmask, (xoffset, yoffset)))
+
+    @staticmethod
     def get_centered_position(pos, size):
         return pos[0] - size[0] // 2, pos[1] - size[1] // 2
 
@@ -130,6 +143,7 @@ class Game:
 
     def map_generation_finished(self, set_player_pos=True):
         self.screen = 'game'
+        self.map.set_ocean_rect()
         if set_player_pos:
             for row in self.map.chunks:
                 for chunk in row:
@@ -230,6 +244,13 @@ class CollideCircle:
     def __init__(self, rect, radius):
         self.rect = pygame.Rect(rect)
         self.radius = radius
+
+
+class OceanMask:
+
+    def __init__(self, mask, rect):
+        self.mask = mask
+        self.rect = rect
 
 
 if __name__ == '__main__':

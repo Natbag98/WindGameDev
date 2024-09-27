@@ -1,3 +1,5 @@
+import pygame
+
 from color import Color
 from deep_level import Level
 from Enemy.enemies import *
@@ -104,6 +106,7 @@ class Map:
         self.type = 'basic'
         self.shrubs_colliding_with_player = []
         self.campfires = []
+        self.ocean_mask = None
 
     # noinspection PyUnresolvedReferences
     def generate(self):
@@ -134,12 +137,32 @@ class Map:
                 self.game.chunk_progress += 1
 
         self.chunks = chunks
-        #self.place_deep_entrances()
         self.game.map_generation_finished()
         self.active_chunk = self.chunks[0][0]
 
+    def set_ocean_rect(self):
+        surface = pygame.Surface(self.DIMENSIONS, pygame.SRCALPHA)
+        surface.fill(Color('white', a=255).color)
+        for y, row in enumerate(self.chunks):
+            for x, chunk in enumerate(row):
+                for biome_cell in chunk.biome_cells:
+                    if not biome_cell == 'deep_ocean':
+                        for cell in chunk.biome_cells[biome_cell]:
+                            pygame.draw.rect(
+                                surface,
+                                Color('white', a=0).color,
+                                (
+                                    cell[0] + self.game.CHUNK_SIZE * x,
+                                    cell[1] + self.game.CHUNK_SIZE * y,
+                                    self.CELL_SIZE,
+                                    self.CELL_SIZE
+                                )
+                            )
+
+        from main import OceanMask
+        self.ocean_mask = OceanMask(pygame.mask.from_surface(surface), surface.get_rect())
+
     def place_deep_entrances(self):
-        print('starting_deep')
         for i in range(Game.DEEP_ENTRANCES):
             while True:
                 chunk = random.choice(
@@ -159,7 +182,6 @@ class Map:
                         )
                     )
                     break
-        print('finished_deep')
 
     def create_chunk(self, x, y, base, colors):
         from map_chunk import Chunk

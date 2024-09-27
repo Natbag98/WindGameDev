@@ -83,9 +83,13 @@ class Player:
         self.max_sanity = 100
         self.sanity = 80
         self._sanity = self.sanity
+        self.max_air = 100
+        self.air = 100
+        self._air = self.air
 
         self.food_decay = 0.3
         self.sanity_decay = 0.5
+        self.air_decay = 0
 
         self.rect = pygame.Rect(self.game.get_centered_position(self.pos, self.frame.get_size()), self.frame.get_size())
 
@@ -159,8 +163,25 @@ class Player:
         return velocity, collided
 
     def update(self):
+        if self.game.map.ocean_mask:
+            from main import CollideRect
+            if pygame.sprite.collide_rect(
+                CollideRect(self.get_bounding_rect()),
+                CollideRect(pygame.Rect((0, 0), self.game.map.DIMENSIONS))
+            ) and self.game.collide_mask_rect(
+                self.game.map.ocean_mask,
+                CollideRect(self.get_bounding_rect())
+            ):
+                self.air_decay = -30
+            else:
+                self.air_decay = 15
+
+        print(self.air_decay)
+        print(self.air)
+
         self._hunger -= self.food_decay * self.game.delta_time
         self._sanity -= self.sanity_decay * self.game.delta_time * (self.game.darkness / 255)
+        self._air -= self.air_decay * self.game.delta_time
 
         if self.health < 0:
             self.health = 0
@@ -168,9 +189,21 @@ class Player:
             self._hunger = 0
         if self._sanity < 0:
             self._sanity = 0
+        if self._air < 0:
+            self._air = 0
+
+        if self.health > self.max_health:
+            self.health = self.max_health
+        if self._hunger > self.max_hunger:
+            self._hunger = self.max_hunger
+        if self._sanity > self.max_sanity:
+            self._sanity = self.max_sanity
+        if self._air > self.max_air:
+            self._air = self.max_air
 
         self.hunger = round(self._hunger)
         self.sanity = round(self._sanity)
+        self.air = round(self._air)
 
         if self.health == 0:
             self.death_reason = 1
@@ -178,6 +211,8 @@ class Player:
             self.death_reason = 2
         elif self.sanity == 0:
             self.death_reason = 3
+        elif self.air == 0:
+            self.death_reason = 4
 
         if self.death_reason:
             self.game.screen = f'death_{self.death_reason}'
