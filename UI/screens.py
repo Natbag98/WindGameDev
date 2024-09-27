@@ -54,6 +54,7 @@ inv_bar_backs = {
 
 def _load_button_clicked(game: Game, element: Element):
     game.save.load()
+    game.map.set_ocean_rect()
     game.map_generation_finished(False)
 
 

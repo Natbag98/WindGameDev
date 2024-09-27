@@ -14,22 +14,8 @@ class Map:
             0.01: 'deep_ocean',
             0.02: 'ocean',
             0.06: 'sand',
-            0.28: '',
-            0.44: 'swamp',
-            1: 'mountain'
-        },
-        {
-            0.5: 'plains',
-            1: 'forest'
-        }
-    ]
-    BIOME_HEIGHTS_MAIN = [
-        {
-            0.01: 'deep_ocean',
-            0.02: 'ocean',
-            0.06: 'sand',
-            0.1: '',
-            0.2: 'swamp',
+            0.18: '',
+            0.3: 'swamp',
             1: 'mountain'
         },
         {
@@ -71,7 +57,7 @@ class Map:
     ENEMY_COUNT_PER_CELL = {
         'plains': 0.000015,
         'forest': 0.000025,
-        'swamp': 0.0001,
+        'swamp': 0.00001,
         'mountain': 0.00004
     }
 
@@ -137,8 +123,9 @@ class Map:
                 self.game.chunk_progress += 1
 
         self.chunks = chunks
-        self.game.map_generation_finished()
         self.active_chunk = self.chunks[0][0]
+        self.set_ocean_rect()
+        self.game.map_generation_finished()
 
     def set_ocean_rect(self):
         surface = pygame.Surface(self.DIMENSIONS, pygame.SRCALPHA)

@@ -14,7 +14,7 @@ class Game:
 
     LAYER_COUNT = 4
     FPS = 30
-    CHUNK_SIZE = 1000
+    CHUNK_SIZE = 950
     CHUNK_COUNT = 8
 
     FILL_COLOR = Color('black', a=0).color
@@ -37,7 +37,7 @@ class Game:
         'sunrise': [235, 0]
     }
     CYCLE_TIMES = {
-        'day': 5000,
+        'day': 10000,
         'sunset': 2000,
         'night': 3500,
         'sunrise': 1500
@@ -143,7 +143,6 @@ class Game:
 
     def map_generation_finished(self, set_player_pos=True):
         self.screen = 'game'
-        self.map.set_ocean_rect()
         if set_player_pos:
             for row in self.map.chunks:
                 for chunk in row:

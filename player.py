@@ -7,7 +7,7 @@ from Inventory.inventory import Inventory
 
 
 class Player:
-    MOVE_SPEED = 500
+    MOVE_SPEED = 350
     COLL_PADDING = 25
     BASE_ATTACK_STRENGTH = 1
 
