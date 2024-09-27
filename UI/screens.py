@@ -128,6 +128,12 @@ def _inventory_button_clicked(game: Game, element: Element, index):
             elif item.__class__.__name__ == 'BluePotion':
                 game.player.inventory.remove_item('BluePotion')
                 game.player.increase_health(20)
+            elif item.__class__.__name__ == 'Boat':
+                if (
+                    Game.round_base(game.player.pos.x, game.map.CELL_SIZE),
+                    Game.round_base(game.player.pos.y, game.map.CELL_SIZE)
+                ) in game.map.active_chunk.biome_cells['ocean']:
+                    game.screen = 'win'
 
 
 def _inventory_item_update(game: Game, element: Element, index):
@@ -652,25 +658,25 @@ SCREENS = {
         Element(
             (
                 Game.WIDTH // 2,
-                Game.HEIGHT // 2 - 50
+                Game.HEIGHT // 2 - 25
             ),
             text='Resume',
             text_size=50,
             clicked_func=_home_button_pressed
         ),
+        # Element(
+        #     (
+        #         Game.WIDTH // 2,
+        #         Game.HEIGHT // 2
+        #     ),
+        #     text='Save',
+        #     text_size=50,
+        #     clicked_func=_save_button_pressed
+        # ),
         Element(
             (
                 Game.WIDTH // 2,
-                Game.HEIGHT // 2
-            ),
-            text='Save',
-            text_size=50,
-            clicked_func=_save_button_pressed
-        ),
-        Element(
-            (
-                Game.WIDTH // 2,
-                Game.HEIGHT // 2 + 50
+                Game.HEIGHT // 2 + 25
             ),
             text='Exit',
             text_size=50,
@@ -684,20 +690,20 @@ SCREENS = {
             size=Game.RES,
             pos_position='top_left'
         ),
+        # Element(
+        #     (Game.WIDTH // 2, Game.HEIGHT // 2),
+        #     text='Load Game',
+        #     text_size=80,
+        #     clicked_func=_load_button_clicked
+        # ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2),
-            text='Load Game',
-            text_size=80,
-            clicked_func=_load_button_clicked
-        ),
-        Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 - 75),
+            (Game.WIDTH // 2 - 75, Game.HEIGHT // 2 - 50),
             text='Start New',
             text_size=80,
             clicked_func=_start_button_clicked
         ),
         Element(
-            (Game.WIDTH // 2, Game.HEIGHT // 2 + 75),
+            (Game.WIDTH // 2 - 75, Game.HEIGHT // 2 + 50),
             text='Exit',
             text_size=80,
             clicked_func=_exit_button_clicked
@@ -782,6 +788,25 @@ SCREENS = {
                 Game.HEIGHT // 2 - 50
             ),
             text='You drowned',
+            text_size=100
+        ),
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 + 50
+            ),
+            text='Quit',
+            text_size=50,
+            clicked_func=_exit_button_clicked
+        ),
+    ],
+    'win': [
+        Element(
+            (
+                Game.WIDTH // 2,
+                Game.HEIGHT // 2 - 50
+            ),
+            text='You escaped the island',
             text_size=100
         ),
         Element(

@@ -12,10 +12,11 @@ class Inventory:
 
         self.items = [None for _ in range(Game.PLAYER_INVENTORY_SIZE)]
 
-        from Inventory.items import Campfire, OrangePotion, BluePotion
+        from Inventory.items import Campfire, OrangePotion, BluePotion, Boat
         self.items[0] = Campfire(game)
         self.items[1] = OrangePotion(game)
         self.items[2] = BluePotion(game)
+        self.items[3] = Boat(Game)
 
     def place_in_hand(self, item_name):
         item = self.get_item(item_name)

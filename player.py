@@ -137,9 +137,7 @@ class Player:
     def basic_attack(self):
         attack_strength = self.attack_strength
         if not self.game.timers.check_max(self.damage_increase_timer_name):
-            print(True)
             attack_strength += self.damage_increase
-        print(attack_strength)
         self.game.active_map.basic_damage(
             self.get_bounding_rect(self.sprites['attacking'][self.facing]),
             attack_strength
