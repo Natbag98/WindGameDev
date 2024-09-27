@@ -121,6 +121,12 @@ def _inventory_button_clicked(game: Game, element: Element, index):
             elif item.__class__.__name__ == 'MeatCooked':
                 game.player.inventory.remove_item('MeatCooked')
                 game.player.increase_hunger(25)
+            elif item.__class__.__name__ == 'OrangePotion':
+                game.player.inventory.remove_item('OrangePotion')
+                game.player.increase_damage()
+            elif item.__class__.__name__ == 'BluePotion':
+                game.player.inventory.remove_item('BluePotion')
+                game.player.increase_health(20)
 
 
 def _inventory_item_update(game: Game, element: Element, index):

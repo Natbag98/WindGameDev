@@ -39,8 +39,8 @@ CRAFTING_MENU = {
         CraftingRecipe([Wood, Wood, Firestarter], Campfire)
     ],
     'placeholder2': [
-        CraftingRecipe([BlueBerries, BluePowder], BluePotion),
-        CraftingRecipe([OrangeBerries, OrangePowder], OrangePotion),
+        CraftingRecipe([BlueBerries, BluePowder, BlueBrick], BluePotion),
+        CraftingRecipe([OrangeBerries, OrangePowder, OrangeBrick], OrangePotion),
         CraftingRecipe([Wood, Wood], Plank),
         CraftingRecipe([SmallStonesBlue, RockBlue], BluePowder),
         CraftingRecipe([SmallStonesOrange, RockOrange], OrangePowder),

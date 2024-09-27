@@ -100,8 +100,19 @@ class Player:
 
         self.death_reason = False
 
+        self.damage_increase_timer_name = f'{self}_damage_timer'
+        self.damage_increase_timer_time = 600
+        self.damage_increase = 2
+        self.game.timers.add_timer(self.damage_increase_timer_name, 0)
+
     def increase_hunger(self, amount):
         self._hunger += amount
+
+    def increase_damage(self):
+        self.game.timers.add_timer(self.damage_increase_timer_name, self.damage_increase_timer_time)
+
+    def increase_health(self, amount):
+        self.health += amount
 
     def get_bounding_rect(self, animation=None, coll=False):
         bounding_rect = self.sprites[self.state][self.facing][0].get_bounding_rect()
@@ -124,9 +135,14 @@ class Player:
             )
 
     def basic_attack(self):
+        attack_strength = self.attack_strength
+        if not self.game.timers.check_max(self.damage_increase_timer_name):
+            print(True)
+            attack_strength += self.damage_increase
+        print(attack_strength)
         self.game.active_map.basic_damage(
             self.get_bounding_rect(self.sprites['attacking'][self.facing]),
-            self.attack_strength
+            attack_strength
         )
 
     def damage(self, damage):
