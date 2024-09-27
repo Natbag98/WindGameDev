@@ -176,9 +176,6 @@ class Player:
             else:
                 self.air_decay = 15
 
-        print(self.air_decay)
-        print(self.air)
-
         self._hunger -= self.food_decay * self.game.delta_time
         self._sanity -= self.sanity_decay * self.game.delta_time * (self.game.darkness / 255)
         self._air -= self.air_decay * self.game.delta_time
