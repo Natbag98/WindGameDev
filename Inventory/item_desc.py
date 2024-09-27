@@ -1,6 +1,9 @@
 
 
 DESC = {
+    'Sails': 'A set of sails used in the\ncrafting of a boat',
+    'ReinforcedPlank': 'A stronger version\nof the plank',
+    'Boat': 'A boat that can be used to\nescape the island\nClick in water to place',
     'BluePotion': 'A potion that increases\nyour health\nClick to use',
     'OrangePotion': 'A potion that increases\nyour damage\nClick to use',
     'HedgehogCarcass': 'The carcass of a dead\nhedgehog',

@@ -41,7 +41,7 @@ CRAFTING_MENU = {
     'placeholder2': [
         CraftingRecipe([BlueBerries, BluePowder, BlueBrick], BluePotion),
         CraftingRecipe([OrangeBerries, OrangePowder, OrangeBrick], OrangePotion),
-        CraftingRecipe([Wood, Wood], Plank),
+        CraftingRecipe([Wood, Wood, Wood], Plank),
         CraftingRecipe([SmallStonesBlue, RockBlue], BluePowder),
         CraftingRecipe([SmallStonesOrange, RockOrange], OrangePowder),
         CraftingRecipe([Rock, Rock, StonesSmall], Brick),
@@ -51,7 +51,10 @@ CRAFTING_MENU = {
     'placeholder3': [
         CraftingRecipe([Bone, Bone, OrangeBrick], BonePick),
         CraftingRecipe([Bone, Bone, BlueBrick], BoneAxe),
-        CraftingRecipe([Bone, Bone, BlueBrick], BoneSword)
+        CraftingRecipe([Bone, Bone, BlueBrick], BoneSword),
+        CraftingRecipe([Skull, BluePowder, OrangePowder], Sails),
+        CraftingRecipe([Plank, Plank, Brick], ReinforcedPlank),
+        CraftingRecipe([ReinforcedPlank, ReinforcedPlank, Sails], Boat)
     ],
     'placeholder4': [
         CraftingRecipe([SquirrelCarcass, SquirrelCarcass], MeatCooked),

@@ -1,6 +1,7 @@
 import pygame
 from color import Color
 from Inventory.item_desc import DESC
+import inspect
 
 
 class UI:
@@ -9,6 +10,12 @@ class UI:
         self.game = game
 
         from UI.screens import SCREENS
+        import Inventory
+
+        for name, obj in inspect.getmembers(Inventory.items):
+            if inspect.isclass(obj):
+                if not name in DESC.keys():
+                    print(f'ERROR: Item {name} does not have a description')
 
         self.item_desc = {
             item: self.create_rendered_text(DESC[item], 35)

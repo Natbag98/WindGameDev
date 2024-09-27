@@ -25,6 +25,24 @@ _inventory_items_floor = {
 }
 
 
+class ReinforcedPlank(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['ReinforcedPlank'])
+
+
+class Boat(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Boat'])
+
+
+class Sails(Item):
+
+    def __init__(self, game):
+        super().__init__(game, _inventory_items['Sails'])
+
+
 class BonePick(Item):
 
     def __init__(self, game):
@@ -42,7 +60,7 @@ class BoneAxe(Item):
 class BoneSword(Item):
 
     def __init__(self, game):
-        self.attack_strength = 3
+        self.attack_strength = 5
         super().__init__(game, _inventory_items['BoneSword'], hand=True)
 
 
