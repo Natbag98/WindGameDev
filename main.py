@@ -15,10 +15,10 @@ class Game:
     LAYER_COUNT = 4
     FPS = 30
     CHUNK_SIZE = 950
-    CHUNK_COUNT = 2
+    CHUNK_COUNT = 8
 
     FILL_COLOR = Color('black', a=0).color
-    BG_COLOR = Color('black', random_=False).color
+    BG_COLOR = Color('deep_ocean', random_=True).color
 
     PLAYER_INVENTORY_SIZE = 12
     INVENTORY_ITEM_SIZE = (64, 64)
