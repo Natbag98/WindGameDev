@@ -1,5 +1,3 @@
-import re
-
 import pygame
 from pygame import Vector2
 from load import load_sprite_sheet_single

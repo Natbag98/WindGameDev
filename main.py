@@ -6,7 +6,6 @@ import pygame
 pygame.init()
 
 from color import Color
-import profilehooks
 import threading
 
 class Game:
@@ -15,7 +14,7 @@ class Game:
     LAYER_COUNT = 4
     FPS = 30
     CHUNK_SIZE = 950
-    CHUNK_COUNT = 8
+    CHUNK_COUNT = 2
 
     FILL_COLOR = Color('black', a=0).color
     BG_COLOR = Color('deep_ocean', random_=True).color
@@ -43,7 +42,6 @@ class Game:
         'sunrise': 1500
     }
 
-    @profilehooks.profile
     def __init__(self):
         self.running = True
         self.clock = pygame.time.Clock()
@@ -79,10 +77,12 @@ class Game:
         from UI.ui import UI
         from player import Player
         from map import Map
+        from audio import Audio
 
         self.ui = UI(self)
         self.player = Player(self)
         self.map = Map(self)
+        self.audio = Audio(self)
 
         self.active_map = self.map
         self.time_timer_name = f'{self}_timer_time'
@@ -193,6 +193,7 @@ class Game:
         if self.screen == 'game' and not self.paused:
             self.game_update()
 
+        self.audio.update()
         self.camera.update()
         self.ui.update()
 
@@ -216,7 +217,6 @@ class Game:
         self.player.draw(self.layers[1])
         self.active_map.draw(self.layers[0], self.layers[1])
 
-    @profilehooks.profile
     def run(self):
         while self.running:
             self.update()

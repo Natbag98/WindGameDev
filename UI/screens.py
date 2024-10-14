@@ -10,7 +10,7 @@ import pygame
 
 CRAFTING_BACK_SIZE = (Game.INVENTORY_ITEM_SIZE[0] * 1.1, Game.INVENTORY_ITEM_SIZE[1] * 1.1)
 
-INFO_TILES_COUNT = (7, 5)
+INFO_TILES_COUNT = (6, 3)
 INFO_HORIZONTAL_PADDING = 15
 INFO_VERTICAL_PADDING = 15
 
@@ -562,17 +562,17 @@ SCREENS = {
             text_size=45,
             update_func=_item_name_update
         ),
-        Element(
-            (
-                INFO_HORIZONTAL_PADDING,
-                (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 13
-            ),
-            pos_position='top_left',
-            text=' ',
-            text_color=Color('black').color,
-            text_size=35,
-            update_func=_item_desc_update
-        ),
+        # Element(
+        #     (
+        #         INFO_HORIZONTAL_PADDING,
+        #         (Game.HEIGHT - (INFO_TILES_COUNT[1] * Game.INVENTORY_ITEM_SIZE[1])) + INFO_VERTICAL_PADDING * 13
+        #     ),
+        #     pos_position='top_left',
+        #     text=' ',
+        #     text_color=Color('black').color,
+        #     text_size=35,
+        #     update_func=_item_desc_update
+        # ),
         *CYCLES_TILES_BACK,
         Element(
             Game.RES,
